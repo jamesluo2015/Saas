@@ -1,16 +1,19 @@
 <template>
-  <div>
-       <table-docs></table-docs>
-  </div>
+  
 </template>
 <script>
-import tableDocs from './tableDocs.vue'
+
 export default {
   components: { tableDocs },
+  data(){
+     return {
+       param:{}
+     }
+  },
   methods: {
-      query(){
-          
-      }
+    query(){
+        
+    }
   }
 }
 </script>

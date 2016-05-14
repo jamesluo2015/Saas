@@ -22,7 +22,7 @@ module.exports = {
       {
       	test: /\.js$/,
         exclude: /node_modules|vue\/src|vue-router\/|vue-loader\/|vue-hot-reload-api\//,
-      	loader: 'babel'
+      	loader: 'babel-loader'
       },
       { test: /\.css$/, loader: "style-loader!css-loader?root=./docs/" },
       {test: /\.eot/,loader : 'file?prefix=font/'},
