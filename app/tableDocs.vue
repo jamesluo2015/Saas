@@ -50,9 +50,11 @@
 <script>
 import vSelect from 'vue-strap/src/Select.vue';
 import vOption from 'vue-strap/src/Option.vue';
-import VueAnimatedList from 'vue-animated-list'
+import VueAnimatedList from 'vue-animated-list';
+import VueValidator from 'vue-validator';
+
 export default {
-   components: { vSelect,vOption,VueAnimatedList },
+   components: { vSelect,vOption,VueAnimatedList,VueValidator },
    data() {
       return {
         products:[],
