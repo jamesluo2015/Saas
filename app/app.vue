@@ -1,13 +1,13 @@
 <template>
   <div>
-        <select-docs></select-docs>
-        <tabs-docs></tabs-docs>
+        <head-docs></head-docs>
+        <body-docs></body-docs>
   </div>
 </template>
 <script>
-import selectDocs from './selectDocs.vue'
-import tabsDocs from './tabsDocs.vue'
+import headDocs from './headDocs.vue'
+import bodyDocs from './bodyDocs.vue'
 export default {
-  components: { selectDocs,tabsDocs },
+  components: { headDocs,bodyDocs },
 }
 </script>

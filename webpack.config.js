@@ -28,14 +28,16 @@ module.exports = {
       {test: /\.eot/,loader : 'file?prefix=font/'},
       {test: /\.woff/,loader : 'file?prefix=font/&limit=10000&mimetype=application/font-woff'},
       {test: /\.ttf/, loader : 'file?prefix=font/'},
-      {test: /\.svg/, loader : 'file?prefix=font/'}
+      {test: /\.svg/, loader : 'file?prefix=font/'},
+        {test: /\.scss$/, loader: "style!css!sass"},
+      {test: /\.less$/, loader: "style-loader!css-loader!less-loader"},
     ]
   },
   babel: {
   presets: ['es2015'],
   plugins: ['transform-runtime']
 },
-  devtool: 'source-map'
+  devtool: 'cheap-module-source-map'//source-map'
 };
 
 
@@ -51,6 +53,7 @@ if (process.env.NODE_ENV === 'production') {
       compress: {
         warnings: false
       }
-    })
+    }),
+    new webpack.optimize.CommonsChunkPlugin("init.js")
   ];
 }
