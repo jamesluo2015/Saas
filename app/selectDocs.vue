@@ -59,12 +59,12 @@ export default {
         //读取store
         let param=store.get('param');
         if(param.length){
-          _this.standardname=[param[0].toString()];
-          _this.factory=[param[1].toString()];
+          _this.standardname=[param[0]];
+          _this.factory=[param[1]];
           setTimeout(function(){
-            _this.carmodel=[param[2].toString()];
+            _this.carmodel=[param[2]];
             
-            if(param[3]>0){
+            if(param[3]!="0"){
               setTimeout(function(){
                 _this.partsyear=[param[3]];
               },500)

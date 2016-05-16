@@ -17,32 +17,35 @@
                 <!--通用-->
                 <td v-if="item.BmNo>0">{{item.StandardName}}</td>
                 <td v-if="item.BmNo>0"><a class='cursor' @click="getsuitcars(index)">查看</a></td>
-                <td v-if="item.BmNo>0">{{item.SkuList.join(',')}}</td>
+                <td v-if="item.BmNo>0">{{item.Sku}}</td>
                 <td v-if="item.BmNo>0">{{item.ContentInfo}}</td>
                 <!--品牌-->
-                <td v-if="item.Id">{{item.ProdBrandName}}</td>
-                <td v-else>
+                <td v-if="item.isupdate">
                     <!--<input type="text" placeholder="品牌" class="form-control" bmtitle="此价格是在北迈网上显示的销售价格" v-model="item.ProdBrandName" />-->
                      <v-select :value.sync="item.Brandlist" :search="true"  :options="brands"  :close-on-select="true" placeholder="品牌" ></v-select>
                 </td>
+                <td v-else>{{item.ProdBrandName}}</td>
+                
                 <!--经销商编码-->
-                <td v-if="item.Id">{{item.DealerNo}}</td>
-                 <td v-else>
+                <td v-if="item.isupdate">
                     <input type="text" placeholder="供应商编码" class="form-control"  v-model="item.DealerNo" />
                 </td>
+                <td v-else>{{item.DealerNo}}</td>
+                
                 <!--北迈价-->
-                <td v-if="item.Id">{{item.SalePrice}}</td>
-                <td v-else>
+                <td v-if="item.isupdate">
                     <input type="text" placeholder="北迈价库存" class="form-control" v-model="item.SalePrice"/>
                 </td>
+                <td v-else>{{item.SalePrice}}</td>
+                
                 <!--库存-->
-                <td v-if="item.Id"></td>
-                <td v-else>
+                <td v-if="item.isupdate">
                     <input type="text" placeholder="库存" class="form-control" />
                 </td>
+                <td v-else></td>
                 
-                <td v-if="item.Id"><a class="cursor col_007aff f12 f_song" @click='update(index)'>修改</a></td>
-                <td v-else><a class="cursor col_007aff f12 f_song" @click='save(index)'>保存</a></td>
+                <td v-if="item.isupdate"><a class="cursor col_007aff f12 f_song" @click='save(index)'>保存</a></td>
+                <td v-else><a class="cursor col_007aff f12 f_song" @click='update(index)'>修改</a></td>
             </tr>
         </tr>
     </table>
@@ -51,10 +54,12 @@
   </div>
 </template>
 <script>
-import vSelect from 'vue-strap/src/Select.vue';
-import vOption from 'vue-strap/src/Option.vue';
-import VueAnimatedList from 'vue-animated-list';
+import vSelect from 'vue-strap/src/Select.vue'
+import vOption from 'vue-strap/src/Option.vue'
+import VueAnimatedList from 'vue-animated-list'
 import modalcarDocs from './modalcarDocs.vue'
+import store from 'store'
+import convert from './utils/convert.js'
 
 export default {
    components: { vSelect,vOption,VueAnimatedList,modalcarDocs },
@@ -74,7 +79,7 @@ export default {
               value: x.BrandId.toString(),
               label: x.BrandName
           }))
-            _this.brands=arr;
+          _this.brands=arr;
         });
     },
     computed: {
@@ -84,11 +89,19 @@ export default {
       query(param,callback){
         //获取数据
         let _this=this;
-        Vue.http.post( '/product/IGetParts',{ pid: param[0],cid:param[1],yid:param[2]}).then(function (response) {
+        Vue.http.post( '/product/IGetParts',{ pid: param[0],cid:param[2],yid:param[3]}).then(function (response) {
         //扩充字段
             let data=response.data;
             data.forEach(function(item){
-                 item.Brandlist=[]
+                 item.Brandlist=[];
+                 if(item.ProdBrandId>0){
+                     item.Brandlist.push(item.ProdBrandId.toString());
+                 }
+                 if(!item.Id&&item.SkuList){
+                     item.Sku=item.SkuList.join(',');
+                 }
+                 //0待修改 1 待保存 2待添加
+                 item.isupdate=item.Id?0:1;
             })
             _this.products=data;
             callback();
@@ -97,32 +110,34 @@ export default {
         });
       },
       save(index){
+        let _this=this;
         let model=this.products[index];
+        //主机厂id
+        let param=store.get('param');
+        model.FactoryId=param[1];
+        //品牌处理
+        model.ProdBrandId=model.Brandlist[0];
+        model.ProdBrandName= _this.brands.filter(function(item){
+            return item.value==model.ProdBrandId;
+        })[0].label;
+        //保存
+        model.isupdate=0;
         Vue.http.post( '/product/SaveProduct',JSON.stringify(model)).then(function (response) {
-            model.Id=1;
+           
         }, function (response) {
             console.log('保存失败');
         });
       },
       update(index){
           let model=this.products[index];
-          model.Id=0;
+          model.isupdate=1;
       },
       getsuitcars(index){
           let item=this.products[index];
+          //根据年款id分组
+          let suitcars=item.SuitCarList;
+          this.$children[0].list=convert(suitcars);
           this.$children[0].showmodal=true;
-          this.$children[0].list=[
-              {
-                  title:"一汽大众-迈腾",
-                  carlist: [{
-                      text:"新迈腾 2.0TSI 六档自动 (2012-)",
-                      desc: "aa"
-                  },
-                  {
-                      text:"新迈腾 2.0TSI 六档自动 (2012-)",
-                  }]
-              }
-          ];
       }
     }
 }

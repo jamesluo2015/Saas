@@ -63,6 +63,7 @@
 	//http请求
 
 	_vue2.default.config.debug = true; //页面模版
+	//app.js
 
 
 	new _vue2.default({
@@ -10259,62 +10260,6 @@
 	  value: true
 	});
 
-	var _headDocs = __webpack_require__(18);
-
-	var _headDocs2 = _interopRequireDefault(_headDocs);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	exports.default = {
-	  components: { headDocs: _headDocs2.default }
-	};
-	// </script>
-	// <template>
-
-	//   <div>
-
-	//         <head-docs></head-docs>
-
-	//   </div>
-
-	// </template>
-
-	// <script>
-
-/***/ },
-/* 18 */
-/***/ function(module, exports, __webpack_require__) {
-
-	module.exports = __webpack_require__(19)
-
-	if (module.exports.__esModule) module.exports = module.exports.default
-	;(typeof module.exports === "function" ? module.exports.options : module.exports).template = __webpack_require__(148)
-	if (false) {
-	(function () {
-	var hotAPI = require("vue-hot-reload-api")
-	hotAPI.install(require("vue"))
-	if (!hotAPI.compatible) return
-	var id = "-!babel!./../node_modules/vue-loader/lib/selector.js?type=script&index=0!./headDocs.vue"
-	hotAPI.createRecord(id, module.exports)
-	module.hot.accept(["-!babel!./../node_modules/vue-loader/lib/selector.js?type=script&index=0!./headDocs.vue","-!vue-html-loader!./../node_modules/vue-loader/lib/selector.js?type=template&index=0!./headDocs.vue"], function () {
-	var newOptions = require("-!babel!./../node_modules/vue-loader/lib/selector.js?type=script&index=0!./headDocs.vue")
-	if (newOptions && newOptions.__esModule) newOptions = newOptions.default
-	var newTemplate = require("-!vue-html-loader!./../node_modules/vue-loader/lib/selector.js?type=template&index=0!./headDocs.vue")
-	hotAPI.update(id, newOptions, newTemplate)
-	})
-	})()
-	}
-
-/***/ },
-/* 19 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-
 	var _selectDocs = __webpack_require__(20);
 
 	var _selectDocs2 = _interopRequireDefault(_selectDocs);
@@ -10362,7 +10307,7 @@
 	          selects[i].error = true;
 	          return false;
 	        }
-	        param.push(val);
+	        param.push(val.toString());
 	      }
 	      //querying
 	      _this.isquery = true;
@@ -10389,7 +10334,7 @@
 
 	//        <table-docs ></table-docs>
 
-	//        <moon-loader :loading="isquery" ></moon-loader>
+	//        <pulse-loader :loading="isquery" ></pulse-loader>
 
 	//   </div>
 
@@ -10398,6 +10343,8 @@
 	// <script>
 
 /***/ },
+/* 18 */,
+/* 19 */,
 /* 20 */
 /***/ function(module, exports, __webpack_require__) {
 
@@ -10493,12 +10440,12 @@
 	    //读取store
 	    var param = _store2.default.get('param');
 	    if (param.length) {
-	      _this.standardname = [param[0].toString()];
-	      _this.factory = [param[1].toString()];
+	      _this.standardname = [param[0]];
+	      _this.factory = [param[1]];
 	      setTimeout(function () {
-	        _this.carmodel = [param[2].toString()];
+	        _this.carmodel = [param[2]];
 
-	        if (param[3] > 0) {
+	        if (param[3] != "0") {
 	          setTimeout(function () {
 	            _this.partsyear = [param[3]];
 	          }, 500);
@@ -13047,6 +12994,14 @@
 
 	var _modalcarDocs2 = _interopRequireDefault(_modalcarDocs);
 
+	var _store = __webpack_require__(105);
+
+	var _store2 = _interopRequireDefault(_store);
+
+	var _convert = __webpack_require__(174);
+
+	var _convert2 = _interopRequireDefault(_convert);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	// <template>
@@ -13087,15 +13042,13 @@
 
 	//                 <td v-if="item.BmNo>0"><a class='cursor' @click="getsuitcars(index)">查看</a></td>
 
-	//                 <td v-if="item.BmNo>0">{{item.SkuList.join(',')}}</td>
+	//                 <td v-if="item.BmNo>0">{{item.Sku}}</td>
 
 	//                 <td v-if="item.BmNo>0">{{item.ContentInfo}}</td>
 
 	//                 <!--品牌-->
 
-	//                 <td v-if="item.Id">{{item.ProdBrandName}}</td>
-
-	//                 <td v-else>
+	//                 <td v-if="item.isupdate">
 
 	//                     <!--<input type="text" placeholder="品牌" class="form-control" bmtitle="此价格是在北迈网上显示的销售价格" v-model="item.ProdBrandName" />-->
 
@@ -13103,39 +13056,41 @@
 
 	//                 </td>
 
+	//                 <td v-else>{{item.ProdBrandName}}</td>
+
 	//                 <!--经销商编码-->
 
-	//                 <td v-if="item.Id">{{item.DealerNo}}</td>
-
-	//                  <td v-else>
+	//                 <td v-if="item.isupdate">
 
 	//                     <input type="text" placeholder="供应商编码" class="form-control"  v-model="item.DealerNo" />
 
 	//                 </td>
 
+	//                 <td v-else>{{item.DealerNo}}</td>
+
 	//                 <!--北迈价-->
 
-	//                 <td v-if="item.Id">{{item.SalePrice}}</td>
-
-	//                 <td v-else>
+	//                 <td v-if="item.isupdate">
 
 	//                     <input type="text" placeholder="北迈价库存" class="form-control" v-model="item.SalePrice"/>
 
 	//                 </td>
 
+	//                 <td v-else>{{item.SalePrice}}</td>
+
 	//                 <!--库存-->
 
-	//                 <td v-if="item.Id"></td>
-
-	//                 <td v-else>
+	//                 <td v-if="item.isupdate">
 
 	//                     <input type="text" placeholder="库存" class="form-control" />
 
 	//                 </td>
 
-	//                 <td v-if="item.Id"><a class="cursor col_007aff f12 f_song" @click='update(index)'>修改</a></td>
+	//                 <td v-else></td>
 
-	//                 <td v-else><a class="cursor col_007aff f12 f_song" @click='save(index)'>保存</a></td>
+	//                 <td v-if="item.isupdate"><a class="cursor col_007aff f12 f_song" @click='save(index)'>保存</a></td>
+
+	//                 <td v-else><a class="cursor col_007aff f12 f_song" @click='update(index)'>修改</a></td>
 
 	//             </tr>
 
@@ -13181,11 +13136,19 @@
 	        query: function query(param, callback) {
 	            //获取数据
 	            var _this = this;
-	            Vue.http.post('/product/IGetParts', { pid: param[0], cid: param[1], yid: param[2] }).then(function (response) {
+	            Vue.http.post('/product/IGetParts', { pid: param[0], cid: param[2], yid: param[3] }).then(function (response) {
 	                //扩充字段
 	                var data = response.data;
 	                data.forEach(function (item) {
 	                    item.Brandlist = [];
+	                    if (item.ProdBrandId > 0) {
+	                        item.Brandlist.push(item.ProdBrandId.toString());
+	                    }
+	                    if (!item.Id && item.SkuList) {
+	                        item.Sku = item.SkuList.join(',');
+	                    }
+	                    //0待修改 1 待保存 2待添加
+	                    item.isupdate = item.Id ? 0 : 1;
 	                });
 	                _this.products = data;
 	                callback();
@@ -13194,29 +13157,32 @@
 	            });
 	        },
 	        save: function save(index) {
+	            var _this = this;
 	            var model = this.products[index];
-	            Vue.http.post('/product/SaveProduct', (0, _stringify2.default)(model)).then(function (response) {
-	                model.Id = 1;
-	            }, function (response) {
+	            //主机厂id
+	            var param = _store2.default.get('param');
+	            model.FactoryId = param[1];
+	            //品牌处理
+	            model.ProdBrandId = model.Brandlist[0];
+	            model.ProdBrandName = _this.brands.filter(function (item) {
+	                return item.value == model.ProdBrandId;
+	            })[0].label;
+	            //保存
+	            model.isupdate = 0;
+	            Vue.http.post('/product/SaveProduct', (0, _stringify2.default)(model)).then(function (response) {}, function (response) {
 	                console.log('保存失败');
 	            });
 	        },
 	        update: function update(index) {
 	            var model = this.products[index];
-	            model.Id = 0;
+	            model.isupdate = 1;
 	        },
 	        getsuitcars: function getsuitcars(index) {
 	            var item = this.products[index];
+	            //根据年款id分组
+	            var suitcars = item.SuitCarList;
+	            this.$children[0].list = (0, _convert2.default)(suitcars);
 	            this.$children[0].showmodal = true;
-	            this.$children[0].list = [{
-	                title: "一汽大众-迈腾",
-	                carlist: [{
-	                    text: "新迈腾 2.0TSI 六档自动 (2012-)",
-	                    desc: "aa"
-	                }, {
-	                    text: "新迈腾 2.0TSI 六档自动 (2012-)"
-	                }]
-	            }];
 	        }
 	    }
 	};
@@ -13888,7 +13854,7 @@
 
 	//                 <li><a href="javascript:void(0)">{{car.text}}</a>
 
-	//                     <span class="glyphicon glyphicon glyphicon-pencil cursor"></span>
+	//                     <!--<span class="glyphicon glyphicon glyphicon-pencil cursor"></span>-->
 
 	//                     <span v-if="car.desc" class="block">{{car.desc}}</span>
 
@@ -14126,11 +14092,11 @@
 	//   <div class="panel panel-default">
 	//     <div class="panel-heading">
 	//       <h4 class="panel-title">
-	//         <a class="accordion-toggle"
+	//         <a class="accordion-toggle  block clearfix"
 	//           @click="toggleIsOpen()">
-	//           <slot name="header">
+	//            <span class="pull-left"><slot name="header">
 	//             {{ header }}
-	//           </slot>
+	//           </slot></span>
 	//         </a>
 	//       </h4>
 	//     </div>
@@ -14152,13 +14118,13 @@
 /* 139 */
 /***/ function(module, exports) {
 
-	module.exports = "<div class=\"panel panel-default\">\n    <div class=\"panel-heading\">\n      <h4 class=\"panel-title\">\n        <a class=\"accordion-toggle\"\n          @click=\"toggleIsOpen()\">\n          <slot name=\"header\"> \n            {{ header }}\n          </slot>\n        </a>\n      </h4>\n    </div>\n    <div class=\"panel-collapse\"\n      v-el:panel\n      v-show=\"isOpen\"\n      transition=\"collapse\"\n    >\n      <div class=\"panel-body\">\n        <slot></slot>\n      </div>\n    </div>\n  </div>";
+	module.exports = "<div class=\"panel panel-default\">\n    <div class=\"panel-heading\">\n      <h4 class=\"panel-title\">\n        <a class=\"accordion-toggle  block clearfix\"\n          @click=\"toggleIsOpen()\">\n           <span class=\"pull-left\"><slot name=\"header\"> \n            {{ header }}\n          </slot></span>\n        </a>\n      </h4>\n    </div>\n    <div class=\"panel-collapse\"\n      v-el:panel\n      v-show=\"isOpen\"\n      transition=\"collapse\"\n    >\n      <div class=\"panel-body\">\n        <slot></slot>\n      </div>\n    </div>\n  </div>";
 
 /***/ },
 /* 140 */
 /***/ function(module, exports) {
 
-	module.exports = "<accordion :one-at-atime=\"false\">\r\n        <panel v-for=\"(index,item) in list\" :header=\"item.title\" :is-open=\"false\">\r\n            <ul class=\"clearfix\" v-for=\"car in item.carlist\">\r\n                <li><a href=\"javascript:void(0)\">{{car.text}}</a>\r\n                    <span class=\"glyphicon glyphicon glyphicon-pencil cursor\"></span>\r\n                    <span v-if=\"car.desc\" class=\"block\">{{car.desc}}</span>\r\n                </li>\r\n            </ul>\r\n        </panel>\r\n    </accordion>";
+	module.exports = "<accordion :one-at-atime=\"false\">\r\n        <panel v-for=\"(index,item) in list\" :header=\"item.title\" :is-open=\"false\">\r\n            <ul class=\"clearfix\" v-for=\"car in item.carlist\">\r\n                <li><a href=\"javascript:void(0)\">{{car.text}}</a>\r\n                    <!--<span class=\"glyphicon glyphicon glyphicon-pencil cursor\"></span>-->\r\n                    <span v-if=\"car.desc\" class=\"block\">{{car.desc}}</span>\r\n                </li>\r\n            </ul>\r\n        </panel>\r\n    </accordion>";
 
 /***/ },
 /* 141 */
@@ -14170,7 +14136,7 @@
 /* 142 */
 /***/ function(module, exports) {
 
-	module.exports = "<table class=\"table table2 mg_t20 table3\" _v-39fb3b62=\"\">\n        <tbody _v-39fb3b62=\"\"><tr _v-39fb3b62=\"\">\n            <th width=\"6%\" _v-39fb3b62=\"\">序号</th>\n            <th width=\"10%\" _v-39fb3b62=\"\">配件名称</th>\n            <th width=\"9%\" _v-39fb3b62=\"\">适用年款</th>\n            <th width=\"9%\" _v-39fb3b62=\"\">零件编号</th>\n            <th width=\"22%\" _v-39fb3b62=\"\">配件说明</th>\n            <th width=\"9%\" _v-39fb3b62=\"\">品牌</th>\n            <th width=\"9%\" _v-39fb3b62=\"\">供应商编码</th>\n            <th width=\"10%\" _v-39fb3b62=\"\">*北迈价（元）</th>\n            <th width=\"7%\" _v-39fb3b62=\"\">*库存数</th>\n            <th width=\"9%\" _v-39fb3b62=\"\">操作</th>\n        </tr>\n        <tr v-for=\"(index, item) in products\" transition=\"item\" _v-39fb3b62=\"\">\n                <td _v-39fb3b62=\"\">{{index+1}}</td>\n                <!--通用-->\n                <td v-if=\"item.BmNo>0\" _v-39fb3b62=\"\">{{item.StandardName}}</td>\n                <td v-if=\"item.BmNo>0\" _v-39fb3b62=\"\"><a class=\"cursor\" @click=\"getsuitcars(index)\" _v-39fb3b62=\"\">查看</a></td>\n                <td v-if=\"item.BmNo>0\" _v-39fb3b62=\"\">{{item.SkuList.join(',')}}</td>\n                <td v-if=\"item.BmNo>0\" _v-39fb3b62=\"\">{{item.ContentInfo}}</td>\n                <!--品牌-->\n                <td v-if=\"item.Id\" _v-39fb3b62=\"\">{{item.ProdBrandName}}</td>\n                <td v-else=\"\" _v-39fb3b62=\"\">\n                    <!--<input type=\"text\" placeholder=\"品牌\" class=\"form-control\" bmtitle=\"此价格是在北迈网上显示的销售价格\" v-model=\"item.ProdBrandName\" />-->\n                     <v-select :value.sync=\"item.Brandlist\" :search=\"true\" :options=\"brands\" :close-on-select=\"true\" placeholder=\"品牌\" _v-39fb3b62=\"\"></v-select>\n                </td>\n                <!--经销商编码-->\n                <td v-if=\"item.Id\" _v-39fb3b62=\"\">{{item.DealerNo}}</td>\n                 <td v-else=\"\" _v-39fb3b62=\"\">\n                    <input type=\"text\" placeholder=\"供应商编码\" class=\"form-control\" v-model=\"item.DealerNo\" _v-39fb3b62=\"\">\n                </td>\n                <!--北迈价-->\n                <td v-if=\"item.Id\" _v-39fb3b62=\"\">{{item.SalePrice}}</td>\n                <td v-else=\"\" _v-39fb3b62=\"\">\n                    <input type=\"text\" placeholder=\"北迈价库存\" class=\"form-control\" v-model=\"item.SalePrice\" _v-39fb3b62=\"\">\n                </td>\n                <!--库存-->\n                <td v-if=\"item.Id\" _v-39fb3b62=\"\"></td>\n                <td v-else=\"\" _v-39fb3b62=\"\">\n                    <input type=\"text\" placeholder=\"库存\" class=\"form-control\" _v-39fb3b62=\"\">\n                </td>\n                \n                <td v-if=\"item.Id\" _v-39fb3b62=\"\"><a class=\"cursor col_007aff f12 f_song\" @click=\"update(index)\" _v-39fb3b62=\"\">修改</a></td>\n                <td v-else=\"\" _v-39fb3b62=\"\"><a class=\"cursor col_007aff f12 f_song\" @click=\"save(index)\" _v-39fb3b62=\"\">保存</a></td>\n            </tr>\n        \n    </tbody></table>\n  <div _v-39fb3b62=\"\">\n  <modalcar-docs title=\"查看年款\" _v-39fb3b62=\"\"></modalcar-docs>\n  </div>";
+	module.exports = "<table class=\"table table2 mg_t20 table3\" _v-39fb3b62=\"\">\n        <tbody _v-39fb3b62=\"\"><tr _v-39fb3b62=\"\">\n            <th width=\"6%\" _v-39fb3b62=\"\">序号</th>\n            <th width=\"10%\" _v-39fb3b62=\"\">配件名称</th>\n            <th width=\"9%\" _v-39fb3b62=\"\">适用年款</th>\n            <th width=\"9%\" _v-39fb3b62=\"\">零件编号</th>\n            <th width=\"22%\" _v-39fb3b62=\"\">配件说明</th>\n            <th width=\"9%\" _v-39fb3b62=\"\">品牌</th>\n            <th width=\"9%\" _v-39fb3b62=\"\">供应商编码</th>\n            <th width=\"10%\" _v-39fb3b62=\"\">*北迈价（元）</th>\n            <th width=\"7%\" _v-39fb3b62=\"\">*库存数</th>\n            <th width=\"9%\" _v-39fb3b62=\"\">操作</th>\n        </tr>\n        <tr v-for=\"(index, item) in products\" transition=\"item\" _v-39fb3b62=\"\">\n                <td _v-39fb3b62=\"\">{{index+1}}</td>\n                <!--通用-->\n                <td v-if=\"item.BmNo>0\" _v-39fb3b62=\"\">{{item.StandardName}}</td>\n                <td v-if=\"item.BmNo>0\" _v-39fb3b62=\"\"><a class=\"cursor\" @click=\"getsuitcars(index)\" _v-39fb3b62=\"\">查看</a></td>\n                <td v-if=\"item.BmNo>0\" _v-39fb3b62=\"\">{{item.Sku}}</td>\n                <td v-if=\"item.BmNo>0\" _v-39fb3b62=\"\">{{item.ContentInfo}}</td>\n                <!--品牌-->\n                <td v-if=\"item.isupdate\" _v-39fb3b62=\"\">\n                    <!--<input type=\"text\" placeholder=\"品牌\" class=\"form-control\" bmtitle=\"此价格是在北迈网上显示的销售价格\" v-model=\"item.ProdBrandName\" />-->\n                     <v-select :value.sync=\"item.Brandlist\" :search=\"true\" :options=\"brands\" :close-on-select=\"true\" placeholder=\"品牌\" _v-39fb3b62=\"\"></v-select>\n                </td>\n                <td v-else=\"\" _v-39fb3b62=\"\">{{item.ProdBrandName}}</td>\n                \n                <!--经销商编码-->\n                <td v-if=\"item.isupdate\" _v-39fb3b62=\"\">\n                    <input type=\"text\" placeholder=\"供应商编码\" class=\"form-control\" v-model=\"item.DealerNo\" _v-39fb3b62=\"\">\n                </td>\n                <td v-else=\"\" _v-39fb3b62=\"\">{{item.DealerNo}}</td>\n                \n                <!--北迈价-->\n                <td v-if=\"item.isupdate\" _v-39fb3b62=\"\">\n                    <input type=\"text\" placeholder=\"北迈价库存\" class=\"form-control\" v-model=\"item.SalePrice\" _v-39fb3b62=\"\">\n                </td>\n                <td v-else=\"\" _v-39fb3b62=\"\">{{item.SalePrice}}</td>\n                \n                <!--库存-->\n                <td v-if=\"item.isupdate\" _v-39fb3b62=\"\">\n                    <input type=\"text\" placeholder=\"库存\" class=\"form-control\" _v-39fb3b62=\"\">\n                </td>\n                <td v-else=\"\" _v-39fb3b62=\"\"></td>\n                \n                <td v-if=\"item.isupdate\" _v-39fb3b62=\"\"><a class=\"cursor col_007aff f12 f_song\" @click=\"save(index)\" _v-39fb3b62=\"\">保存</a></td>\n                <td v-else=\"\" _v-39fb3b62=\"\"><a class=\"cursor col_007aff f12 f_song\" @click=\"update(index)\" _v-39fb3b62=\"\">修改</a></td>\n            </tr>\n        \n    </tbody></table>\n  <div _v-39fb3b62=\"\">\n  <modalcar-docs title=\"查看年款\" _v-39fb3b62=\"\"></modalcar-docs>\n  </div>";
 
 /***/ },
 /* 143 */
@@ -14365,16 +14331,11 @@
 	module.exports = "<div class=\"v-spinner\" v-show=\"loading\">\n    <div class=\"v-pulse v-pulse1\" v-bind:style=\"[spinnerStyle,spinnerDelay1]\">\n    </div><div class=\"v-pulse v-pulse2\" v-bind:style=\"[spinnerStyle,spinnerDelay2]\">\n    </div><div class=\"v-pulse v-pulse3\" v-bind:style=\"[spinnerStyle,spinnerDelay3]\">\n    </div>\n  </div>";
 
 /***/ },
-/* 148 */
-/***/ function(module, exports) {
-
-	module.exports = "<div>\r\n        <select-docs></select-docs>\r\n        <button-docs :text=\"isquery?'查询中':'查询'\" @click='query' :class=\"{'unable':isquery}\"></button-docs>\r\n  </div>\r\n  <div>\r\n       <table-docs ></table-docs>\r\n       <moon-loader :loading=\"isquery\" ></moon-loader>\r\n  </div>";
-
-/***/ },
+/* 148 */,
 /* 149 */
 /***/ function(module, exports) {
 
-	module.exports = "<div>\r\n        <head-docs></head-docs>\r\n  </div>";
+	module.exports = "<div>\r\n        <select-docs></select-docs>\r\n        <button-docs :text=\"isquery?'查询中':'查询'\" @click='query' :class=\"{'unable':isquery}\"></button-docs>\r\n  </div>\r\n  <div>\r\n       <table-docs ></table-docs>\r\n       <pulse-loader :loading=\"isquery\" ></pulse-loader>\r\n  </div>";
 
 /***/ },
 /* 150 */
@@ -15999,6 +15960,108 @@
 
 	module.exports = _.resource = Resource;
 
+
+/***/ },
+/* 174 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+
+	var _getIterator2 = __webpack_require__(175);
+
+	var _getIterator3 = _interopRequireDefault(_getIterator2);
+
+	var _set = __webpack_require__(22);
+
+	var _set2 = _interopRequireDefault(_set);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	//convert.js
+
+	exports.default = function (suitcars) {
+	    var s = new _set2.default();
+	    suitcars.map(function (x) {
+	        return s.add(x.CarmodelId);
+	    });
+	    var arr = [];
+	    var _iteratorNormalCompletion = true;
+	    var _didIteratorError = false;
+	    var _iteratorError = undefined;
+
+	    try {
+	        var _loop = function _loop() {
+	            set = _step.value;
+
+	            var temp = suitcars.filter(function (car) {
+	                return car.CarmodelId == set;
+	            });
+	            var carlist = [];
+	            temp.forEach(function (t) {
+	                carlist.push({
+	                    text: t.PartsYear,
+	                    id: t.PartsYearId,
+	                    des: t.Description
+	                });
+	            });
+	            arr.push({
+	                title: temp[0].FactoryName + '-' + temp[0].Carmodel,
+	                carlist: carlist
+	            });
+	        };
+
+	        for (var _iterator = (0, _getIterator3.default)(s), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+	            var set;
+
+	            _loop();
+	        }
+	    } catch (err) {
+	        _didIteratorError = true;
+	        _iteratorError = err;
+	    } finally {
+	        try {
+	            if (!_iteratorNormalCompletion && _iterator.return) {
+	                _iterator.return();
+	            }
+	        } finally {
+	            if (_didIteratorError) {
+	                throw _iteratorError;
+	            }
+	        }
+	    }
+
+	    return arr;
+	};
+
+/***/ },
+/* 175 */
+/***/ function(module, exports, __webpack_require__) {
+
+	module.exports = { "default": __webpack_require__(176), __esModule: true };
+
+/***/ },
+/* 176 */
+/***/ function(module, exports, __webpack_require__) {
+
+	__webpack_require__(69);
+	__webpack_require__(25);
+	module.exports = __webpack_require__(177);
+
+/***/ },
+/* 177 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var anObject = __webpack_require__(38)
+	  , get      = __webpack_require__(80);
+	module.exports = __webpack_require__(33).getIterator = function(it){
+	  var iterFn = get(it);
+	  if(typeof iterFn != 'function')throw TypeError(it + ' is not iterable!');
+	  return anObject(iterFn.call(it));
+	};
 
 /***/ }
 /******/ ]);
