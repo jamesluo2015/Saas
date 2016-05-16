@@ -5,16 +5,18 @@
   </div>
   <div>
        <table-docs ></table-docs>
+       <pulse-loader :loading="isquery" ></pulse-loader>
   </div>
 </template>
 <script>
 import selectDocs from './selectDocs.vue'
 import buttonDocs from './buttonDocs.vue'
 import tableDocs from './tableDocs.vue'
+import PulseLoader from 'vue-spinner/src/PulseLoader.vue'
 import store from 'store'
 
 export default {
-  components: { selectDocs,buttonDocs,tableDocs },
+  components: { selectDocs,buttonDocs,tableDocs,PulseLoader },
   data(){
     return {
       isquery: false

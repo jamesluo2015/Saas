@@ -1,10 +1,7 @@
 import Vue from 'vue'
-import App from './app.vue';
-import VueResource from 'vue-resource';
-// //http
-// Vue.use(VueResource);
-// Vue.http.options.root = '/root';
-// Vue.http.headers.common['Authorization'] = 'Basic YXBpOnBhc3N3b3Jk';
+import App from './app.vue';//页面模版
+import VueResource from 'vue-resource';//http请求
+
 Vue.config.debug = true
 
 new Vue({
