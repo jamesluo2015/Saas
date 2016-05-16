@@ -45,21 +45,21 @@
                 <td v-else></td>
                 
                 <td v-if="item.isupdate"><a class="cursor col_007aff f12 f_song" @click='save(index)'>保存</a></td>
-                <td v-else><a class="cursor col_007aff f12 f_song" @click='update(index)'>修改</a></td>
+                <td v-else><a class="cursor col_007aff f12 f_song" @click='item.isupdate=1'>修改</a></td>
             </tr>
         </tr>
     </table>
   <div>
-  <modalcar-docs title="查看年款" ></modalcar-docs>
+  <modalcar-docs title="查看年款" :list="modalist" :showmodal.sync="modalshow"></modalcar-docs>
   </div>
 </template>
 <script>
 import vSelect from 'vue-strap/src/Select.vue'
 import vOption from 'vue-strap/src/Option.vue'
 import VueAnimatedList from 'vue-animated-list'
-import modalcarDocs from './modalcarDocs.vue'
+import modalcarDocs from '../general/modalcarDocs.vue'
 import store from 'store'
-import convert from './utils/convert.js'
+import convert from '../../utils/convert.js'
 
 export default {
    components: { vSelect,vOption,VueAnimatedList,modalcarDocs },
@@ -67,6 +67,8 @@ export default {
       return {
         products:[],
         brands: [],
+        modalist:[],
+        modalshow:false
       }
     },
     ready(){
@@ -128,16 +130,12 @@ export default {
             console.log('保存失败');
         });
       },
-      update(index){
-          let model=this.products[index];
-          model.isupdate=1;
-      },
       getsuitcars(index){
           let item=this.products[index];
           //根据年款id分组
           let suitcars=item.SuitCarList;
-          this.$children[0].list=convert(suitcars);
-          this.$children[0].showmodal=true;
+          this.modalist=convert(suitcars);
+          this.modalshow=true;
       }
     }
 }

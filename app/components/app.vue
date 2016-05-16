@@ -9,9 +9,9 @@
   </div>
 </template>
 <script>
-import selectDocs from './selectDocs.vue'
-import buttonDocs from './buttonDocs.vue'
-import tableDocs from './tableDocs.vue'
+import selectDocs from './app/selectDocs.vue'
+import tableDocs from './app/tableDocs.vue'
+import buttonDocs from './general/buttonDocs.vue'
 import PulseLoader from 'vue-spinner/src/PulseLoader.vue'
 import store from 'store'
 

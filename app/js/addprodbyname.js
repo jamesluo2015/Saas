@@ -1,6 +1,6 @@
 //app.js
 import Vue from 'vue'
-import App from './app.vue';//页面模版
+import App from '../components/app.vue';//页面模版
 import VueResource from 'vue-resource';//http请求
 
 Vue.config.debug = true

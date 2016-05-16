@@ -23,12 +23,18 @@
      props:{
       title:{
           type: String,
-        }
+        },
+       showmodal:{
+         type: Boolean,
+         default: false
+       },
+       list:{
+         type: Array
+       }
       },
     data() {
       return {
-        showmodal:false,
-        list:[]
+        
       }
     }
   }
