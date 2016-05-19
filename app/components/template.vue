@@ -1,10 +1,10 @@
 <template>
-  
+
 </template>
 <script>
-
+import headDocs from './app2/headDocs.vue'
 export default {
-  components: { tableDocs },
+  components: { headDocs },
   data(){
      return {
        param:{}
@@ -12,7 +12,7 @@ export default {
   },
   methods: {
     query(){
-        
+
     }
   }
 }

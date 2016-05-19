@@ -28,6 +28,11 @@ import PulseLoader from 'vue-spinner/src/PulseLoader.vue'
 
 export default {
     components: { vSelect,vOption,Datepicker,PulseLoader },
+    props:{
+      pagesize:{
+        type: Number
+      }
+    },
     data(){
         return {
             sdate:"2015-01-01",
@@ -58,16 +63,15 @@ export default {
             }],
             type: [],
             key: "",
-            list:[],
             loading: false
         }
     },
     methods: {
-        query(){
+        query(index){
             let _this=this;
             let param={
-                pi: 1,
-                pz: 10,
+                pageindex: index,
+                pagesize: this.pagesize,
                 sdate: _this.sdate,
                 edate: _this.edate,
                 state: _this.state.length?_this.state[0]:0,
@@ -75,8 +79,8 @@ export default {
                 key: _this.key,
             };
             _this.loading=true;
-            Vue.http.post('/product/GetProducts',param).then(function(response){
-                _this.list=response.data.data;
+            Vue.http.get('/product/GetProducts',param).then(function(response){
+                _this.$dispatch('GetProducts', response.data)
                 _this.loading=false;
             },function(err){
                 console.log('查询失败');

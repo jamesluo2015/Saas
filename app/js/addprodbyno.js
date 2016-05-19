@@ -1,7 +1,8 @@
-//app.js
+//addprodbyno.js
 import Vue from 'vue'
-import App from '../components/app1.vue';//页面模版
+import App from '../components/addprodbyno.vue';//页面模版
 import VueResource from 'vue-resource';//http请求
+
 
 Vue.config.debug = true
 
@@ -15,5 +16,3 @@ new Vue({
       }
     }
 })
-
-

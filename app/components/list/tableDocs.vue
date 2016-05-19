@@ -38,7 +38,7 @@
                             {{item.DealerNo}}
                         </td>
                         <td>
-                            {{item.ProdBrandName}}
+                            {{item.ProdBrandName||"其它"}}
                         </td>
                         <td>
                             {{item.FactoryId}}
@@ -53,16 +53,16 @@
                             <em class="col_ec7642 fN fS">-0.1(10%)</em>
                         </td>
                         <td>
-                            0
+                            {{item.StockCount}}
                         </td>
                         <td>
                             {{item.AddTime}}
                         </td>
                         <td><a href="javascript:void(0)" class="col_007aff" @click="getsuitcars(item.BmNo)">查看</a></td>
                         <td class="ws">
-                            <a href="/product/EditProductInfo?id=492789&amp;p=%2fproduct%2fproductlist" class="col_007aff f12 f_song">编辑</a>
-                            <a href="javascript:void(0)" class="col_ec7642 mg_l10 f12 f_song" onclick="delProductInfo(492789, '%2fproduct%2fproductlist') ">删除</a>
-                            <a href="javascript:void(0)" class="col_007aff  f12 f_song  mg_l10" data-toggle="modal" data-target="#SellTop" onclick="GetJingJia(93503884485015, 10018) ">选择销售平台</a>
+                            <a href="javascript:void(0)" class="col_007aff f12 f_song" @click='update(item)'>编辑</a>
+                            <a href="javascript:void(0)" class="col_ec7642 mg_l10 f12 f_song" @click='remove($index)'>删除</a>
+                            <a href="javascript:void(0)" class="col_007aff f12 f_song  mg_l10" >选择销售平台</a>
                         </td>
                     </tr>
                     <!--图片-->
@@ -79,6 +79,7 @@
 </div>
  <modalcar-docs title="查看年款" :list="modalist" :showmodal.sync="modalshow"></modalcar-docs>
 </template>
+
 <script>
 import modalcarDocs from '../general/modalcarDocs.vue'
 import convert from '../../utils/convert.js'
@@ -88,7 +89,8 @@ export default {
   props:{
       list:{
           type: Array
-      }
+      },
+
   },
   data(){
      return {
@@ -96,16 +98,46 @@ export default {
         modalshow:false
      }
   },
+  ready(){
+
+  },
   methods: {
     getsuitcars(bmno){
         let _this=this;
-        Vue.http.post('/product/GetSuitByBmNo?bmno='+bmno).then(function(response){
+        Vue.http.get('/product/GetSuitByBmNo?bmno='+bmno).then(function(response){
             let suitcars=response.data;
             _this.modalist=convert(suitcars);
             _this.modalshow=true;
         },function(err){
             console.log('获取适用性失败');
         })
+    },
+    update(model){
+      //派发事件
+      this.$dispatch('update', model)
+    },
+    remove(index){
+      let _this=this;
+      let model=_this.list[index];
+      //获取图片列表
+      var imgIds="";
+      if(model.Imglist.length){
+        let imgarr=[];
+        model.Imglist.map(x=>imgarr.push(x.Id));
+        imgIds=imgarr.join(',');
+      }
+
+      Vue.http.post(`/product/DeletProduct?id=${model.Id}&ids=${imgIds}`).then(function(response){
+        _this.list.splice(index,1);
+        if(!_this.list.length){
+          _this.$nextTick(function () {
+            // DOM 更新了
+            alert('请点击下一页');
+          })
+        }
+      },function(response){
+        alert('删除失败');
+      })
     }
   }
 }

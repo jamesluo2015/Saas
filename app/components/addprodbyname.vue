@@ -1,16 +1,16 @@
 <template>
   <div>
         <select-docs></select-docs>
-        <button-docs :text="isquery?'查询中':'查询'" @click='query' :class="{'unable':isquery}"></button-docs>
+        <button-docs :text="isquery?'查询中':'查询'" @click='query' :class="{'unable':!valid || isquery }"></button-docs>
   </div>
   <div>
-       <table-docs ></table-docs>
-       <pulse-loader :loading="isquery" ></pulse-loader>
+      <pulse-loader :loading="isquery" ></pulse-loader>
+      <table-docs ></table-docs>
   </div>
 </template>
 <script>
-import selectDocs from './app/selectDocs.vue'
-import tableDocs from './app/tableDocs.vue'
+import selectDocs from './addprodbyname/selectDocs.vue'
+import tableDocs from './addprodbyname/tableDocs.vue'
 import buttonDocs from './general/buttonDocs.vue'
 import PulseLoader from 'vue-spinner/src/PulseLoader.vue'
 import store from 'store'
@@ -20,15 +20,26 @@ export default {
   data(){
     return {
       isquery: false
-    }  
+    }
   },
   computed:{
-    
+    valid: function(){
+      let result=true;
+      let selects=this.$children[0].$children;
+      for(let i=0;i<3;i++){
+        let val=selects[i].value[0] || 0;
+        if(!val){
+          result=false;
+          break;
+        }
+      }
+      return result;
+    }
   },
   methods: {
       query(){
         //防止多次请求
-        if(this.isquery){
+        if(this.isquery || !this.valid){
           return false;
         }
         let _this=this;
@@ -45,7 +56,7 @@ export default {
         }
         //querying
         _this.isquery=true;
-        _this.$children[2].query(param,function(){
+        _this.$children[3].query(param,function(){
            _this.isquery=false;
         });
         //加入store

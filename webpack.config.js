@@ -4,7 +4,8 @@ var path = require('path')
 module.exports = {
   entry: {
     addprodbyname: './app/js/addprodbyname.js',
-    addprodbyno: './app/js/addprodbyno.js'
+    addprodbyno: './app/js/addprodbyno.js',
+    list: './app/js/list.js'
   },
   output: {
     path: './build',
@@ -34,11 +35,12 @@ module.exports = {
       { test: /\.svg/, loader: 'file?prefix=font/' },
       { test: /\.scss$/, loader: "style!css!sass" },
       { test: /\.less$/, loader: "style-loader!css-loader!less-loader" },
+      { test: /\.(png|jpg)$/, loader: 'url-loader?limit=8192'}
     ]
   },
   babel: {
     presets: ['es2015'],
-    plugins: ['transform-runtime']
+    plugins: ["transform-es3-property-literals","transform-es3-member-expression-literals","transform-runtime"]
   },
   //devtool: 'cheap-module-source-map'//source-map'
 };

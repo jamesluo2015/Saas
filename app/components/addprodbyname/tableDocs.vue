@@ -24,26 +24,26 @@
                     <!--<input type="text" placeholder="品牌" class="form-control" bmtitle="此价格是在北迈网上显示的销售价格" v-model="item.ProdBrandName" />-->
                      <v-select :value.sync="item.Brandlist" :search="true"  :options="brands"  :close-on-select="true" placeholder="品牌" ></v-select>
                 </td>
-                <td v-else>{{item.ProdBrandName}}</td>
-                
+                <td v-else>{{item.ProdBrandName||"其它"}}</td>
+
                 <!--经销商编码-->
                 <td v-if="item.isupdate">
                     <input type="text" placeholder="供应商编码" class="form-control"  v-model="item.DealerNo" />
                 </td>
                 <td v-else>{{item.DealerNo}}</td>
-                
+
                 <!--北迈价-->
                 <td v-if="item.isupdate">
                     <input type="text" placeholder="北迈价库存" class="form-control" v-model="item.SalePrice"/>
                 </td>
                 <td v-else>{{item.SalePrice}}</td>
-                
+
                 <!--库存-->
                 <td v-if="item.isupdate">
-                    <input type="text" placeholder="库存" class="form-control" />
+                    <input type="text" placeholder="库存" v-model='item.StockCount' class="form-control" />
                 </td>
-                <td v-else></td>
-                
+                <td v-else>{{item.StockCount}}</td>
+
                 <td v-if="item.isupdate"><a class="cursor col_007aff f12 f_song" @click='save(index)'>保存</a></td>
                 <td v-else><a class="cursor col_007aff f12 f_song" @click='item.isupdate=1'>修改</a></td>
             </tr>
@@ -75,23 +75,27 @@ export default {
       //this.query();
       //获取经销商品牌
       var _this=this;
-      Vue.http.post( '/product/IGetBrands',{}).then(function (response) {
+      Vue.http.get( '/product/GetBrands',{}).then(function (response) {
           let arr=[];
           response.data.map(x=>arr.push({
               value: x.BrandId.toString(),
               label: x.BrandName
-          }))
+          }));
+          arr.push({
+            value: "0",
+            label: "其它"
+          });
           _this.brands=arr;
         });
     },
     computed: {
-      
+
     },
     methods : {
       query(param,callback){
         //获取数据
         let _this=this;
-        Vue.http.post( '/product/IGetParts',{ pid: param[0],cid:param[2],yid:param[3]}).then(function (response) {
+        Vue.http.get( '/product/GetParts',{ pid: param[0],cid:param[2],yid:param[3]}).then(function (response) {
         //扩充字段
             let data=response.data;
             data.forEach(function(item){
@@ -119,13 +123,17 @@ export default {
         model.FactoryId=param[1];
         //品牌处理
         model.ProdBrandId=model.Brandlist[0];
-        model.ProdBrandName= _this.brands.filter(function(item){
-            return item.value==model.ProdBrandId;
-        })[0].label;
+        if(parseInt(model.ProdBrandId)>0){
+          model.ProdBrandName= _this.brands.filter(function(item){
+              return item.value==model.ProdBrandId;
+          })[0].label;
+        }
         //保存
         model.isupdate=0;
         Vue.http.post( '/product/SaveProduct',JSON.stringify(model)).then(function (response) {
-           
+          if(!response.data.ok){
+            alert(response.data.mes);
+          }
         }, function (response) {
             console.log('保存失败');
         });
@@ -141,5 +149,8 @@ export default {
 }
 </script>
 <style scoped>
-    
+    .item-move {
+    /* applied to the element when moving */
+    transition: transform .5s cubic-bezier(.55,0,.1,1);
+    }
 </style>
