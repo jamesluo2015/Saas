@@ -57,7 +57,7 @@
 import vSelect from 'vue-strap/src/Select.vue'
 import vOption from 'vue-strap/src/Option.vue'
 import VueAnimatedList from 'vue-animated-list'
-import modalcarDocs from '../general/modalcarDocs.vue'
+import modalcarDocs from '../../general/modalcarDocs.vue'
 import store from 'store'
 import convert from '../../utils/convert.js'
 

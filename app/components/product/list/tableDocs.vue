@@ -81,7 +81,7 @@
 </template>
 
 <script>
-import modalcarDocs from '../general/modalcarDocs.vue'
+import modalcarDocs from '../../general/modalcarDocs.vue'
 import convert from '../../utils/convert.js'
 
 export default {

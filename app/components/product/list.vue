@@ -8,7 +8,7 @@
 import headDocs from './list/headDocs.vue'
 import tableDocs from './list/tableDocs.vue'
 import updateDocs from './list/updateDocs.vue'
-import pageDocs from './general/pageDocs.vue'
+import pageDocs from '../general/pageDocs.vue'
 
 export default {
   components: { headDocs,tableDocs,updateDocs,pageDocs },

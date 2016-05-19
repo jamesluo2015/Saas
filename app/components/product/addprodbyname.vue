@@ -11,7 +11,7 @@
 <script>
 import selectDocs from './addprodbyname/selectDocs.vue'
 import tableDocs from './addprodbyname/tableDocs.vue'
-import buttonDocs from './general/buttonDocs.vue'
+import buttonDocs from '../general/buttonDocs.vue'
 import PulseLoader from 'vue-spinner/src/PulseLoader.vue'
 import store from 'store'
 

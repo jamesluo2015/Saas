@@ -65,7 +65,7 @@
                 </li>
                 <li v-if="!model.Imglist||model.Imglist.length<5">
                     <a href="javascript:void(0)" class="imgs">
-                        <img src="../../images/add.png" height="54" width="72 ">
+                        <img src="../../../images/add.png" height="54" width="72 ">
                     </a>
                 </li>
             </ul>
@@ -83,7 +83,7 @@
 
 import vSelect from 'vue-strap/src/Select.vue';
 import vOption from 'vue-strap/src/Option.vue';
-import upload from '../general/upload.vue';
+import upload from '../../general/upload.vue';
 
 export default {
     components: {

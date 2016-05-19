@@ -2,10 +2,12 @@ var webpack = require('webpack')
 var path = require('path')
 
 module.exports = {
-  entry: {
-    addprodbyname: './app/js/addprodbyname.js',
-    addprodbyno: './app/js/addprodbyno.js',
-    list: './app/js/list.js'
+  entry:  {
+    '/product/addprodbyname': './app/js/product/addprodbyname.js',
+    '/product/addprodbyno': './app/js/product/addprodbyno.js',
+    '/product/list': './app/js/product/list.js',
+    '/account/carmodel': './app/js/account/carmodel.js',
+    '/account/category': './app/js/account/category.js'
   },
   output: {
     path: './build',
@@ -59,6 +61,6 @@ if (process.env.NODE_ENV === 'production') {
         warnings: false
       }
     }),
-    new webpack.optimize.CommonsChunkPlugin("init.js")
+    //new webpack.optimize.CommonsChunkPlugin("init.js")
   ];
 }
