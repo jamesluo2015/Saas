@@ -19,9 +19,7 @@
         <label class="control-label pull-left">配件说明：</label>
         <div class="col-md-10 pull-left pd_l0 mg_t7">
             {{model.ContentInfo}}
-            <!--ms-if-->
             <a href="#" class="mg_l10 mg_t5"><span class="label label-warning">我有更好的补充</span></a>
-            <!--ms-if-->
         </div>
     </div>
     <div class="col-md-12 pd_l0 mg_t10 clearfix select_dropdown">

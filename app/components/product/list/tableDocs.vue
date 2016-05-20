@@ -90,7 +90,6 @@ export default {
       list:{
           type: Array
       },
-
   },
   data(){
      return {

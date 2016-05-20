@@ -56,11 +56,11 @@
 <script>
 import vSelect from 'vue-strap/src/Select.vue'
 import vOption from 'vue-strap/src/Option.vue'
+// import spinner from 'vue-strap/src/Spinner.vue'
 import VueAnimatedList from 'vue-animated-list'
 import modalcarDocs from '../../general/modalcarDocs.vue'
 import store from 'store'
 import convert from '../../utils/convert.js'
-
 export default {
    components: { vSelect,vOption,VueAnimatedList,modalcarDocs },
    data() {

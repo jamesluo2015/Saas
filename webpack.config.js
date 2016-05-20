@@ -7,7 +7,8 @@ module.exports = {
     '/product/addprodbyno': './app/js/product/addprodbyno.js',
     '/product/list': './app/js/product/list.js',
     '/account/carmodel': './app/js/account/carmodel.js',
-    '/account/category': './app/js/account/category.js'
+    '/account/category': './app/js/account/category.js',
+    '/config/brand': './app/js/config/brand.js'
   },
   output: {
     path: './build',

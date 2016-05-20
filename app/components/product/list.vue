@@ -1,7 +1,7 @@
 <template>
     <head-docs v-if="!isupdate" :pagesize="pagesize"></head-docs>
     <table-docs :list='list' v-if="!isupdate"  ></table-docs>
-    <update-docs v-if="isupdate" ></update-docs>
+    <update-docs v-if="isupdate" :model="model" ></update-docs>
     <page-docs v-show="!isupdate" :count='count'></page-docs>
 </template>
 <script>
@@ -18,7 +18,8 @@ export default {
        isupdate: false,
        model: {},
        count: 0,
-       pagesize: 2
+       pagesize: 10,
+       model:{}
      }
   },
   methods: {
