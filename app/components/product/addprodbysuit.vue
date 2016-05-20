@@ -2,37 +2,34 @@
 
 <template>
 
-<div>
-    <div>
-        *
-        <v-select :value.sync="standardname" :search="true" :options="standardlist" :close-on-select="true" placeholder="选择标准名称">
-        </v-select>
-    </div>
-    <div>
-        *
-        <v-select :value.sync="factory" :search="true" :options="fac_select" :close-on-select="true" placeholder="选择主机厂">
-        </v-select>
-        *
-        <v-select :value.sync="carmodel" :search="true" :options="car_select" :close-on-select="true" placeholder="选择车型">
-        </v-select>
-        <v-select :value.sync="partsyear" :search="true" :options="yearlist" :close-on-select="true" placeholder="选择年款">
-        </v-select>
-    </div>
+<div class="col-md-12 pd_l0 mg_t10 clearfix select_dropdown">
+    <label class="control-label pull-left">当前品类：</label>
+    <v-select :value.sync="standardname" :options="standardlist" :close-on-select="true" placeholder="选择标准名称">
+    </v-select>
+</div>
+
+<div class="col-md-12 pd_l0 mg_t20 clearfix select_dropdown bd_bD_d9 pd_b20">
+    <label class="control-label pull-left">适用车型：</label>
+    <v-select :value.sync="factory" :search="true" class="pull-left mg_r30" :options="fac_select" :close-on-select="true" placeholder="选择主机厂">
+    </v-select>
+    <v-select :value.sync="carmodel" class="pull-left mg_r30" :search="true" :options="car_select" :close-on-select="true" placeholder="选择车型">
+    </v-select>
+    <v-select :value.sync="partsyear" class="pull-left mg_r30" :search="true" :options="yearlist" :close-on-select="true" placeholder="选择年款">
+    </v-select>
     <button-docs :text="isquery?'查询中':'查询'" @click='query' :class="{'unable':!valid || isquery }"></button-docs>
 </div>
-<div>
-    <pulse-loader :loading="isquery"></pulse-loader>
-    <table-docs></table-docs>
-</div>
+
+<pulse-loader :loading="false"></pulse-loader>
+<table-docs></table-docs>
 
 </template>
 
 <script>
 
-// import selectDocs from './addprodbyname/selectDocs.vue'
+// import selectDocs from './addprodbysuit/selectDocs.vue'
 // import spinner from 'vue-strap/src/Spinner.vue';
 import vSelect from 'vue-strap/src/Select.vue';
-import tableDocs from './addprodbyname/tableDocs.vue'
+import tableDocs from './addprodbysuit/tableDocs.vue'
 import buttonDocs from '../general/buttonDocs.vue'
 import PulseLoader from 'vue-spinner/src/PulseLoader.vue'
 import store from 'store'
@@ -74,7 +71,7 @@ export default {
                 label: x.StandardName
             }))
             _this.standardlist = arr;
-            _this.$children[6].standardlist=arr;
+            _this.$children[6].standardlist = arr;
         }, function(response) {
             console.log('没有标准名称');
         });
@@ -167,6 +164,7 @@ export default {
                 }
                 param.push(val.toString());
             }
+            param.push(_this.$children[0].selectedItems);
             //querying
             _this.isquery = true;
             _this.$children[6].query(param, function() {
@@ -176,31 +174,31 @@ export default {
             store.set('param', param);
         },
     },
-     watch: {
-          carmodel(val) {
-              //查询年款
-              if (val.length) {
-                  let _this = this;
-                  _this.partsyear = [];
+    watch: {
+        carmodel(val) {
+            //查询年款
+            if (val.length) {
+                let _this = this;
+                _this.partsyear = [];
 
-                  Vue.http.get('/product/GetYear?pid=' + val).then(function(response) {
-                      let arr = [];
-                      response.data.forEach(function(item) {
-                              arr.push({
-                                  value: item.ID.toString(),
-                                  label: item.YearName
-                              });
-                          })
-                          // if(arr.length){
-                          //   _this.partsyear=[arr[0].value];
-                          // }
-                      _this.yearlist = arr;
-                  }, function(response) {
-                      console.log('没有年款信息');
-                  });
-              }
-          }
-      }
+                Vue.http.get('/product/GetYear?pid=' + val).then(function(response) {
+                    let arr = [];
+                    response.data.forEach(function(item) {
+                            arr.push({
+                                value: item.ID.toString(),
+                                label: item.YearName
+                            });
+                        })
+                        // if(arr.length){
+                        //   _this.partsyear=[arr[0].value];
+                        // }
+                    _this.yearlist = arr;
+                }, function(response) {
+                    console.log('没有年款信息');
+                });
+            }
+        }
+    }
 }
 
 </script>

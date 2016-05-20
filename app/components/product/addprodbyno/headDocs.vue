@@ -2,20 +2,17 @@
 
 <template>
 
-<div class="row pd_l0 pd_r0 mg_l0 mg_r0 mg_t20 mg_b20">
-    <div class="col-md-12 pd_l0 bd_bD_d9 clearfix pd_b20 mg_b20 select_dropdown ">
-        <label class="control-label pull-left" for="input01">请输入零件号：</label>
-        <textinfo width="450px !important;" :list="skulist" :value.sync="txtsku" placeholder="请输入零件编号"></textinfo>
-        <a href="javascript:void(0)" class="btn_red bg8 w120 h36 pull-left mg_l10" :class="{'unable':!txtsku}" @click='query'>确定</a>
-    </div>
-
-    <div class="col-md-12 pd_l0 pd_r0 mg_l0 mg_r0 mg_t20 mg_b20" v-if="isnosku" ms-controller="carinfo">
-        <div class="alert alert-danger" role="alert">
-            <h3>
-                  <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
-                  找不到此零件号,请确认零件号是否正确，或者您可以<a href="/product/addprodbyname"><span class="label label-success">通过类目添加商品</span></a>
-              </h3>
-        </div>
+<div class="col-md-12 pd_l0 mg_t20 clearfix pd_b20 select_dropdown bd_bD_d9">
+    <label class="control-label pull-left f16 col_000 w140" for="input01">输入零件编号：</label>
+    <textinfo width="160px !important;" :list="skulist" :value.sync="txtsku" placeholder=""></textinfo>
+    <button-docs :text="isquery?'查询中':'查&nbsp;询'" @click='query' class="mg_l30" :class="{'unable':!txtsku }"></button-docs>
+</div>
+<div class="col-md-12 pd_l0 pd_r0 mg_l0 mg_r0 mg_t20 mg_b20" v-if="isnosku">
+    <div class="alert alert-danger" role="alert">
+        <h3>
+           <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+           找不到此零件号,请确认零件号是否正确，或者您可以<a href="/product/addprodbysuit"><span class="label label-success">通过类目添加商品</span></a>
+       </h3>
     </div>
 </div>
 
@@ -24,11 +21,12 @@
 <script>
 
 import textinfo from '../../general/textinfo.vue'
+import buttonDocs from '../../general/buttonDocs.vue'
 import store from 'store'
 
 export default {
     components: {
-        textinfo
+        textinfo, buttonDocs
     },
     data() {
         return {
@@ -84,9 +82,9 @@ export default {
                 Vue.http.get(`/product/GetSkuList?key=${_this.txtsku}`).then(function(response) {
                     let data = response.data;
                     if (data.length) {
-                      if(data[0]==val){
-                        data.splice(0,1);
-                      }
+                        if (data[0] == val) {
+                            data.splice(0, 1);
+                        }
                         _this.skulist = data;
                     }
                 }, function() {

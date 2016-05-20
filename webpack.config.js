@@ -3,7 +3,7 @@ var path = require('path')
 
 module.exports = {
   entry:  {
-    '/product/addprodbyname': './app/js/product/addprodbyname.js',
+    '/product/addprodbysuit': './app/js/product/addprodbysuit.js',
     '/product/addprodbyno': './app/js/product/addprodbyno.js',
     '/product/list': './app/js/product/list.js',
     '/account/carmodel': './app/js/account/carmodel.js',

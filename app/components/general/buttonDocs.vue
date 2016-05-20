@@ -1,5 +1,5 @@
 <template>
-   <a href="#" class="btn_red bg8 w120 h36 auto">{{text}}</a>
+   <a href="#" class="btn_red bg8 f14 w70 h26 pull-left">{{text}}</a>
 </template>
 <script>
     export default {

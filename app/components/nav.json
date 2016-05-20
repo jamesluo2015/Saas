@@ -1,0 +1,123 @@
+[
+    {
+        "index": 1,
+        "title": "我的配件管理",
+        "controller":"product",
+        "menus": [
+            {
+                "text": "通过适用性添加",
+                "action": "addprodbysuit"
+            },
+             {
+                "text": "通过零件编号添加",
+                "action": "addprodbyno"
+            },
+            {
+                "text": "批量添加",
+                "action": "addprodbytable"
+            },
+             {
+                "text": "配件列表",
+                "action": "list"
+            }
+        ]
+    },
+    {
+        "index": 2,
+        "title": "电商商品管理",
+        "controller":"manage",
+        "menus": [
+            {
+                "text": "京东商品管理",
+                "action": "jd"
+            }
+        ]
+    },
+    {
+        "index": 3,
+        "title": "订单管理",
+        "controller":"order",
+        "menus": [
+            {
+                "text": "订单管理",
+                "action": "list"
+            },
+            {
+                "text": "退货管理",
+                "action": "returned"
+            }
+        ]
+    },
+    {
+        "index": 4,
+        "title": "库房管理",
+        "controller":"stock",
+        "menus": [
+            {
+                "text": "仓库管理",
+                "action": "house"
+            },
+            {
+                "text": "货位管理",
+                "action": "slot"
+            },
+            {
+                "text": "库存管理",
+                "action": "main"
+            }
+        ]
+    },
+    {
+        "index": 5,
+        "title": "财务管理",
+        "controller":"finance",
+        "menus": [
+            {
+                "text": "本期账单",
+                "action": "current"
+            },
+            {
+                "text": "往期账单",
+                "action": "past"
+            }
+        ]
+    },
+    {
+        "index": 6,
+        "title": "配置管理",
+        "controller":"config",
+        "menus": [
+            {
+                "text": "添加品牌",
+                "action": "brand"
+            },
+            {
+                "text": "添加快递公司",
+                "action": "express"
+            },
+            {
+                "text": "配置库区",
+                "action": "stock"
+            }
+        ]
+    },
+    {
+        "index": 7,
+        "title": "帐号设置",
+        "controller":"account",
+        "menus": [
+            {
+                "text": "企业信息",
+                "action": "index"
+            },
+            {
+                "text": "经营品类",
+                "action": "category"
+            },
+            {
+                "text": "经营车型",
+                "action": "carmodel"
+            }
+        ]
+    }
+]

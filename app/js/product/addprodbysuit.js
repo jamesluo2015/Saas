@@ -1,6 +1,6 @@
-//addprodbyname.js
+//addprodbysuit.js
 import Vue from 'vue'
-import App from '../../components/product/addprodbyname.vue';//页面模版
+import App from '../../components/product/addprodbysuit.vue';//页面模版
 import VueResource from 'vue-resource';//http请求
 
 Vue.config.debug = true
