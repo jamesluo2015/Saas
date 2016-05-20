@@ -45,8 +45,9 @@
             </tbody>
         </table>
     </div>
-    <modal :show.sync="addBrand" effect="fade">
+     <modal :show.sync="addBrand" effect="fade">
         <div slot="modal-header" class="modal-header">
+          <button type="button" class="close" @click='addBrand = false'><span>×</span></button>
             <h4 class="modal-title">添加品牌</h4>
         </div>
         <div slot="modal-body" class="modal-body">
@@ -92,8 +93,7 @@
                 </div>
             </div>
         </div>
-
-    </modal>
+   </modal>
     <upload upid=".filter-btn"></upload>
 
 </template>
@@ -126,12 +126,20 @@ export default {
     methods: {
         remove(index, id) {
             var _this = this;
-            Vue.http.post('/config/DeletBrand?brandid=' + id).then(function(response) {
-                if (response.data) {
-                    _this.brandlist.splice(index, 1);
-                }
-            }, function() {
-                alert('删除失败');
+
+            layer.confirm('确认删除吗', {
+              btn: ['删除','取消'] //按钮
+            }, function(){
+              Vue.http.post('/config/DeletBrand?brandid=' + id).then(function(response) {
+                  if (response.data) {
+                      _this.brandlist.splice(index, 1);
+                      layer.msg('删除成功', {icon: 1});
+                  }
+              }, function() {
+                  layer.alert('删除失败');
+              });
+            }, function(){
+
             });
         },
         update(index){
@@ -142,12 +150,16 @@ export default {
         save(){
           var _this = this;
           Vue.http.post('/config/SaveBrand',{model:_this.model}).then(function(res){
-            if(res.data){
+            if(res.data.ok){
               _this.addBrand=false;
               _this.model.UserId=_this.userid;
               _this.brandlist.push(_this.model);
               _this.model={};
+            }else{
+              layer.alert(res.data.mes);
             }
+          },function(){
+            layer.alert('保存失败');
           })
         }
     },

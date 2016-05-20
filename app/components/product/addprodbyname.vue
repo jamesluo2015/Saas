@@ -1,67 +1,206 @@
+
+
 <template>
-  <div>
-        <select-docs></select-docs>
-        <button-docs :text="isquery?'查询中':'查询'" @click='query' :class="{'unable':!valid || isquery }"></button-docs>
-  </div>
-  <div>
-      <pulse-loader :loading="isquery" ></pulse-loader>
-      <table-docs ></table-docs>
-  </div>
+
+<div>
+    <div>
+        *
+        <v-select :value.sync="standardname" :search="true" :options="standardlist" :close-on-select="true" placeholder="选择标准名称">
+        </v-select>
+    </div>
+    <div>
+        *
+        <v-select :value.sync="factory" :search="true" :options="fac_select" :close-on-select="true" placeholder="选择主机厂">
+        </v-select>
+        *
+        <v-select :value.sync="carmodel" :search="true" :options="car_select" :close-on-select="true" placeholder="选择车型">
+        </v-select>
+        <v-select :value.sync="partsyear" :search="true" :options="yearlist" :close-on-select="true" placeholder="选择年款">
+        </v-select>
+    </div>
+    <button-docs :text="isquery?'查询中':'查询'" @click='query' :class="{'unable':!valid || isquery }"></button-docs>
+</div>
+<div>
+    <pulse-loader :loading="isquery"></pulse-loader>
+    <table-docs></table-docs>
+</div>
+
 </template>
+
 <script>
-import selectDocs from './addprodbyname/selectDocs.vue'
+
+// import selectDocs from './addprodbyname/selectDocs.vue'
+// import spinner from 'vue-strap/src/Spinner.vue';
+import vSelect from 'vue-strap/src/Select.vue';
 import tableDocs from './addprodbyname/tableDocs.vue'
 import buttonDocs from '../general/buttonDocs.vue'
 import PulseLoader from 'vue-spinner/src/PulseLoader.vue'
 import store from 'store'
 
 export default {
-  components: { selectDocs,buttonDocs,tableDocs,PulseLoader },
-  data(){
-    return {
-      isquery: false
-    }
-  },
-  computed:{
-    valid: function(){
-      let result=true;
-      let selects=this.$children[0].$children;
-      for(let i=0;i<3;i++){
-        let val=selects[i].value[0] || 0;
-        if(!val){
-          result=false;
-          break;
+    components: {
+        vSelect, buttonDocs, tableDocs, PulseLoader
+    },
+    data() {
+        return {
+            isquery: false,
+            carlist: [],
+
+            yearlist: [],
+            standardlist: [],
+
+            factory: [],
+            carmodel: [],
+            partsyear: [],
+            standardname: []
         }
-      }
-      return result;
-    }
-  },
-  methods: {
-      query(){
-        //防止多次请求
-        if(this.isquery || !this.valid){
-          return false;
-        }
-        let _this=this;
-        //valid
-        let selects=_this.$children[0].$children;
-        let param=[];
-        for(let i=0;i<4;i++){
-          let val=selects[i].value[0] || 0;
-          if(!val&&i<3){
-            selects[i].error=true;
-            return false;
-          }
-          param.push(val.toString());
-        }
-        //querying
-        _this.isquery=true;
-        _this.$children[3].query(param,function(){
-           _this.isquery=false;
+    },
+    ready() {
+        //加载车型权限信息
+        let _this = this;
+
+        // Post request
+        Vue.http.get('/product/GetCarmodel').then(function(response) {
+            _this.carlist = response.data;
+        }, function(response) {
+            console.log('没有车型信息');
         });
-        //加入store
-        store.set('param',param);
-      },
-  }
+        //加载标准名称
+        Vue.http.get('/product/GetStandards').then(function(response) {
+            let result = response.data;
+            let arr = [];
+            result.map(x => arr.push({
+                value: x.StandardId.toString(),
+                label: x.StandardName
+            }))
+            _this.standardlist = arr;
+            _this.$children[6].standardlist=arr;
+        }, function(response) {
+            console.log('没有标准名称');
+        });
+
+        //读取store
+        let param = store.get('param');
+        if (param.length) {
+            _this.standardname = [param[0]];
+            _this.factory = [param[1]];
+
+            setTimeout(function() {
+                _this.carmodel = [param[2]];
+
+                if (param[3] != "0") {
+                    setTimeout(function() {
+                        _this.partsyear = [param[3]];
+                    }, 500)
+                }
+            }, 500)
+        }
+    },
+    computed: {
+        valid: function() {
+            let result = true;
+            let selects = this.$children;
+            for (let i = 0; i < 3; i++) {
+                let val = selects[i].value[0] || 0;
+                if (!val) {
+                    result = false;
+                    break;
+                }
+            }
+            return result;
+        },
+        //主机厂
+        fac_select: function() {
+            let arr = [];
+            if (this.carlist.length) {
+                let s = new Set();
+                //筛选
+                this.carlist.forEach(function(item) {
+                    if (!s.has(item.FactoryId)) {
+                        arr.push({
+                            value: item.FactoryId.toString(),
+                            label: item.FactoryName
+                        });
+                    }
+                    s.add(item.FactoryId);
+                })
+            }
+            return arr;
+        },
+        //车型
+        car_select: function() {
+            let arr = [];
+            let _this = this;
+            if (this.factory.length) {
+                //_this.carmodel=[];
+                _this.carlist.forEach(function(item) {
+                        if (item.FactoryId == _this.factory) {
+                            arr.push({
+                                value: item.CarModelId.toString(),
+                                label: item.CarModelName
+                            });
+                        }
+                    })
+                    //默认选择车型
+                if (arr.length) {
+                    _this.carmodel = [arr[0].value];
+                }
+            }
+            return arr;
+        }
+    },
+    methods: {
+        query() {
+            //防止多次请求
+            if (this.isquery || !this.valid) {
+                return false;
+            }
+            let _this = this;
+            //valid
+            let selects = _this.$children;
+            let param = [];
+            for (let i = 0; i < 4; i++) {
+                let val = selects[i].value[0] || 0;
+                if (!val && i < 3) {
+                    selects[i].error = true;
+                    return false;
+                }
+                param.push(val.toString());
+            }
+            //querying
+            _this.isquery = true;
+            _this.$children[6].query(param, function() {
+                _this.isquery = false;
+            });
+            //加入store
+            store.set('param', param);
+        },
+    },
+     watch: {
+          carmodel(val) {
+              //查询年款
+              if (val.length) {
+                  let _this = this;
+                  _this.partsyear = [];
+
+                  Vue.http.get('/product/GetYear?pid=' + val).then(function(response) {
+                      let arr = [];
+                      response.data.forEach(function(item) {
+                              arr.push({
+                                  value: item.ID.toString(),
+                                  label: item.YearName
+                              });
+                          })
+                          // if(arr.length){
+                          //   _this.partsyear=[arr[0].value];
+                          // }
+                      _this.yearlist = arr;
+                  }, function(response) {
+                      console.log('没有年款信息');
+                  });
+              }
+          }
+      }
 }
+
 </script>

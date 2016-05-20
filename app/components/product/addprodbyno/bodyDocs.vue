@@ -149,7 +149,7 @@ export default {
                     window.location.reload();
                 } else {
                     _this.iscommit = false;
-                    alert(response.data.mes);
+                    layer.alert(response.data.mes);
                 }
             }, function(response) {
                 console.log('保存失败');

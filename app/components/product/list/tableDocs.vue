@@ -131,11 +131,11 @@ export default {
         if(!_this.list.length){
           _this.$nextTick(function () {
             // DOM 更新了
-            alert('请点击下一页');
+            layer.alert('请点击下一页');
           })
         }
       },function(response){
-        alert('删除失败');
+        layer.alert('删除失败');
       })
     }
   }
