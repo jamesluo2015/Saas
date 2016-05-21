@@ -12377,9 +12377,61 @@
 	module.exports = "<li style=\"position:relative\" _v-89b67654=\"\">\n    <a @mousedown.prevent=\"handleClick\" style=\"cursor:pointer\" _v-89b67654=\"\">\n      <span v-el:v=\"\" _v-89b67654=\"\"><slot _v-89b67654=\"\"></slot></span>\n      <span class=\"glyphicon glyphicon-ok check-mark\" v-show=\"chosen\" _v-89b67654=\"\"></span>\n    </a>\n  </li>";
 
 /***/ },
-/* 119 */,
-/* 120 */,
-/* 121 */,
+/* 119 */
+/***/ function(module, exports, __webpack_require__) {
+
+	module.exports = __webpack_require__(120)
+
+	if (module.exports.__esModule) module.exports = module.exports.default
+	;(typeof module.exports === "function" ? module.exports.options : module.exports).template = __webpack_require__(121)
+	if (false) {
+	(function () {
+	var hotAPI = require("vue-hot-reload-api")
+	hotAPI.install(require("vue"))
+	if (!hotAPI.compatible) return
+	var id = "-!babel!./../../../node_modules/vue-loader/lib/selector.js?type=script&index=0!./buttonDocs.vue"
+	hotAPI.createRecord(id, module.exports)
+	module.hot.accept(["-!babel!./../../../node_modules/vue-loader/lib/selector.js?type=script&index=0!./buttonDocs.vue","-!vue-html-loader!./../../../node_modules/vue-loader/lib/selector.js?type=template&index=0!./buttonDocs.vue"], function () {
+	var newOptions = require("-!babel!./../../../node_modules/vue-loader/lib/selector.js?type=script&index=0!./buttonDocs.vue")
+	if (newOptions && newOptions.__esModule) newOptions = newOptions.default
+	var newTemplate = require("-!vue-html-loader!./../../../node_modules/vue-loader/lib/selector.js?type=template&index=0!./buttonDocs.vue")
+	hotAPI.update(id, newOptions, newTemplate)
+	})
+	})()
+	}
+
+/***/ },
+/* 120 */
+/***/ function(module, exports) {
+
+	"use strict";
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+	// <template>
+
+	//    <a href="#" class="btn_red bg8 f14 w70 h26 pull-left">{{text}}</a>
+
+	// </template>
+
+	// <script>
+	exports["default"] = {
+	    props: {
+	        text: {
+	            type: String
+	        }
+	    }
+	};
+	// </script>
+
+/***/ },
+/* 121 */
+/***/ function(module, exports) {
+
+	module.exports = "<a href=\"#\" class=\"btn_red bg8 f14 w70 h26 pull-left\">{{text}}</a>";
+
+/***/ },
 /* 122 */,
 /* 123 */
 /***/ function(module, exports, __webpack_require__) {
@@ -12440,8 +12492,13 @@
 	          laypage({
 	            cont: 'paging',
 	            pages: size, //总页数
-	            skin: 'molv',
+	            skin: 'bm',
 	            skip: true, //是否开启跳页
+	            first: false,
+	            last: size,
+	            prev: "<",
+	            next: ">",
+	            groups: 3,
 	            //total: data.length,
 	            jump: function jump(obj) {
 	              _this.$dispatch('page', obj.curr);
@@ -14726,7 +14783,7 @@
 	'use strict';
 
 	Object.defineProperty(exports, "__esModule", {
-	  value: true
+	    value: true
 	});
 
 	var _defineProperty2 = __webpack_require__(209);
@@ -14749,57 +14806,70 @@
 
 	var _pageDocs2 = _interopRequireDefault(_pageDocs);
 
+	var _DateFormat = __webpack_require__(252);
+
+	var _DateFormat2 = _interopRequireDefault(_DateFormat);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+
+	exports['default'] = {
+	    components: {
+	        headDocs: _headDocs2['default'], tableDocs: _tableDocs2['default'], updateDocs: _updateDocs2['default'], pageDocs: _pageDocs2['default']
+	    },
+	    data: function data() {
+	        return (0, _defineProperty3['default'])({
+	            list: [],
+	            isupdate: false,
+	            model: {},
+	            count: 0,
+	            pagesize: 10
+	        }, 'model', {});
+	    },
+
+	    methods: {},
+	    events: {
+	        //编辑
+	        'update': function update(model) {
+	            this.model = model;
+	            this.isupdate = true;
+	        },
+	        //修改模版保存事件
+	        'save': function save() {
+	            this.isupdate = false;
+	        },
+	        //查询商品 返回分页数据、总数
+	        'GetProducts': function GetProducts(result) {
+	            result.data.forEach(function (item) {
+	                item.AddTime = (0, _DateFormat2['default'])(item.AddTime);
+	            });
+	            this.list = result.data;
+	            this.count = Math.ceil(result.count / this.pagesize);
+	        },
+	        //分页
+	        'page': function page(index) {
+	            this.$children[0].query(index);
+	        }
+	    },
+	    computed: {}
+	};
+
+	// </script>
+
 
 	// <template>
 
-	//     <head-docs v-if="!isupdate" :pagesize="pagesize"></head-docs>
-
-	//     <table-docs :list='list' v-if="!isupdate"  ></table-docs>
-
-	//     <update-docs v-if="isupdate" :model="model" ></update-docs>
-
-	//     <page-docs v-show="!isupdate" :count='count'></page-docs>
+	// <div class="right_contain">
+	//     <div class="row">
+	//         <head-docs v-if="!isupdate" :pagesize="pagesize"></head-docs>
+	//         <table-docs :list='list' v-if="!isupdate"></table-docs>
+	//         <update-docs v-if="isupdate" :model="model"></update-docs>
+	//         <page-docs v-show="!isupdate" :count='count'></page-docs>
+	//     </div>
+	// </div>
 
 	// </template>
 
 	// <script>
-	exports['default'] = {
-	  components: { headDocs: _headDocs2['default'], tableDocs: _tableDocs2['default'], updateDocs: _updateDocs2['default'], pageDocs: _pageDocs2['default'] },
-	  data: function data() {
-	    return (0, _defineProperty3['default'])({
-	      list: [],
-	      isupdate: false,
-	      model: {},
-	      count: 0,
-	      pagesize: 10
-	    }, 'model', {});
-	  },
-
-	  methods: {},
-	  events: {
-	    //编辑
-	    'update': function update(model) {
-	      this.model = model;
-	      this.isupdate = true;
-	    },
-	    //修改模版保存事件
-	    'save': function save() {
-	      this.isupdate = false;
-	    },
-	    //查询商品 返回分页数据、总数
-	    'GetProducts': function GetProducts(result) {
-	      this.list = result.data;
-	      this.count = Math.ceil(result.count / this.pagesize);
-	    },
-	    //分页
-	    'page': function page(index) {
-	      this.$children[0].query(index);
-	    }
-	  },
-	  computed: {}
-	};
-	// </script>
 
 /***/ },
 /* 209 */
@@ -14945,55 +15015,14 @@
 
 	var _PulseLoader2 = _interopRequireDefault(_PulseLoader);
 
+	var _buttonDocs = __webpack_require__(119);
+
+	var _buttonDocs2 = _interopRequireDefault(_buttonDocs);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 
-	// <template>
-
-	//       <div class="col-md-12 pd_l0 clearfix  select_dropdown  mg_t10 z-top">
-
-	//            <datepicker
-
-	//                 :value.sync="sdate"
-
-	//                 :disabled-days-of-Week="disabled"
-
-	//                 format="yyyy-MM-dd"
-
-	//                 Width="130px">
-
-	//                 </datepicker>
-
-	//         <label class=" mg_l5 mg_r5 mg_t8 fN">至</label>
-
-	//         <datepicker
-
-	//                 :value.sync="edate"
-
-	//                 :disabled-days-of-Week="disabled"
-
-	//                 format="yyyy-MM-dd"
-
-	//                 Width="130px">
-
-	//                 </datepicker>
-
-	//     <v-select :value.sync="state" :options="statelist" :close-on-select="true" class='mg_l5' placeholder="选择状态" ></v-select>
-
-	//     <v-select :value.sync="type" :options="typelist" :close-on-select="true" class='mg_l5' placeholder="选择条件" ></v-select>
-
-	//     <input placeholder="请输入关键字" class="add_input inline w240 mg_l5 form-control" type="text" v-model='key'>
-
-	//     <a href="javascript:void(0);" class="btn_red bg8 w80 h36 inline mg_l10" @click='query'>查询</a>
-
-	//     </div>
-
-	//      <pulse-loader :loading="loading" ></pulse-loader>
-
-	// </template>
-
-	// <script>
 	exports['default'] = {
-	    components: { vSelect: _Select2['default'], vOption: _Option2['default'], Datepicker: _Datepicker2['default'], PulseLoader: _PulseLoader2['default'] },
+	    components: { vSelect: _Select2['default'], vOption: _Option2['default'], Datepicker: _Datepicker2['default'], PulseLoader: _PulseLoader2['default'], buttonDocs: _buttonDocs2['default'] },
 	    props: {
 	        pagesize: {
 	            type: Number
@@ -15001,8 +15030,8 @@
 	    },
 	    data: function data() {
 	        return {
-	            sdate: "2015-01-01",
-	            edate: "2015-01-07",
+	            sdate: GetFormatDate(),
+	            edate: GetFormatDate(),
 	            statelist: [{
 	                value: '0',
 	                label: '选择状态'
@@ -15058,7 +15087,7 @@
 
 	// </script>
 
-	// <style>
+	// <style scope>
 
 	//     .inline {
 
@@ -15067,6 +15096,51 @@
 	//     }
 
 	// </style>
+	// <template>
+
+	//       <div class="col-md-12 pd_l0 clearfix  select_dropdown  mg_t10 z-top">
+
+	//            <datepicker
+
+	//                 :value.sync="sdate"
+
+	//                 :disabled-days-of-Week="disabled"
+
+	//                 format="yyyy-MM-dd"
+
+	//                 Width="130px">
+
+	//                 </datepicker>
+
+	//         <label class=" mg_l5 mg_r5 mg_t8 fN">至</label>
+
+	//         <datepicker
+
+	//                 :value.sync="edate"
+
+	//                 :disabled-days-of-Week="disabled"
+
+	//                 format="yyyy-MM-dd"
+
+	//                 Width="130px">
+
+	//                 </datepicker>
+
+	//     <v-select :value.sync="state" :options="statelist" :close-on-select="true" class='mg_l5' placeholder="选择状态" ></v-select>
+
+	//     <v-select :value.sync="type" :options="typelist" :close-on-select="true" class='mg_l5' placeholder="选择条件" ></v-select>
+
+	//     <input placeholder="请输入关键字" class="add_input inline w240 mg_l5 form-control" type="text" v-model='key'>
+
+	//     <button-docs text="查&nbsp;询" @click='query'></button-docs>
+
+	//     </div>
+
+	//      <pulse-loader :loading="loading" ></pulse-loader>
+
+	// </template>
+
+	// <script>
 
 /***/ },
 /* 217 */
@@ -15663,7 +15737,7 @@
 /* 224 */
 /***/ function(module, exports) {
 
-	module.exports = "<div class=\"col-md-12 pd_l0 clearfix  select_dropdown  mg_t10 z-top\">\r\n           <datepicker\r\n                :value.sync=\"sdate\"\r\n                :disabled-days-of-Week=\"disabled\"\r\n                format=\"yyyy-MM-dd\"\r\n                Width=\"130px\">\r\n                </datepicker>\r\n        <label class=\" mg_l5 mg_r5 mg_t8 fN\">至</label>\r\n        <datepicker\r\n                :value.sync=\"edate\"\r\n                :disabled-days-of-Week=\"disabled\"\r\n                format=\"yyyy-MM-dd\"\r\n                Width=\"130px\">\r\n                </datepicker>\r\n    <v-select :value.sync=\"state\" :options=\"statelist\" :close-on-select=\"true\" class='mg_l5' placeholder=\"选择状态\" ></v-select>\r\n    <v-select :value.sync=\"type\" :options=\"typelist\" :close-on-select=\"true\" class='mg_l5' placeholder=\"选择条件\" ></v-select>\r\n    <input placeholder=\"请输入关键字\" class=\"add_input inline w240 mg_l5 form-control\" type=\"text\" v-model='key'>\r\n    <a href=\"javascript:void(0);\" class=\"btn_red bg8 w80 h36 inline mg_l10\" @click='query'>查询</a>\r\n    </div>\r\n     <pulse-loader :loading=\"loading\" ></pulse-loader>";
+	module.exports = "<div class=\"col-md-12 pd_l0 clearfix  select_dropdown  mg_t10 z-top\">\r\n           <datepicker\r\n                :value.sync=\"sdate\"\r\n                :disabled-days-of-Week=\"disabled\"\r\n                format=\"yyyy-MM-dd\"\r\n                Width=\"130px\">\r\n                </datepicker>\r\n        <label class=\" mg_l5 mg_r5 mg_t8 fN\">至</label>\r\n        <datepicker\r\n                :value.sync=\"edate\"\r\n                :disabled-days-of-Week=\"disabled\"\r\n                format=\"yyyy-MM-dd\"\r\n                Width=\"130px\">\r\n                </datepicker>\r\n    <v-select :value.sync=\"state\" :options=\"statelist\" :close-on-select=\"true\" class='mg_l5' placeholder=\"选择状态\" ></v-select>\r\n    <v-select :value.sync=\"type\" :options=\"typelist\" :close-on-select=\"true\" class='mg_l5' placeholder=\"选择条件\" ></v-select>\r\n    <input placeholder=\"请输入关键字\" class=\"add_input inline w240 mg_l5 form-control\" type=\"text\" v-model='key'>\r\n    <button-docs text=\"查&nbsp;询\" @click='query'></button-docs>\r\n    </div>\r\n     <pulse-loader :loading=\"loading\" ></pulse-loader>";
 
 /***/ },
 /* 225 */
@@ -15903,29 +15977,39 @@
 	    remove: function remove(index) {
 	      var _this = this;
 	      var model = _this.list[index];
-	      //获取图片列表
-	      var imgIds = "";
-	      if (model.Imglist.length) {
-	        (function () {
-	          var imgarr = [];
-	          model.Imglist.map(function (x) {
-	            return imgarr.push(x.Id);
-	          });
-	          imgIds = imgarr.join(',');
-	        })();
-	      }
-
-	      Vue.http.post('/product/DeletProduct?id=' + model.Id + '&ids=' + imgIds).then(function (response) {
-	        _this.list.splice(index, 1);
-	        if (!_this.list.length) {
-	          _this.$nextTick(function () {
-	            // DOM 更新了
-	            layer.alert('请点击下一页');
-	          });
+	      layer.confirm('确认删除吗', {
+	        btn: ['删除', '取消'] //按钮
+	      }, function () {
+	        //获取图片列表
+	        var imgIds = "";
+	        if (model.Imglist.length) {
+	          (function () {
+	            var imgarr = [];
+	            model.Imglist.map(function (x) {
+	              return imgarr.push(x.Id);
+	            });
+	            imgIds = imgarr.join(',');
+	          })();
 	        }
-	      }, function (response) {
-	        layer.alert('删除失败');
-	      });
+	        Vue.http.post('/product/DeletProduct?id=' + model.Id + '&ids=' + imgIds).then(function (response) {
+	          layer.msg('删除成功', {
+	            icon: 1,
+	            time: 800
+	          });
+	          _this.list.splice(index, 1);
+	          if (!_this.list.length) {
+	            _this.$nextTick(function () {
+	              // DOM 更新了
+	              layer.alert('请点击下一页');
+	            });
+	          }
+	        }, function (response) {
+	          layer.msg('删除失败', {
+	            icon: 5,
+	            time: 800
+	          });
+	        });
+	      }, function () {});
 	    }
 	  }
 	};
@@ -16669,7 +16753,35 @@
 /* 246 */
 /***/ function(module, exports) {
 
-	module.exports = "<head-docs v-if=\"!isupdate\" :pagesize=\"pagesize\"></head-docs>\r\n    <table-docs :list='list' v-if=\"!isupdate\"  ></table-docs>\r\n    <update-docs v-if=\"isupdate\" :model=\"model\" ></update-docs>\r\n    <page-docs v-show=\"!isupdate\" :count='count'></page-docs>";
+	module.exports = "<div class=\"right_contain\">\n    <div class=\"row\">\n        <head-docs v-if=\"!isupdate\" :pagesize=\"pagesize\"></head-docs>\n        <table-docs :list='list' v-if=\"!isupdate\"></table-docs>\n        <update-docs v-if=\"isupdate\" :model=\"model\"></update-docs>\n        <page-docs v-show=\"!isupdate\" :count='count'></page-docs>\n    </div>\n</div>";
+
+/***/ },
+/* 247 */,
+/* 248 */,
+/* 249 */,
+/* 250 */,
+/* 251 */,
+/* 252 */
+/***/ function(module, exports) {
+
+	"use strict";
+
+	Object.defineProperty(exports, "__esModule", {
+	      value: true
+	});
+	//DateFormat.js
+
+	exports["default"] = function (val) {
+	      if (val != null) {
+	            var date = new Date(parseInt(val.replace("/Date(", "").replace(")/", ""), 10));
+	            //月份为0-11，所以+1，月份小于10时补个0
+	            var month = date.getMonth() + 1 < 10 ? "0" + (date.getMonth() + 1) : date.getMonth() + 1;
+	            var currentDate = date.getDate() < 10 ? "0" + date.getDate() : date.getDate();
+	            return date.getFullYear() + "-" + month + "-" + currentDate;
+	      }
+
+	      return "";
+	};
 
 /***/ }
 /******/ ]);

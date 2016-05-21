@@ -16,7 +16,7 @@
     <v-select :value.sync="state" :options="statelist" :close-on-select="true" class='mg_l5' placeholder="选择状态" ></v-select>
     <v-select :value.sync="type" :options="typelist" :close-on-select="true" class='mg_l5' placeholder="选择条件" ></v-select>
     <input placeholder="请输入关键字" class="add_input inline w240 mg_l5 form-control" type="text" v-model='key'>
-    <a href="javascript:void(0);" class="btn_red bg8 w80 h36 inline mg_l10" @click='query'>查询</a>
+    <button-docs text="查&nbsp;询" @click='query'></button-docs>
     </div>
      <pulse-loader :loading="loading" ></pulse-loader>
 </template>
@@ -25,9 +25,10 @@ import vSelect from 'vue-strap/src/Select.vue'
 import vOption from 'vue-strap/src/Option.vue'
 import Datepicker from 'vue-strap/src/Datepicker.vue'
 import PulseLoader from 'vue-spinner/src/PulseLoader.vue'
+import buttonDocs from '../../general/buttonDocs.vue'
 
 export default {
-    components: { vSelect,vOption,Datepicker,PulseLoader },
+    components: { vSelect,vOption,Datepicker,PulseLoader,buttonDocs },
     props:{
       pagesize:{
         type: Number
@@ -35,8 +36,8 @@ export default {
     },
     data(){
         return {
-            sdate:"2015-01-01",
-            edate:"2015-01-07",
+            sdate:GetFormatDate(),
+            edate:GetFormatDate(),
             statelist:[{
                 value: '0',
                 label: '选择状态'
@@ -90,7 +91,7 @@ export default {
 }
 
 </script>
-<style>
+<style scope>
     .inline {
         display: inline-block;
     }

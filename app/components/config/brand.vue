@@ -133,10 +133,10 @@ export default {
               Vue.http.post('/config/DeletBrand?brandid=' + id).then(function(response) {
                   if (response.data) {
                       _this.brandlist.splice(index, 1);
-                      layer.msg('删除成功', {icon: 1});
+                      layer.msg('删除成功', {icon: 1,time:800});
                   }
               }, function() {
-                  layer.alert('删除失败');
+                layer.msg('删除失败', {icon: 5,time:800});
               });
             }, function(){
 

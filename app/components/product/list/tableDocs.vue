@@ -83,7 +83,6 @@
 <script>
 import modalcarDocs from '../../general/modalcarDocs.vue'
 import convert from '../../utils/convert.js'
-
 export default {
   components: { modalcarDocs },
   props:{
@@ -118,24 +117,36 @@ export default {
     remove(index){
       let _this=this;
       let model=_this.list[index];
-      //获取图片列表
-      var imgIds="";
-      if(model.Imglist.length){
-        let imgarr=[];
-        model.Imglist.map(x=>imgarr.push(x.Id));
-        imgIds=imgarr.join(',');
-      }
-
-      Vue.http.post(`/product/DeletProduct?id=${model.Id}&ids=${imgIds}`).then(function(response){
-        _this.list.splice(index,1);
-        if(!_this.list.length){
-          _this.$nextTick(function () {
-            // DOM 更新了
-            layer.alert('请点击下一页');
-          })
+      layer.confirm('确认删除吗', {
+          btn: ['删除', '取消'] //按钮
+      }, function() {
+        //获取图片列表
+        var imgIds="";
+        if(model.Imglist.length){
+          let imgarr=[];
+          model.Imglist.map(x=>imgarr.push(x.Id));
+          imgIds=imgarr.join(',');
         }
-      },function(response){
-        layer.alert('删除失败');
+        Vue.http.post(`/product/DeletProduct?id=${model.Id}&ids=${imgIds}`).then(function(response){
+          layer.msg('删除成功', {
+              icon: 1,
+              time:800
+          });
+          _this.list.splice(index,1);
+          if(!_this.list.length){
+            _this.$nextTick(function () {
+              // DOM 更新了
+              layer.alert('请点击下一页');
+            })
+          }
+        },function(response){
+          layer.msg('删除失败', {
+              icon: 5,
+              time:800
+          });
+        })
+      },function(){
+
       })
     }
   }

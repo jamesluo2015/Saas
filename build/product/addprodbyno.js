@@ -13614,7 +13614,7 @@
 	        var val = this.upid;
 	        //上传的元素节点
 	        var upload = [];
-	        $(document).on('click', val, function () {
+	        $(document).unbind('click').on('click', val, function () {
 	            jFile.click();
 	            upload = $(this);
 	        });
@@ -14037,7 +14037,7 @@
 	'use strict';
 
 	Object.defineProperty(exports, "__esModule", {
-	  value: true
+	    value: true
 	});
 
 	var _headDocs = __webpack_require__(178);
@@ -14052,28 +14052,35 @@
 
 	// <template>
 
-	//   <head-docs></head-docs>
-
-	//   <body-docs :model='model' v-if="model.BmNo"></body-docs>
+	// <div class="right_contain">
+	//     <div class="row">
+	//         <head-docs></head-docs>
+	//         <body-docs :model='model' v-if="model.BmNo"></body-docs>
+	//     </div>
+	// </div>
 
 	// </template>
 
 	// <script>
-	exports['default'] = {
-	  components: { headDocs: _headDocs2['default'], bodyDocs: _bodyDocs2['default'] },
-	  data: function data() {
-	    return {
-	      model: {}
-	    };
-	  },
 
-	  events: {
-	    'skumodel': function skumodel(model) {
-	      this.model = model;
-	    }
-	  },
-	  methods: {}
+	exports['default'] = {
+	    components: {
+	        headDocs: _headDocs2['default'], bodyDocs: _bodyDocs2['default']
+	    },
+	    data: function data() {
+	        return {
+	            model: {}
+	        };
+	    },
+
+	    events: {
+	        'skumodel': function skumodel(model) {
+	            this.model = model;
+	        }
+	    },
+	    methods: {}
 	};
+
 	// </script>
 
 /***/ },
@@ -14202,7 +14209,7 @@
 	// <div class="col-md-12 pd_l0 mg_t20 clearfix pd_b20 select_dropdown bd_bD_d9">
 	//     <label class="control-label pull-left f16 col_000 w140" for="input01">输入零件编号：</label>
 	//     <textinfo width="160px !important;" :list="skulist" :value.sync="txtsku" placeholder=""></textinfo>
-	//     <button-docs :text="isquery?'查询中':'查&nbsp;询'" @click='query' class="mg_l30" :class="{'unable':!txtsku }"></button-docs>
+	//     <button-docs :text="isquery?'查询中':'查&nbsp;询'" @click='query' class="mg_l30" :class="{'disable':!txtsku }"></button-docs>
 	// </div>
 	// <div class="col-md-12 pd_l0 pd_r0 mg_l0 mg_r0 mg_t20 mg_b20" v-if="isnosku">
 	//     <div class="alert alert-danger" role="alert">
@@ -14509,7 +14516,7 @@
 /* 184 */
 /***/ function(module, exports) {
 
-	module.exports = "<div class=\"col-md-12 pd_l0 mg_t20 clearfix pd_b20 select_dropdown bd_bD_d9\">\n    <label class=\"control-label pull-left f16 col_000 w140\" for=\"input01\">输入零件编号：</label>\n    <textinfo width=\"160px !important;\" :list=\"skulist\" :value.sync=\"txtsku\" placeholder=\"\"></textinfo>\n    <button-docs :text=\"isquery?'查询中':'查&nbsp;询'\" @click='query' class=\"mg_l30\" :class=\"{'unable':!txtsku }\"></button-docs>\n</div>\n<div class=\"col-md-12 pd_l0 pd_r0 mg_l0 mg_r0 mg_t20 mg_b20\" v-if=\"isnosku\">\n    <div class=\"alert alert-danger\" role=\"alert\">\n        <h3>\n           <span class=\"glyphicon glyphicon-exclamation-sign\" aria-hidden=\"true\"></span>\n           找不到此零件号,请确认零件号是否正确，或者您可以<a href=\"/product/addprodbysuit\"><span class=\"label label-success\">通过类目添加商品</span></a>\n       </h3>\n    </div>\n</div>";
+	module.exports = "<div class=\"col-md-12 pd_l0 mg_t20 clearfix pd_b20 select_dropdown bd_bD_d9\">\n    <label class=\"control-label pull-left f16 col_000 w140\" for=\"input01\">输入零件编号：</label>\n    <textinfo width=\"160px !important;\" :list=\"skulist\" :value.sync=\"txtsku\" placeholder=\"\"></textinfo>\n    <button-docs :text=\"isquery?'查询中':'查&nbsp;询'\" @click='query' class=\"mg_l30\" :class=\"{'disable':!txtsku }\"></button-docs>\n</div>\n<div class=\"col-md-12 pd_l0 pd_r0 mg_l0 mg_r0 mg_t20 mg_b20\" v-if=\"isnosku\">\n    <div class=\"alert alert-danger\" role=\"alert\">\n        <h3>\n           <span class=\"glyphicon glyphicon-exclamation-sign\" aria-hidden=\"true\"></span>\n           找不到此零件号,请确认零件号是否正确，或者您可以<a href=\"/product/addprodbysuit\"><span class=\"label label-success\">通过类目添加商品</span></a>\n       </h3>\n    </div>\n</div>";
 
 /***/ },
 /* 185 */
@@ -14644,10 +14651,10 @@
 	    computed: {
 	        valid: function valid() {
 	            var result = true;
-	            if (!this.model.SalePrice) {
+	            if (!this.model.SalePrice || isNaN(this.model.SalePrice)) {
 	                result = false;
 	            }
-	            if (!this.model.StockCount) {
+	            if (!this.model.StockCount || isNaN(this.model.StockCount)) {
 	                result = false;
 	            }
 	            return result;
@@ -14696,14 +14703,14 @@
 	//         <div class="col-md-12 pd_l0 clearfix pd_b20 select_dropdown">
 	//             <div class="pull-left">
 	//                 <label class="control-label pull-left"><em class="col_fb2727 mg_r5">*</em>销售价</label>
-	//                 <input placeholder="" type="text" v-model='model.SalePrice' class="add_input w160 pull-left form-control">
+	//                 <input placeholder="" type="text" v-model='model.SalePrice' number class="add_input w160 pull-left form-control">
 	//                 <label class="pull-left fN mg_t2 mg_l5">元</label>
 	//             </div>
 	//         </div>
 	//         <div class="col-md-12 pd_l0 clearfix pd_b20 select_dropdown">
 	//             <div class="pull-left">
 	//                 <label class="control-label pull-left" for="input01"><em class="col_fb2727 mg_r5">*</em>库存数：</label>
-	//                 <input placeholder="" type="text" v-model='model.StockCount' class="add_input w160 pull-left form-control">
+	//                 <input placeholder="" type="text" v-model='model.StockCount' number class="add_input w160 pull-left form-control">
 	//             </div>
 	//         </div>
 
@@ -14714,10 +14721,10 @@
 	//             </div>
 	//             <div class="col-md-12 pull-left pd_l0 mg_t30 clearfix">
 	//                 <ul class="goods_img clearfix mg_l110 mg_t10">
-	//                     <li v-for="img in model.Imglist">
+	//                     <li v-for="(imgindex,img) in model.Imglist">
 	//                         <a href="javascript:void(0)">
 	//                             <img :src="img.ImgUrl" >
-	//                             <em></em>
+	//                             <em @click="model.Imglist.splice(imgindex,1)"></em>
 	//                         </a>
 	//                     </li>
 	//                     <li v-if="!model.Imglist||model.Imglist.length<5">
@@ -14730,7 +14737,7 @@
 	//         </div>
 
 	//         <div class="col-md-12">
-	//             <a href="javascript:void(0)" class="btn_red bg8 auto f16 mg_t20 w300" :class="{'unable':!valid||iscommit}" @click='commit'>{{iscommit?"提交中":"提交"}}</a>
+	//             <a href="javascript:void(0)" class="btn_red bg8 auto f16 mg_t20 w300" :class="{'disable':!valid||iscommit}" @click='commit'>{{iscommit?"提交中":"提交"}}</a>
 	//         </div>
 	//     </div>
 	// </div>
@@ -14760,7 +14767,7 @@
 /* 189 */
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = "<div class=\"col-md-12 pull-right\">\n    <div class=\"row pd_l0 pd_r0 mg_l0 mg_r0 mg_b20\">\n        <div class=\"col-md-12 pd_l0 mg_t10 clearfix select_dropdown\">\n            <label class=\"control-label pull-left\">配件名称：</label>\n            <p class=\"pull-left pd_l0 mg_t2\">{{model.StandardName}}</p>\n        </div>\n        <div class=\"col-md-12 pd_l0 mg_t10 clearfix select_dropdown\">\n            <label class=\"control-label pull-left\">零件编号：</label>\n            <p class=\"pull-left pd_l0 mg_t2\">{{model.Sku}}</p>\n            <a href=\"#\" class=\"saas_add\">+补充零件编号</a>\n        </div>\n        <div class=\"col-md-12 pd_l0 mg_t10 clearfix select_dropdown\">\n            <label class=\"control-label pull-left\">配件说明：</label>\n            <div class=\"col-md-10 pull-left pd_l0 mg_t2\">\n                {{model.ContentInfo}}\n                <a href=\"#\" class=\"saas_add\">+补充零件编号</a>\n            </div>\n        </div>\n\n\n        <div class=\"col-md-12 pd_l0 mg_t20 clearfix select_dropdown\">\n            <label class=\"control-label pull-left\">适用年款：</label>\n            \n            <a href=\"#\" class=\"saas_add\">+补充年款</a>\n        </div>\n\n        <div class=\"col-md-12 pd_l0 mg_t20 clearfix select_dropdown\">\n            <label class=\"control-label pull-left\">品牌：</label>\n            <v-select :value.sync=\"Brandlist\" :options=\"brands\" class='pull-left' :close-on-select=\"true\" placeholder=\"品牌\"></v-select>\n        </div>\n        <div class=\"col-md-12 pd_l0 mg_t20 clearfix pd_b20 select_dropdown\">\n            <label class=\"control-label pull-left\" for=\"input01\"><em class=\"col_fb2727 mg_r5\">*</em>供应商编码：</label>\n            <input placeholder=\"\" v-model='model.DealerNo' type=\"text\" class=\"add_input w160 form-control\">\n        </div>\n        <div class=\"col-md-12 pd_l0 clearfix pd_b20 select_dropdown\">\n            <div class=\"pull-left\">\n                <label class=\"control-label pull-left\"><em class=\"col_fb2727 mg_r5\">*</em>销售价</label>\n                <input placeholder=\"\" type=\"text\" v-model='model.SalePrice' class=\"add_input w160 pull-left form-control\">\n                <label class=\"pull-left fN mg_t2 mg_l5\">元</label>\n            </div>\n        </div>\n        <div class=\"col-md-12 pd_l0 clearfix pd_b20 select_dropdown\">\n            <div class=\"pull-left\">\n                <label class=\"control-label pull-left\" for=\"input01\"><em class=\"col_fb2727 mg_r5\">*</em>库存数：</label>\n                <input placeholder=\"\" type=\"text\" v-model='model.StockCount' class=\"add_input w160 pull-left form-control\">\n            </div>\n        </div>\n\n        <div class=\"col-md-12 pd_l0 mg_t10 clearfix select_dropdown\">\n            <div class=\"col-md-12 pd_l0 pull-left\">\n                <label class=\"control-label pull-left\">产品图片：</label>\n                <p class=\"pull-left pd_l0 mg_t4 f12 col_767676\">（图片格式：jpg、png，最多五张）</p>\n            </div>\n            <div class=\"col-md-12 pull-left pd_l0 mg_t30 clearfix\">\n                <ul class=\"goods_img clearfix mg_l110 mg_t10\">\n                    <li v-for=\"img in model.Imglist\">\n                        <a href=\"javascript:void(0)\">\n                            <img :src=\"img.ImgUrl\" >\n                            <em></em>\n                        </a>\n                    </li>\n                    <li v-if=\"!model.Imglist||model.Imglist.length<5\">\n                        <a href=\"javascript:void(0)\" class=\"imgs\">\n                            <img src=\"" + __webpack_require__(190) + "\" >\n                        </a>\n                    </li>\n                </ul>\n            </div>\n        </div>\n\n        <div class=\"col-md-12\">\n            <a href=\"javascript:void(0)\" class=\"btn_red bg8 auto f16 mg_t20 w300\" :class=\"{'unable':!valid||iscommit}\" @click='commit'>{{iscommit?\"提交中\":\"提交\"}}</a>\n        </div>\n    </div>\n</div>\n<upload upid=\".imgs\"></upload>";
+	module.exports = "<div class=\"col-md-12 pull-right\">\n    <div class=\"row pd_l0 pd_r0 mg_l0 mg_r0 mg_b20\">\n        <div class=\"col-md-12 pd_l0 mg_t10 clearfix select_dropdown\">\n            <label class=\"control-label pull-left\">配件名称：</label>\n            <p class=\"pull-left pd_l0 mg_t2\">{{model.StandardName}}</p>\n        </div>\n        <div class=\"col-md-12 pd_l0 mg_t10 clearfix select_dropdown\">\n            <label class=\"control-label pull-left\">零件编号：</label>\n            <p class=\"pull-left pd_l0 mg_t2\">{{model.Sku}}</p>\n            <a href=\"#\" class=\"saas_add\">+补充零件编号</a>\n        </div>\n        <div class=\"col-md-12 pd_l0 mg_t10 clearfix select_dropdown\">\n            <label class=\"control-label pull-left\">配件说明：</label>\n            <div class=\"col-md-10 pull-left pd_l0 mg_t2\">\n                {{model.ContentInfo}}\n                <a href=\"#\" class=\"saas_add\">+补充零件编号</a>\n            </div>\n        </div>\n\n\n        <div class=\"col-md-12 pd_l0 mg_t20 clearfix select_dropdown\">\n            <label class=\"control-label pull-left\">适用年款：</label>\n\n            <a href=\"#\" class=\"saas_add\">+补充年款</a>\n        </div>\n\n        <div class=\"col-md-12 pd_l0 mg_t20 clearfix select_dropdown\">\n            <label class=\"control-label pull-left\">品牌：</label>\n            <v-select :value.sync=\"Brandlist\" :options=\"brands\" class='pull-left' :close-on-select=\"true\" placeholder=\"品牌\"></v-select>\n        </div>\n        <div class=\"col-md-12 pd_l0 mg_t20 clearfix pd_b20 select_dropdown\">\n            <label class=\"control-label pull-left\" for=\"input01\"><em class=\"col_fb2727 mg_r5\">*</em>供应商编码：</label>\n            <input placeholder=\"\" v-model='model.DealerNo' type=\"text\" class=\"add_input w160 form-control\">\n        </div>\n        <div class=\"col-md-12 pd_l0 clearfix pd_b20 select_dropdown\">\n            <div class=\"pull-left\">\n                <label class=\"control-label pull-left\"><em class=\"col_fb2727 mg_r5\">*</em>销售价</label>\n                <input placeholder=\"\" type=\"text\" v-model='model.SalePrice' number class=\"add_input w160 pull-left form-control\">\n                <label class=\"pull-left fN mg_t2 mg_l5\">元</label>\n            </div>\n        </div>\n        <div class=\"col-md-12 pd_l0 clearfix pd_b20 select_dropdown\">\n            <div class=\"pull-left\">\n                <label class=\"control-label pull-left\" for=\"input01\"><em class=\"col_fb2727 mg_r5\">*</em>库存数：</label>\n                <input placeholder=\"\" type=\"text\" v-model='model.StockCount' number class=\"add_input w160 pull-left form-control\">\n            </div>\n        </div>\n\n        <div class=\"col-md-12 pd_l0 mg_t10 clearfix select_dropdown\">\n            <div class=\"col-md-12 pd_l0 pull-left\">\n                <label class=\"control-label pull-left\">产品图片：</label>\n                <p class=\"pull-left pd_l0 mg_t4 f12 col_767676\">（图片格式：jpg、png，最多五张）</p>\n            </div>\n            <div class=\"col-md-12 pull-left pd_l0 mg_t30 clearfix\">\n                <ul class=\"goods_img clearfix mg_l110 mg_t10\">\n                    <li v-for=\"(imgindex,img) in model.Imglist\">\n                        <a href=\"javascript:void(0)\">\n                            <img :src=\"img.ImgUrl\" >\n                            <em @click=\"model.Imglist.splice(imgindex,1)\"></em>\n                        </a>\n                    </li>\n                    <li v-if=\"!model.Imglist||model.Imglist.length<5\">\n                        <a href=\"javascript:void(0)\" class=\"imgs\">\n                            <img src=\"" + __webpack_require__(190) + "\" >\n                        </a>\n                    </li>\n                </ul>\n            </div>\n        </div>\n\n        <div class=\"col-md-12\">\n            <a href=\"javascript:void(0)\" class=\"btn_red bg8 auto f16 mg_t20 w300\" :class=\"{'disable':!valid||iscommit}\" @click='commit'>{{iscommit?\"提交中\":\"提交\"}}</a>\n        </div>\n    </div>\n</div>\n<upload upid=\".imgs\"></upload>";
 
 /***/ },
 /* 190 */
@@ -14772,7 +14779,7 @@
 /* 191 */
 /***/ function(module, exports) {
 
-	module.exports = "<head-docs></head-docs>\r\n  <body-docs :model='model' v-if=\"model.BmNo\"></body-docs>";
+	module.exports = "<div class=\"right_contain\">\n    <div class=\"row\">\n        <head-docs></head-docs>\n        <body-docs :model='model' v-if=\"model.BmNo\"></body-docs>\n    </div>\n</div>";
 
 /***/ }
 /******/ ]);

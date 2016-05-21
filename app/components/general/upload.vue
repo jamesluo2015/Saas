@@ -24,7 +24,7 @@ export default {
       let val=this.upid;
       //上传的元素节点
       let upload=[];
-      $(document).on('click', val, function() {
+      $(document).unbind('click').on('click', val, function() {
           jFile.click();
           upload=$(this);
       });

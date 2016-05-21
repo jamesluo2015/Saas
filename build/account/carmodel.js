@@ -12728,8 +12728,13 @@
 	          laypage({
 	            cont: 'paging',
 	            pages: size, //总页数
-	            skin: 'molv',
+	            skin: 'bm',
 	            skip: true, //是否开启跳页
+	            first: false,
+	            last: size,
+	            prev: "<",
+	            next: ">",
+	            groups: 3,
 	            //total: data.length,
 	            jump: function jump(obj) {
 	              _this.$dispatch('page', obj.curr);

@@ -24,7 +24,7 @@
 
         <div class="col-md-12 pd_l0 mg_t20 clearfix select_dropdown">
             <label class="control-label pull-left">适用年款：</label>
-            
+
             <a href="#" class="saas_add">+补充年款</a>
         </div>
 
@@ -39,14 +39,14 @@
         <div class="col-md-12 pd_l0 clearfix pd_b20 select_dropdown">
             <div class="pull-left">
                 <label class="control-label pull-left"><em class="col_fb2727 mg_r5">*</em>销售价</label>
-                <input placeholder="" type="text" v-model='model.SalePrice' class="add_input w160 pull-left form-control">
+                <input placeholder="" type="text" v-model='model.SalePrice' number class="add_input w160 pull-left form-control">
                 <label class="pull-left fN mg_t2 mg_l5">元</label>
             </div>
         </div>
         <div class="col-md-12 pd_l0 clearfix pd_b20 select_dropdown">
             <div class="pull-left">
                 <label class="control-label pull-left" for="input01"><em class="col_fb2727 mg_r5">*</em>库存数：</label>
-                <input placeholder="" type="text" v-model='model.StockCount' class="add_input w160 pull-left form-control">
+                <input placeholder="" type="text" v-model='model.StockCount' number class="add_input w160 pull-left form-control">
             </div>
         </div>
 
@@ -57,10 +57,10 @@
             </div>
             <div class="col-md-12 pull-left pd_l0 mg_t30 clearfix">
                 <ul class="goods_img clearfix mg_l110 mg_t10">
-                    <li v-for="img in model.Imglist">
+                    <li v-for="(imgindex,img) in model.Imglist">
                         <a href="javascript:void(0)">
                             <img :src="img.ImgUrl" >
-                            <em></em>
+                            <em @click="model.Imglist.splice(imgindex,1)"></em>
                         </a>
                     </li>
                     <li v-if="!model.Imglist||model.Imglist.length<5">
@@ -73,7 +73,7 @@
         </div>
 
         <div class="col-md-12">
-            <a href="javascript:void(0)" class="btn_red bg8 auto f16 mg_t20 w300" :class="{'unable':!valid||iscommit}" @click='commit'>{{iscommit?"提交中":"提交"}}</a>
+            <a href="javascript:void(0)" class="btn_red bg8 auto f16 mg_t20 w300" :class="{'disable':!valid||iscommit}" @click='commit'>{{iscommit?"提交中":"提交"}}</a>
         </div>
     </div>
 </div>
@@ -164,10 +164,10 @@ export default {
     computed: {
         valid: function() {
             let result = true;
-            if (!this.model.SalePrice) {
+            if (!this.model.SalePrice||isNaN(this.model.SalePrice)) {
                 result = false;
             }
-            if (!this.model.StockCount) {
+            if (!this.model.StockCount||isNaN(this.model.StockCount)) {
                 result = false;
             }
             return result;
