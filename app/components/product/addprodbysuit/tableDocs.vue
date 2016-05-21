@@ -21,7 +21,7 @@
                 </a>
             </li>
             <li>
-                <a href="javascript:void(0)">
+                <a v-if="item.Imglist.length<5" href="javascript:void(0)" class="imgs" :index="index">
                     <img src="../../../images/saas03.png">
                 </a>
             </li>
@@ -94,7 +94,7 @@
 <div>
     <modalcar-docs title="查看年款" :list="modalist" :showmodal.sync="modalshow"></modalcar-docs>
 </div>
-
+<upload upid=".imgs"</upload>
 </template>
 
 <script>
@@ -104,11 +104,13 @@ import vOption from 'vue-strap/src/Option.vue'
     // import spinner from 'vue-strap/src/Spinner.vue'
 import VueAnimatedList from 'vue-animated-list'
 import modalcarDocs from '../../general/modalcarDocs.vue'
-import store from 'store'
+import upload from '../../general/upload.vue'
 import convert from '../../utils/convert.js'
+import store from 'store'
+
 export default {
     components: {
-        vSelect, vOption, VueAnimatedList, modalcarDocs
+        vSelect, vOption, VueAnimatedList, modalcarDocs,upload
     },
     data() {
         return {
@@ -151,6 +153,15 @@ export default {
             return count;
         }
     },
+    events:{
+      'upload':function(data){
+        var index = data.CurrentBtn.attr('index');
+        var url=data.url;
+        this.products[index].Imglist.push({
+          ImgUrl: url
+        });
+      }
+    },
     methods: {
         query(param, callback) {
                 //获取数据
@@ -168,6 +179,7 @@ export default {
                     let data = response.data;
                     data.forEach(function(item) {
                         item.Brandlist = [_this.brands[0].value];
+                        item.Imglist=[];
                         if (item.ProdBrandId > 0) {
                             item.Brandlist.push(item.ProdBrandId.toString());
                         }

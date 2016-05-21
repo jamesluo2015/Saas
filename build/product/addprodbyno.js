@@ -13612,8 +13612,11 @@
 	        var _this = this;
 	        var jFile = $('#customfilename');
 	        var val = this.upid;
+	        //上传的元素节点
+	        var upload = [];
 	        $(document).on('click', val, function () {
 	            jFile.click();
+	            upload = $(this);
 	        });
 	        jFile.unbind('change').change(function () {
 	            var upLoadurl = "/upsinglefile.ashx?";
@@ -13644,6 +13647,7 @@
 	            }).done(function (ret) {
 	                ret = ret.replace(/'/g, '"');
 	                ret = JSON.parse(ret);
+	                ret.msg.CurrentBtn = upload;
 	                _this.$dispatch('upload', ret.msg);
 	            });
 	        });

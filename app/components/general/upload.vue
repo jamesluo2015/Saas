@@ -22,8 +22,11 @@ export default {
       let _this = this;
       let jFile = $('#customfilename');
       let val=this.upid;
+      //上传的元素节点
+      let upload=[];
       $(document).on('click', val, function() {
           jFile.click();
+          upload=$(this);
       });
       jFile.unbind('change').change(function() {
           let upLoadurl = "/upsinglefile.ashx?";
@@ -54,6 +57,7 @@ export default {
           }).done(function(ret) {
             ret=ret.replace(/'/g,'"');
             ret=JSON.parse(ret);
+            ret.msg.CurrentBtn=upload;
             _this.$dispatch('upload', ret.msg)
           });
       })
