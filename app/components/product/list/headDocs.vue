@@ -21,14 +21,14 @@
      <pulse-loader :loading="loading" ></pulse-loader>
 </template>
 <script>
-import vSelect from 'vue-strap/src/Select.vue'
-import vOption from 'vue-strap/src/Option.vue'
-import Datepicker from 'vue-strap/src/Datepicker.vue'
+import {select as vSelect} from 'vue-strap'
+import {option as vOption} from 'vue-strap'
+import { datepicker } from 'vue-strap'
 import PulseLoader from 'vue-spinner/src/PulseLoader.vue'
 import buttonDocs from '../../general/buttonDocs.vue'
 
 export default {
-    components: { vSelect,vOption,Datepicker,PulseLoader,buttonDocs },
+    components: { vSelect,vOption,datepicker,PulseLoader,buttonDocs },
     props:{
       pagesize:{
         type: Number

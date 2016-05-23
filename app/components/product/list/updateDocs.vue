@@ -73,7 +73,7 @@
         </div>
 </template>
 <script>
-import vSelect from 'vue-strap/src/Select.vue';
+import {select as vSelect} from 'vue-strap';
 export default {
   components: { vSelect },
   props:{

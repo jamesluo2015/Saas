@@ -11,7 +11,7 @@
 </template>
 
 <script>
-  import modal from 'vue-strap/src/Modal.vue'
+  import {modal} from 'vue-strap'
   import accordionDocs from './accordionDocs.vue'
   export default {
     components: {

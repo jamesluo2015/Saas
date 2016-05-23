@@ -32,7 +32,8 @@
 
 // import selectDocs from './addprodbysuit/selectDocs.vue'
 // import spinner from 'vue-strap/src/Spinner.vue';
-import vSelect from 'vue-strap/src/Select.vue';
+import {select as vSelect} from 'vue-strap';
+
 import tableDocs from './addprodbysuit/tableDocs.vue'
 import buttonDocs from '../general/buttonDocs.vue'
 import PulseLoader from 'vue-spinner/src/PulseLoader.vue'

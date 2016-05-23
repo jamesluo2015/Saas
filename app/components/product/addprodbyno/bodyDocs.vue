@@ -77,14 +77,14 @@
         </div>
     </div>
 </div>
+
 <upload upid=".imgs"></upload>
 
 </template>
 
 <script>
-
-import vSelect from 'vue-strap/src/Select.vue';
-import vOption from 'vue-strap/src/Option.vue';
+import {select as vSelect} from 'vue-strap';
+import {option as vOption} from 'vue-strap';
 import upload from '../../general/upload.vue';
 
 export default {

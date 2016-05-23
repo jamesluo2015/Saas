@@ -3,7 +3,6 @@ import Vue from 'vue'
 import App from '../../components/product/list.vue';//页面模版
 import VueResource from 'vue-resource';//http请求
 
-
 Vue.config.debug = true
 
 new Vue({

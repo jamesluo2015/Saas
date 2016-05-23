@@ -1,12 +1,3 @@
-<style scoped>
-
-.item-move {
-    /* applied to the element when moving */
-    transition: transform .5s cubic-bezier(.55, 0, .1, 1);
-}
-
-</style>
-
 <template>
 
 <div class="col-md-12 pd_l0 mg_t20 clearfix select_dropdown bd_bD_d9 pd_b20" v-for="(index, item) in products">
@@ -99,16 +90,13 @@
 <div>
     <modalcar-docs title="查看年款" :list="modalist" :showmodal.sync="modalshow"></modalcar-docs>
 </div>
-<upload upid=".imgs" </upload>
+<upload upid=".imgs"> </upload>
 
 </template>
 
 <script>
-
-import vSelect from 'vue-strap/src/Select.vue'
-import vOption from 'vue-strap/src/Option.vue'
-    // import spinner from 'vue-strap/src/Spinner.vue'
-import VueAnimatedList from 'vue-animated-list'
+import {select as vSelect} from 'vue-strap'
+import {option as vOption} from 'vue-strap'
 import modalcarDocs from '../../general/modalcarDocs.vue'
 import upload from '../../general/upload.vue'
 import convert from '../../utils/convert.js'
@@ -116,7 +104,7 @@ import store from 'store'
 
 export default {
     components: {
-        vSelect, vOption, VueAnimatedList, modalcarDocs, upload
+        vSelect, vOption, modalcarDocs, upload
     },
     data() {
         return {
