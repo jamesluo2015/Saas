@@ -46,15 +46,15 @@
 
 	'use strict';
 	
-	var _vue = __webpack_require__(21);
+	var _vue = __webpack_require__(23);
 	
 	var _vue2 = _interopRequireDefault(_vue);
 	
-	var _addprodbyno = __webpack_require__(144);
+	var _addprodbyno = __webpack_require__(148);
 	
 	var _addprodbyno2 = _interopRequireDefault(_addprodbyno);
 	
-	var _vueResource = __webpack_require__(106);
+	var _vueResource = __webpack_require__(108);
 	
 	var _vueResource2 = _interopRequireDefault(_vueResource);
 	
@@ -98,7 +98,9 @@
 /* 18 */,
 /* 19 */,
 /* 20 */,
-/* 21 */
+/* 21 */,
+/* 22 */,
+/* 23 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(global, process) {/*!
@@ -10131,10 +10133,10 @@
 	}, 0);
 	
 	module.exports = Vue;
-	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }()), __webpack_require__(22)))
+	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }()), __webpack_require__(24)))
 
 /***/ },
-/* 22 */
+/* 24 */
 /***/ function(module, exports) {
 
 	// shim for using process in browser
@@ -10234,8 +10236,6 @@
 
 
 /***/ },
-/* 23 */,
-/* 24 */,
 /* 25 */,
 /* 26 */,
 /* 27 */,
@@ -10247,15 +10247,15 @@
 /* 33 */,
 /* 34 */,
 /* 35 */,
-/* 36 */
+/* 36 */,
+/* 37 */,
+/* 38 */
 /***/ function(module, exports) {
 
 	var core = module.exports = {version: '2.4.0'};
 	if(typeof __e == 'number')__e = core; // eslint-disable-line no-undef
 
 /***/ },
-/* 37 */,
-/* 38 */,
 /* 39 */,
 /* 40 */,
 /* 41 */,
@@ -10314,7 +10314,9 @@
 /* 94 */,
 /* 95 */,
 /* 96 */,
-/* 97 */
+/* 97 */,
+/* 98 */,
+/* 99 */
 /***/ function(module, exports, __webpack_require__) {
 
 	(function webpackUniversalModuleDefinition(root, factory) {
@@ -16703,13 +16705,13 @@
 	//# sourceMappingURL=vue-strap.js.map
 
 /***/ },
-/* 98 */
+/* 100 */
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(99)
+	module.exports = __webpack_require__(101)
 	
 	if (module.exports.__esModule) module.exports = module.exports.default
-	;(typeof module.exports === "function" ? module.exports.options : module.exports).template = __webpack_require__(100)
+	;(typeof module.exports === "function" ? module.exports.options : module.exports).template = __webpack_require__(102)
 	if (false) {
 	(function () {
 	var hotAPI = require("vue-hot-reload-api")
@@ -16727,7 +16729,7 @@
 	}
 
 /***/ },
-/* 99 */
+/* 101 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -16752,18 +16754,18 @@
 	// </script>
 
 /***/ },
-/* 100 */
+/* 102 */
 /***/ function(module, exports) {
 
 	module.exports = "<a href=\"#\" class=\"btn_red bg8 f14 w70 h26 pull-left\">{{text}}</a>";
 
 /***/ },
-/* 101 */,
-/* 102 */,
 /* 103 */,
 /* 104 */,
 /* 105 */,
-/* 106 */
+/* 106 */,
+/* 107 */,
+/* 108 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -16772,16 +16774,16 @@
 	
 	function install(Vue) {
 	
-	    var _ = __webpack_require__(107);
+	    var _ = __webpack_require__(109);
 	
 	    _.config = Vue.config;
 	    _.warning = Vue.util.warn;
 	    _.nextTick = Vue.util.nextTick;
 	
-	    Vue.url = __webpack_require__(108);
-	    Vue.http = __webpack_require__(114);
-	    Vue.resource = __webpack_require__(129);
-	    Vue.Promise = __webpack_require__(116);
+	    Vue.url = __webpack_require__(110);
+	    Vue.http = __webpack_require__(116);
+	    Vue.resource = __webpack_require__(131);
+	    Vue.Promise = __webpack_require__(118);
 	
 	    Object.defineProperties(Vue.prototype, {
 	
@@ -16822,7 +16824,7 @@
 
 
 /***/ },
-/* 107 */
+/* 109 */
 /***/ function(module, exports) {
 
 	/**
@@ -16950,14 +16952,14 @@
 
 
 /***/ },
-/* 108 */
+/* 110 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
 	 * Service for URL templating.
 	 */
 	
-	var _ = __webpack_require__(107);
+	var _ = __webpack_require__(109);
 	var ie = document.documentMode;
 	var el = document.createElement('a');
 	
@@ -16993,10 +16995,10 @@
 	 */
 	
 	Url.transforms = [
-	    __webpack_require__(109),
 	    __webpack_require__(111),
-	    __webpack_require__(112),
-	    __webpack_require__(113)
+	    __webpack_require__(113),
+	    __webpack_require__(114),
+	    __webpack_require__(115)
 	];
 	
 	/**
@@ -17086,14 +17088,14 @@
 
 
 /***/ },
-/* 109 */
+/* 111 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
 	 * URL Template (RFC 6570) Transform.
 	 */
 	
-	var UrlTemplate = __webpack_require__(110);
+	var UrlTemplate = __webpack_require__(112);
 	
 	module.exports = function (options) {
 	
@@ -17108,7 +17110,7 @@
 
 
 /***/ },
-/* 110 */
+/* 112 */
 /***/ function(module, exports) {
 
 	/**
@@ -17264,14 +17266,14 @@
 
 
 /***/ },
-/* 111 */
+/* 113 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
 	 * Legacy Transform.
 	 */
 	
-	var _ = __webpack_require__(107);
+	var _ = __webpack_require__(109);
 	
 	module.exports = function (options, next) {
 	
@@ -17316,14 +17318,14 @@
 
 
 /***/ },
-/* 112 */
+/* 114 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
 	 * Query Parameter Transform.
 	 */
 	
-	var _ = __webpack_require__(107);
+	var _ = __webpack_require__(109);
 	
 	module.exports = function (options, next) {
 	
@@ -17346,14 +17348,14 @@
 
 
 /***/ },
-/* 113 */
+/* 115 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
 	 * Root Prefix Transform.
 	 */
 	
-	var _ = __webpack_require__(107);
+	var _ = __webpack_require__(109);
 	
 	module.exports = function (options, next) {
 	
@@ -17368,17 +17370,17 @@
 
 
 /***/ },
-/* 114 */
+/* 116 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
 	 * Service for sending network requests.
 	 */
 	
-	var _ = __webpack_require__(107);
-	var Client = __webpack_require__(115);
-	var Promise = __webpack_require__(116);
-	var interceptor = __webpack_require__(119);
+	var _ = __webpack_require__(109);
+	var Client = __webpack_require__(117);
+	var Promise = __webpack_require__(118);
+	var interceptor = __webpack_require__(121);
 	var jsonType = {'Content-Type': 'application/json'};
 	
 	function Http(url, options) {
@@ -17431,13 +17433,13 @@
 	};
 	
 	Http.interceptors = [
-	    __webpack_require__(120),
-	    __webpack_require__(121),
 	    __webpack_require__(122),
+	    __webpack_require__(123),
 	    __webpack_require__(124),
-	    __webpack_require__(125),
 	    __webpack_require__(126),
-	    __webpack_require__(127)
+	    __webpack_require__(127),
+	    __webpack_require__(128),
+	    __webpack_require__(129)
 	];
 	
 	Http.headers = {
@@ -17472,16 +17474,16 @@
 
 
 /***/ },
-/* 115 */
+/* 117 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
 	 * Base client.
 	 */
 	
-	var _ = __webpack_require__(107);
-	var Promise = __webpack_require__(116);
-	var xhrClient = __webpack_require__(118);
+	var _ = __webpack_require__(109);
+	var Promise = __webpack_require__(118);
+	var xhrClient = __webpack_require__(120);
 	
 	module.exports = function (request) {
 	
@@ -17543,15 +17545,15 @@
 
 
 /***/ },
-/* 116 */
+/* 118 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
 	 * Promise adapter.
 	 */
 	
-	var _ = __webpack_require__(107);
-	var PromiseObj = window.Promise || __webpack_require__(117);
+	var _ = __webpack_require__(109);
+	var PromiseObj = window.Promise || __webpack_require__(119);
 	
 	function Promise(executor, context) {
 	
@@ -17658,14 +17660,14 @@
 
 
 /***/ },
-/* 117 */
+/* 119 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
 	 * Promises/A+ polyfill v1.1.4 (https://github.com/bramstein/promis)
 	 */
 	
-	var _ = __webpack_require__(107);
+	var _ = __webpack_require__(109);
 	
 	var RESOLVED = 0;
 	var REJECTED = 1;
@@ -17843,15 +17845,15 @@
 
 
 /***/ },
-/* 118 */
+/* 120 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
 	 * XMLHttp client.
 	 */
 	
-	var _ = __webpack_require__(107);
-	var Promise = __webpack_require__(116);
+	var _ = __webpack_require__(109);
+	var Promise = __webpack_require__(118);
 	
 	module.exports = function (request) {
 	    return new Promise(function (resolve) {
@@ -17899,15 +17901,15 @@
 
 
 /***/ },
-/* 119 */
+/* 121 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
 	 * Interceptor factory.
 	 */
 	
-	var _ = __webpack_require__(107);
-	var Promise = __webpack_require__(116);
+	var _ = __webpack_require__(109);
+	var Promise = __webpack_require__(118);
 	
 	module.exports = function (handler, vm) {
 	
@@ -17950,14 +17952,14 @@
 
 
 /***/ },
-/* 120 */
+/* 122 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
 	 * Before Interceptor.
 	 */
 	
-	var _ = __webpack_require__(107);
+	var _ = __webpack_require__(109);
 	
 	module.exports = {
 	
@@ -17974,7 +17976,7 @@
 
 
 /***/ },
-/* 121 */
+/* 123 */
 /***/ function(module, exports) {
 
 	/**
@@ -18010,14 +18012,14 @@
 
 
 /***/ },
-/* 122 */
+/* 124 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
 	 * JSONP Interceptor.
 	 */
 	
-	var jsonpClient = __webpack_require__(123);
+	var jsonpClient = __webpack_require__(125);
 	
 	module.exports = {
 	
@@ -18034,15 +18036,15 @@
 
 
 /***/ },
-/* 123 */
+/* 125 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
 	 * JSONP client.
 	 */
 	
-	var _ = __webpack_require__(107);
-	var Promise = __webpack_require__(116);
+	var _ = __webpack_require__(109);
+	var Promise = __webpack_require__(118);
 	
 	module.exports = function (request) {
 	    return new Promise(function (resolve) {
@@ -18088,7 +18090,7 @@
 
 
 /***/ },
-/* 124 */
+/* 126 */
 /***/ function(module, exports) {
 
 	/**
@@ -18111,14 +18113,14 @@
 
 
 /***/ },
-/* 125 */
+/* 127 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
 	 * Mime Interceptor.
 	 */
 	
-	var _ = __webpack_require__(107);
+	var _ = __webpack_require__(109);
 	
 	module.exports = {
 	
@@ -18153,14 +18155,14 @@
 
 
 /***/ },
-/* 126 */
+/* 128 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
 	 * Header Interceptor.
 	 */
 	
-	var _ = __webpack_require__(107);
+	var _ = __webpack_require__(109);
 	
 	module.exports = {
 	
@@ -18185,15 +18187,15 @@
 
 
 /***/ },
-/* 127 */
+/* 129 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
 	 * CORS Interceptor.
 	 */
 	
-	var _ = __webpack_require__(107);
-	var xdrClient = __webpack_require__(128);
+	var _ = __webpack_require__(109);
+	var xdrClient = __webpack_require__(130);
 	var xhrCors = 'withCredentials' in new XMLHttpRequest();
 	var originUrl = _.url.parse(location.href);
 	
@@ -18228,15 +18230,15 @@
 
 
 /***/ },
-/* 128 */
+/* 130 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
 	 * XDomain client (Internet Explorer).
 	 */
 	
-	var _ = __webpack_require__(107);
-	var Promise = __webpack_require__(116);
+	var _ = __webpack_require__(109);
+	var Promise = __webpack_require__(118);
 	
 	module.exports = function (request) {
 	    return new Promise(function (resolve) {
@@ -18271,14 +18273,14 @@
 
 
 /***/ },
-/* 129 */
+/* 131 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
 	 * Service for interacting with RESTful services.
 	 */
 	
-	var _ = __webpack_require__(107);
+	var _ = __webpack_require__(109);
 	
 	function Resource(url, params, actions, options) {
 	
@@ -18387,18 +18389,21 @@
 
 
 /***/ },
-/* 130 */,
-/* 131 */,
 /* 132 */,
 /* 133 */,
 /* 134 */,
-/* 135 */
+/* 135 */,
+/* 136 */,
+/* 137 */,
+/* 138 */,
+/* 139 */,
+/* 140 */
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(136)
+	module.exports = __webpack_require__(141)
 	
 	if (module.exports.__esModule) module.exports = module.exports.default
-	;(typeof module.exports === "function" ? module.exports.options : module.exports).template = __webpack_require__(141)
+	;(typeof module.exports === "function" ? module.exports.options : module.exports).template = __webpack_require__(142)
 	if (false) {
 	(function () {
 	var hotAPI = require("vue-hot-reload-api")
@@ -18416,7 +18421,7 @@
 	}
 
 /***/ },
-/* 136 */
+/* 141 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -18499,25 +18504,24 @@
 	// </script>
 
 /***/ },
-/* 137 */,
-/* 138 */,
-/* 139 */,
-/* 140 */,
-/* 141 */
+/* 142 */
 /***/ function(module, exports) {
 
 	module.exports = "<input type=\"file\" id=\"customfilename\" style=\"opacity: 0; display: none;\">";
 
 /***/ },
-/* 142 */,
 /* 143 */,
-/* 144 */
+/* 144 */,
+/* 145 */,
+/* 146 */,
+/* 147 */,
+/* 148 */
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(145)
+	module.exports = __webpack_require__(149)
 	
 	if (module.exports.__esModule) module.exports = module.exports.default
-	;(typeof module.exports === "function" ? module.exports.options : module.exports).template = __webpack_require__(159)
+	;(typeof module.exports === "function" ? module.exports.options : module.exports).template = __webpack_require__(163)
 	if (false) {
 	(function () {
 	var hotAPI = require("vue-hot-reload-api")
@@ -18535,7 +18539,7 @@
 	}
 
 /***/ },
-/* 145 */
+/* 149 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -18544,11 +18548,11 @@
 	    value: true
 	});
 	
-	var _headDocs = __webpack_require__(146);
+	var _headDocs = __webpack_require__(150);
 	
 	var _headDocs2 = _interopRequireDefault(_headDocs);
 	
-	var _bodyDocs = __webpack_require__(153);
+	var _bodyDocs = __webpack_require__(157);
 	
 	var _bodyDocs2 = _interopRequireDefault(_bodyDocs);
 	
@@ -18557,10 +18561,15 @@
 	// <template>
 	
 	// <div class="right_contain">
+	
 	//     <div class="row">
+	
 	//         <head-docs></head-docs>
+	
 	//         <body-docs :model='model' v-if="model.BmNo"></body-docs>
+	
 	//     </div>
+	
 	// </div>
 	
 	// </template>
@@ -18588,13 +18597,13 @@
 	// </script>
 
 /***/ },
-/* 146 */
+/* 150 */
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(147)
+	module.exports = __webpack_require__(151)
 	
 	if (module.exports.__esModule) module.exports = module.exports.default
-	;(typeof module.exports === "function" ? module.exports.options : module.exports).template = __webpack_require__(152)
+	;(typeof module.exports === "function" ? module.exports.options : module.exports).template = __webpack_require__(156)
 	if (false) {
 	(function () {
 	var hotAPI = require("vue-hot-reload-api")
@@ -18612,7 +18621,7 @@
 	}
 
 /***/ },
-/* 147 */
+/* 151 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -18621,15 +18630,15 @@
 	    value: true
 	});
 	
-	var _textinfo = __webpack_require__(148);
+	var _textinfo = __webpack_require__(152);
 	
 	var _textinfo2 = _interopRequireDefault(_textinfo);
 	
-	var _buttonDocs = __webpack_require__(98);
+	var _buttonDocs = __webpack_require__(100);
 	
 	var _buttonDocs2 = _interopRequireDefault(_buttonDocs);
 	
-	var _store = __webpack_require__(151);
+	var _store = __webpack_require__(155);
 	
 	var _store2 = _interopRequireDefault(_store);
 	
@@ -18729,13 +18738,13 @@
 	// <script>
 
 /***/ },
-/* 148 */
+/* 152 */
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(149)
+	module.exports = __webpack_require__(153)
 	
 	if (module.exports.__esModule) module.exports = module.exports.default
-	;(typeof module.exports === "function" ? module.exports.options : module.exports).template = __webpack_require__(150)
+	;(typeof module.exports === "function" ? module.exports.options : module.exports).template = __webpack_require__(154)
 	if (false) {
 	(function () {
 	var hotAPI = require("vue-hot-reload-api")
@@ -18753,7 +18762,7 @@
 	}
 
 /***/ },
-/* 149 */
+/* 153 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -18813,13 +18822,13 @@
 	// </script>
 
 /***/ },
-/* 150 */
+/* 154 */
 /***/ function(module, exports) {
 
 	module.exports = "<div class=\"select_dropdown\">\r\n      <div class=\"dropdown pull-left \"  :class=\"{'open':list.length}\">\r\n          <input type=\"text\" :placeholder=\"placeholder\"  v-model='value' autocomplete=\"off\" :style=\"{width:width}\"  class=\"dropdown-toggle dropdown_toggle form-control \" id='txtsku' >\r\n          <ul class=\"dropdown-menu \" :style=\"{width:width}\"  role=\"menu\" aria-labelledby=\"dropdownMenu1\">\r\n              <li role=\"presentation\" v-for=\"item in list\" @click='value=item'>\r\n                  <a role=\"menuitem\" tabindex=\"-1\" href=\"javascript:void(0)\">{{item}}</a>\r\n              </li>\r\n          </ul>\r\n      </div>\r\n  </div>";
 
 /***/ },
-/* 151 */
+/* 155 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/* WEBPACK VAR INJECTION */(function(global) {"use strict"
@@ -19017,19 +19026,19 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }())))
 
 /***/ },
-/* 152 */
+/* 156 */
 /***/ function(module, exports) {
 
 	module.exports = "<div class=\"col-md-12 pd_l0 mg_t20 clearfix pd_b20 select_dropdown bd_bD_d9\">\n    <label class=\"control-label pull-left f16 col_000 w140\" for=\"input01\">输入零件编号：</label>\n    <textinfo width=\"160px !important;\" :list=\"skulist\" :value.sync=\"txtsku\" placeholder=\"\"></textinfo>\n    <button-docs :text=\"isquery?'查询中':'查&nbsp;询'\" @click='query' class=\"mg_l30\" :class=\"{'disable':!txtsku }\"></button-docs>\n</div>\n<div class=\"col-md-12 pd_l0 pd_r0 mg_l0 mg_r0 mg_t20 mg_b20\" v-if=\"isnosku\">\n    <div class=\"alert alert-danger\" role=\"alert\">\n        <h3>\n           <span class=\"glyphicon glyphicon-exclamation-sign\" aria-hidden=\"true\"></span>\n           找不到此零件号,请确认零件号是否正确，或者您可以<a href=\"/product/addprodbysuit\"><span class=\"label label-success\">通过类目添加商品</span></a>\n       </h3>\n    </div>\n</div>";
 
 /***/ },
-/* 153 */
+/* 157 */
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(154)
+	module.exports = __webpack_require__(158)
 	
 	if (module.exports.__esModule) module.exports = module.exports.default
-	;(typeof module.exports === "function" ? module.exports.options : module.exports).template = __webpack_require__(157)
+	;(typeof module.exports === "function" ? module.exports.options : module.exports).template = __webpack_require__(161)
 	if (false) {
 	(function () {
 	var hotAPI = require("vue-hot-reload-api")
@@ -19047,7 +19056,7 @@
 	}
 
 /***/ },
-/* 154 */
+/* 158 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -19056,13 +19065,13 @@
 	    value: true
 	});
 	
-	var _stringify = __webpack_require__(155);
+	var _stringify = __webpack_require__(159);
 	
 	var _stringify2 = _interopRequireDefault(_stringify);
 	
-	var _vueStrap = __webpack_require__(97);
+	var _vueStrap = __webpack_require__(99);
 	
-	var _upload = __webpack_require__(135);
+	var _upload = __webpack_require__(140);
 	
 	var _upload2 = _interopRequireDefault(_upload);
 	
@@ -19247,38 +19256,38 @@
 	// <script>
 
 /***/ },
-/* 155 */
+/* 159 */
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = { "default": __webpack_require__(156), __esModule: true };
+	module.exports = { "default": __webpack_require__(160), __esModule: true };
 
 /***/ },
-/* 156 */
+/* 160 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var core  = __webpack_require__(36)
+	var core  = __webpack_require__(38)
 	  , $JSON = core.JSON || (core.JSON = {stringify: JSON.stringify});
 	module.exports = function stringify(it){ // eslint-disable-line no-unused-vars
 	  return $JSON.stringify.apply($JSON, arguments);
 	};
 
 /***/ },
-/* 157 */
+/* 161 */
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = "<div class=\"col-md-12 pull-right\">\n    <div class=\"row pd_l0 pd_r0 mg_l0 mg_r0 mg_b20\">\n        <div class=\"col-md-12 pd_l0 mg_t10 clearfix select_dropdown\">\n            <label class=\"control-label pull-left\">配件名称：</label>\n            <p class=\"pull-left pd_l0 mg_t2\">{{model.StandardName}}</p>\n        </div>\n        <div class=\"col-md-12 pd_l0 mg_t10 clearfix select_dropdown\">\n            <label class=\"control-label pull-left\">零件编号：</label>\n            <p class=\"pull-left pd_l0 mg_t2\">{{model.Sku}}</p>\n            <a href=\"#\" class=\"saas_add\">+补充零件编号</a>\n        </div>\n        <div class=\"col-md-12 pd_l0 mg_t10 clearfix select_dropdown\">\n            <label class=\"control-label pull-left\">配件说明：</label>\n            <div class=\"col-md-10 pull-left pd_l0 mg_t2\">\n                {{model.ContentInfo}}\n                <a href=\"#\" class=\"saas_add\">+补充零件编号</a>\n            </div>\n        </div>\n\n\n        <div class=\"col-md-12 pd_l0 mg_t20 clearfix select_dropdown\">\n            <label class=\"control-label pull-left\">适用年款：</label>\n\n            <a href=\"#\" class=\"saas_add\">+补充年款</a>\n        </div>\n\n        <div class=\"col-md-12 pd_l0 mg_t20 clearfix select_dropdown\">\n            <label class=\"control-label pull-left\">品牌：</label>\n            <v-select :value.sync=\"Brandlist\" :options=\"brands\" class='pull-left' :close-on-select=\"true\" placeholder=\"品牌\"></v-select>\n        </div>\n        <div class=\"col-md-12 pd_l0 mg_t20 clearfix pd_b20 select_dropdown\">\n            <label class=\"control-label pull-left\" for=\"input01\"><em class=\"col_fb2727 mg_r5\">*</em>供应商编码：</label>\n            <input placeholder=\"\" v-model='model.DealerNo' type=\"text\" class=\"add_input w160 form-control\">\n        </div>\n        <div class=\"col-md-12 pd_l0 clearfix pd_b20 select_dropdown\">\n            <div class=\"pull-left\">\n                <label class=\"control-label pull-left\"><em class=\"col_fb2727 mg_r5\">*</em>销售价</label>\n                <input placeholder=\"\" type=\"text\" v-model='model.SalePrice' number class=\"add_input w160 pull-left form-control\">\n                <label class=\"pull-left fN mg_t2 mg_l5\">元</label>\n            </div>\n        </div>\n        <div class=\"col-md-12 pd_l0 clearfix pd_b20 select_dropdown\">\n            <div class=\"pull-left\">\n                <label class=\"control-label pull-left\" for=\"input01\"><em class=\"col_fb2727 mg_r5\">*</em>库存数：</label>\n                <input placeholder=\"\" type=\"text\" v-model='model.StockCount' number class=\"add_input w160 pull-left form-control\">\n            </div>\n        </div>\n\n        <div class=\"col-md-12 pd_l0 mg_t10 clearfix select_dropdown\">\n            <div class=\"col-md-12 pd_l0 pull-left\">\n                <label class=\"control-label pull-left\">产品图片：</label>\n                <p class=\"pull-left pd_l0 mg_t4 f12 col_767676\">（图片格式：jpg、png，最多五张）</p>\n            </div>\n            <div class=\"col-md-12 pull-left pd_l0 mg_t30 clearfix\">\n                <ul class=\"goods_img clearfix mg_l110 mg_t10\">\n                    <li v-for=\"(imgindex,img) in model.Imglist\">\n                        <a href=\"javascript:void(0)\">\n                            <img :src=\"img.ImgUrl\" >\n                            <em @click=\"model.Imglist.splice(imgindex,1)\"></em>\n                        </a>\n                    </li>\n                    <li v-if=\"!model.Imglist||model.Imglist.length<5\">\n                        <a href=\"javascript:void(0)\" class=\"imgs\">\n                            <img src=\"" + __webpack_require__(158) + "\" >\n                        </a>\n                    </li>\n                </ul>\n            </div>\n        </div>\n\n        <div class=\"col-md-12\">\n            <a href=\"javascript:void(0)\" class=\"btn_red bg8 auto f16 mg_t20 w300\" :class=\"{'disable':!valid||iscommit}\" @click='commit'>{{iscommit?\"提交中\":\"提交\"}}</a>\n        </div>\n    </div>\n</div>\n\n<upload upid=\".imgs\"></upload>";
+	module.exports = "<div class=\"col-md-12 pull-right\">\n    <div class=\"row pd_l0 pd_r0 mg_l0 mg_r0 mg_b20\">\n        <div class=\"col-md-12 pd_l0 mg_t10 clearfix select_dropdown\">\n            <label class=\"control-label pull-left\">配件名称：</label>\n            <p class=\"pull-left pd_l0 mg_t2\">{{model.StandardName}}</p>\n        </div>\n        <div class=\"col-md-12 pd_l0 mg_t10 clearfix select_dropdown\">\n            <label class=\"control-label pull-left\">零件编号：</label>\n            <p class=\"pull-left pd_l0 mg_t2\">{{model.Sku}}</p>\n            <a href=\"#\" class=\"saas_add\">+补充零件编号</a>\n        </div>\n        <div class=\"col-md-12 pd_l0 mg_t10 clearfix select_dropdown\">\n            <label class=\"control-label pull-left\">配件说明：</label>\n            <div class=\"col-md-10 pull-left pd_l0 mg_t2\">\n                {{model.ContentInfo}}\n                <a href=\"#\" class=\"saas_add\">+补充零件编号</a>\n            </div>\n        </div>\n\n\n        <div class=\"col-md-12 pd_l0 mg_t20 clearfix select_dropdown\">\n            <label class=\"control-label pull-left\">适用年款：</label>\n\n            <a href=\"#\" class=\"saas_add\">+补充年款</a>\n        </div>\n\n        <div class=\"col-md-12 pd_l0 mg_t20 clearfix select_dropdown\">\n            <label class=\"control-label pull-left\">品牌：</label>\n            <v-select :value.sync=\"Brandlist\" :options=\"brands\" class='pull-left' :close-on-select=\"true\" placeholder=\"品牌\"></v-select>\n        </div>\n        <div class=\"col-md-12 pd_l0 mg_t20 clearfix pd_b20 select_dropdown\">\n            <label class=\"control-label pull-left\" for=\"input01\"><em class=\"col_fb2727 mg_r5\">*</em>供应商编码：</label>\n            <input placeholder=\"\" v-model='model.DealerNo' type=\"text\" class=\"add_input w160 form-control\">\n        </div>\n        <div class=\"col-md-12 pd_l0 clearfix pd_b20 select_dropdown\">\n            <div class=\"pull-left\">\n                <label class=\"control-label pull-left\"><em class=\"col_fb2727 mg_r5\">*</em>销售价</label>\n                <input placeholder=\"\" type=\"text\" v-model='model.SalePrice' number class=\"add_input w160 pull-left form-control\">\n                <label class=\"pull-left fN mg_t2 mg_l5\">元</label>\n            </div>\n        </div>\n        <div class=\"col-md-12 pd_l0 clearfix pd_b20 select_dropdown\">\n            <div class=\"pull-left\">\n                <label class=\"control-label pull-left\" for=\"input01\"><em class=\"col_fb2727 mg_r5\">*</em>库存数：</label>\n                <input placeholder=\"\" type=\"text\" v-model='model.StockCount' number class=\"add_input w160 pull-left form-control\">\n            </div>\n        </div>\n\n        <div class=\"col-md-12 pd_l0 mg_t10 clearfix select_dropdown\">\n            <div class=\"col-md-12 pd_l0 pull-left\">\n                <label class=\"control-label pull-left\">产品图片：</label>\n                <p class=\"pull-left pd_l0 mg_t4 f12 col_767676\">（图片格式：jpg、png，最多五张）</p>\n            </div>\n            <div class=\"col-md-12 pull-left pd_l0 mg_t30 clearfix\">\n                <ul class=\"goods_img clearfix mg_l110 mg_t10\">\n                    <li v-for=\"(imgindex,img) in model.Imglist\">\n                        <a href=\"javascript:void(0)\">\n                            <img :src=\"img.ImgUrl\" >\n                            <em @click=\"model.Imglist.splice(imgindex,1)\"></em>\n                        </a>\n                    </li>\n                    <li v-if=\"!model.Imglist||model.Imglist.length<5\">\n                        <a href=\"javascript:void(0)\" class=\"imgs\">\n                            <img src=\"" + __webpack_require__(162) + "\" >\n                        </a>\n                    </li>\n                </ul>\n            </div>\n        </div>\n\n        <div class=\"col-md-12\">\n            <a href=\"javascript:void(0)\" class=\"btn_red bg8 auto f16 mg_t20 w300\" :class=\"{'disable':!valid||iscommit}\" @click='commit'>{{iscommit?\"提交中\":\"提交\"}}</a>\n        </div>\n    </div>\n</div>\n\n<upload upid=\".imgs\"></upload>";
 
 /***/ },
-/* 158 */
+/* 162 */
 /***/ function(module, exports) {
 
 	module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGIAAABiCAIAAAAkx5FZAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAA3FpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYwIDYxLjEzNDc3NywgMjAxMC8wMi8xMi0xNzozMjowMCAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wTU09Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9tbS8iIHhtbG5zOnN0UmVmPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VSZWYjIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtcE1NOk9yaWdpbmFsRG9jdW1lbnRJRD0ieG1wLmRpZDo2MzM4ZjczNS1jYmUyLTY0NDgtYTJiMi0xYjI0ZjRhNGJhNGEiIHhtcE1NOkRvY3VtZW50SUQ9InhtcC5kaWQ6Qzk1NzIxMEMxRDk5MTFFNkJDREJGRjBENDZEOTYxNzYiIHhtcE1NOkluc3RhbmNlSUQ9InhtcC5paWQ6Qzk1NzIxMEIxRDk5MTFFNkJDREJGRjBENDZEOTYxNzYiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENDIChXaW5kb3dzKSI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOjM0YjVmMjFlLWNiYzEtNjA0MC1hMzU0LTMwMGI1YWMwMzY2YSIgc3RSZWY6ZG9jdW1lbnRJRD0ieG1wLmRpZDo2MzM4ZjczNS1jYmUyLTY0NDgtYTJiMi0xYjI0ZjRhNGJhNGEiLz4gPC9yZGY6RGVzY3JpcHRpb24+IDwvcmRmOlJERj4gPC94OnhtcG1ldGE+IDw/eHBhY2tldCBlbmQ9InIiPz66faHTAAABQElEQVR42uzcQWrCQBiA0SQ0ECo5g90li0A9iZ7VniRCFmZXz5BaAoJpoGDd2C6cxVTet/iXYXhOojCYdJqmRH+VIcCECRMmTJiECRMmTJgwYRImTJgwYcKESUnyFNVqdm3b931VVa+rld10s/1+fzqd5umm+62iKC4T0+3S9Gdi8k2HCZMwYcKECRMmTMKECRMmTJgwCdMDMqVXE9P/K73/j2K7tn0/HIKs5vN4PJ/PWZY9LxZBLviyXAY5GQ1w6tt1XdiPbpb6GIYgl5rXFgtT0zQx76ZYbrqAvW23wzCUZbnebDzC/SC4r+lqYrKbMGESJkyYMGHChEmYMGHChAkTJmF6SKbvY574XsUZF9M4jpeJ6WZ1Xed5Ps/YmFIvm/UIx4QJEyZMwoQJEyZMmDAJEyZMmDBhwiRMmEL2JcAAKUFOmtM9ij0AAAAASUVORK5CYII="
 
 /***/ },
-/* 159 */
+/* 163 */
 /***/ function(module, exports) {
 
-	module.exports = "<div class=\"right_contain\">\n    <div class=\"row\">\n        <head-docs></head-docs>\n        <body-docs :model='model' v-if=\"model.BmNo\"></body-docs>\n    </div>\n</div>";
+	module.exports = "<div class=\"right_contain\">\r\n    <div class=\"row\">\r\n        <head-docs></head-docs>\r\n        <body-docs :model='model' v-if=\"model.BmNo\"></body-docs>\r\n    </div>\r\n</div>";
 
 /***/ }
 /******/ ]);

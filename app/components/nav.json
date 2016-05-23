@@ -117,6 +117,14 @@
             {
                 "text": "经营车型",
                 "action": "carmodel"
+            },
+            {
+                "text": "重置密码",
+                "action": "reset"
+            },
+            {
+                "text": "开票信息",
+                "action": "invoice"
             }
         ]
     }

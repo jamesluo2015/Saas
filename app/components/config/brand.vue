@@ -126,14 +126,14 @@ export default {
     },
     ready() {
         //获取经销商品牌
-        var _this = this;
+        let _this = this;
         Vue.http.get('/config/GetBrands', {}).then(function(response) {
             _this.brandlist = response.data;
         });
     },
     methods: {
         remove(index, id) {
-              var _this = this;
+              let _this = this;
 
               layer.confirm('确认删除吗', {
                   btn: ['删除', '取消'] //按钮
@@ -159,12 +159,12 @@ export default {
               });
           },
           update(index) {
-              var _this = this;
+              let _this = this;
               _this.addBrand = true;
               _this.model = _this.brandlist[index];
           },
           save() {
-              var _this = this;
+              let _this = this;
               Vue.http.post('/config/SaveBrand', {
                   model: _this.model
               }).then(function(res) {

@@ -2,13 +2,15 @@ var webpack = require('webpack')
 var path = require('path')
 
 module.exports = {
-  entry:  {
+  entry: {
     '/product/addprodbysuit': './app/js/product/addprodbysuit.js',
     '/product/addprodbyno': './app/js/product/addprodbyno.js',
     '/product/list': './app/js/product/list.js',
     '/account/carmodel': './app/js/account/carmodel.js',
     '/account/category': './app/js/account/category.js',
-    '/config/brand': './app/js/config/brand.js'
+    '/account/reset': './app/js/account/reset.js',
+    '/config/brand': './app/js/config/brand.js',
+    '/config/express': './app/js/config/express.js'
   },
   output: {
     path: './build',
@@ -32,11 +34,9 @@ module.exports = {
       { test: /\.vue$/, loader: 'vue' },
       {
         test: /\.js$/,
-        // exclude: ['node_modules'],
-        exclude: /node_modules/,
-        include: [path.resolve(__dirname, "app/"),path.resolve(__dirname, "node_modules/vue-strap/src/")],//把要处理的目录包括进来
+        exclude: /node_modules|vue-strap|vue|vue-loader/,
         loader: 'babel-loader',
-        query:{presets: ['es2015']}
+        query: { presets: ['es2015'] }
       },
       { test: /\.css$/, loader: "style-loader!css-loader?root=./docs/" },
       { test: /\.eot/, loader: 'file?prefix=font/' },
@@ -45,7 +45,7 @@ module.exports = {
       { test: /\.svg/, loader: 'file?prefix=font/' },
       { test: /\.scss$/, loader: "style-loader!css-loader!sass-loader" },
       { test: /\.less$/, loader: "style-loader!css-loader!less-loader" },
-      { test: /\.(png|jpg)$/, loader: 'url-loader?limit=8192'}
+      { test: /\.(png|jpg)$/, loader: 'url-loader?limit=8192' }
     ],
 
   },
@@ -54,8 +54,8 @@ module.exports = {
     plugins: ["transform-runtime"]
   },
   devtool: 'source-map'
+  
 };
-
 
 if (process.env.NODE_ENV === 'production') {
   delete module.exports.devtool;
