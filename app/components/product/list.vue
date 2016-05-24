@@ -4,10 +4,10 @@
 
 <div class="right_contain">
     <div class="row">
-        <head-docs v-if="!isupdate" :pagesize="pagesize"></head-docs>
+        <head-docs v-if="!isupdate"  :pagesize="pagesize"></head-docs>
         <table-docs :list='list' v-if="!isupdate"></table-docs>
         <update-docs v-if="isupdate" :model="model"></update-docs>
-        <page-docs v-show="!isupdate" :count='count'></page-docs>
+        <page-docs v-if="!isupdate" :count='count'></page-docs>
     </div>
 </div>
 
@@ -32,6 +32,7 @@ export default {
             model: {},
             count: 0,
             pagesize: 10,
+            pageindex: 1,
             model: {}
         }
     },
@@ -45,20 +46,36 @@ export default {
             this.isupdate = true;
         },
         //修改模版保存事件
-        'save': function() {
+        'save': function(model) {
             this.isupdate = false;
+            //保存到数据库
+            Vue.http.post('/product/SaveProduct', JSON.stringify(model)).then(function(response) {
+                if (!response.data.ok) {
+                    layer.alert(response.data.mes);
+                }
+            }, function(response) {
+                console.log('保存失败');
+            });
+        },
+        'cancel': function(){
+          this.isupdate = false;
         },
         //查询商品 返回分页数据、总数
         'GetProducts': function(result) {
-            result.data.forEach(function(item){
-              item.AddTime=DateFormat(item.AddTime)
+            result.data.forEach(function(item) {
+                item.AddTime = DateFormat(item.AddTime)
             })
             this.list = result.data;
             this.count = Math.ceil(result.count / this.pagesize);
         },
         //分页
         'page': function(index) {
+            this.pageindex = index;
             this.$children[0].query(index);
+        },
+        'tab': function(val) {
+            this.$children[0].state = val;
+            this.$children[0].query(1);
         }
     },
     computed: {

@@ -28,8 +28,8 @@
         "controller":"manage",
         "menus": [
             {
-                "text": "京东商品管理",
-                "action": "jd"
+                "text": "北迈商品管理",
+                "action": "bm"
             }
         ]
     },

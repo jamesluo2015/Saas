@@ -1,5 +1,5 @@
 <template>
-  <div id='paging'>
+  <div id='paging' v-if="count>0">
 
   </div>
 </template>
@@ -16,6 +16,7 @@ export default {
     count(size){
       if(size){
         let _this=this;
+        let fir=true;
         laypage({
             cont: 'paging',
             pages: size,//总页数
@@ -28,9 +29,15 @@ export default {
             groups: 3,
             //total: data.length,
             jump: function (obj) {
-              _this.$dispatch('page',obj.curr)
+              if(!fir){
+                _this.$dispatch('page',obj.curr)
+              }else{
+                fir=false;
+              }
             }
         })
+      }else{
+
       }
     }
   },

@@ -54,11 +54,18 @@
                 <span v-else class="pull-left fN mg_t2 mg_l5">{{item.DealerNo}}</span>
             </div>
             <div class="cl"></div>
-            <div class="pd_l0 mg_t10 clearfix select_dropdown pull-left w300">
-                <label class="control-label pull-left"><em v-if="item.isupdate" class="col_fb2727 mg_r5">*</em>进货价：</label>
+            <!--1、返利  2、差价-->
+            <div class="pd_l0 mg_t10 clearfix select_dropdown pull-left w300" v-if='stype==1'>
+                <label class="control-label pull-left"><em v-if="item.isupdate" class="col_fb2727 mg_r5">*</em>销售价：</label>
                 <input v-if="item.isupdate" placeholder="" type="text" v-model="item.SalePrice" class="add_input w160 pull-left form-control">
                 <label v-if="item.isupdate" class="pull-left fN mg_t2 mg_l5">元</label>
                 <label v-else class="pull-left fN mg_t2 mg_l5">{{item.SalePrice}}元</label>
+            </div>
+            <div class="pd_l0 mg_t10 clearfix select_dropdown pull-left w300" v-else>
+                <label class="control-label pull-left"><em v-if="item.isupdate" class="col_fb2727 mg_r5">*</em>进货价：</label>
+                <input v-if="item.isupdate" placeholder="" type="text" v-model="item.InPrice" class="add_input w160 pull-left form-control">
+                <label v-if="item.isupdate" class="pull-left fN mg_t2 mg_l5">元</label>
+                <label v-else class="pull-left fN mg_t2 mg_l5">{{item.InPrice}}元</label>
             </div>
             <div class="pd_l0 mg_t10 clearfix select_dropdown pull-left w300">
                 <label class="control-label pull-left" for="input01"><em v-if="item.isupdate" class="col_fb2727 mg_r5">*</em>库存数：</label>
@@ -113,7 +120,8 @@ export default {
             brands: [],
             modalist: [],
             modalshow: false,
-            first: true
+            first: true,
+            stype: document.getElementById('user').getAttribute('stype')
         }
     },
     ready() {

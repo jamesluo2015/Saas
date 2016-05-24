@@ -10,7 +10,9 @@ module.exports = {
     '/account/category': './app/js/account/category.js',
     '/account/reset': './app/js/account/reset.js',
     '/config/brand': './app/js/config/brand.js',
-    '/config/express': './app/js/config/express.js'
+    '/config/express': './app/js/config/express.js',
+    '/manage/bm': './app/js/manage/bm.js',
+    '/order/list': './app/js/order/list.js',
   },
   output: {
     path: './build',
@@ -54,7 +56,7 @@ module.exports = {
     plugins: ["transform-runtime"]
   },
   devtool: 'source-map'
-  
+
 };
 
 if (process.env.NODE_ENV === 'production') {
