@@ -61,6 +61,7 @@
             </tbody>
 
         </table>
+        <page-docs :count='count'></page-docs>
     </div>
 </div>
 

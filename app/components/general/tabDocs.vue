@@ -3,7 +3,7 @@
       <li v-for="(index,item) in data" :class="{'active':item.val==value}" :val="item.val" @click="click(item)">
         <a href="#choice_name" data-toggle="tab">
           {{item.text}}
-          <span class="mg_l10" v-if="tips&&tips.length">{{tips[index]}}</span>
+          <span class="mg_l10" v-if="tips&&tips.length">{{tips[index]>99?'99+':tips[index]}}</span>
         </a>
       </li>
   </ul>

@@ -7,25 +7,17 @@
         <div class="col-md-12 pd_l0 mg_t10 mg_b30 clearfix select_dropdown">
             <a href="#" class="green_btn w80 h26 pull-left mg_l30">+添加库区</a>
             <a href="#" class="green_btn w80 h26 pull-left mg_l30">+添加库房</a>
-            <div class="dropdown pull-left mg_l30" _v-0691d5dd="">
-                <button class="btn dropdown-toggle dropdown_toggle bo_w1 form-control w150" type="button" _v-0691d5dd="">
-                    <span class="btn-placeholder" _v-0691d5dd="">选择库区</span>
-                    <span class="btn-content" _v-0691d5dd=""></span>
-                    <span class="caret" _v-0691d5dd=""></span>
-                </button>
+            <div class="dropdown pull-left mg_l30">
+                <v-select :value.sync="area" :options="areas" :close-on-select="true" placeholder="选择库区"></v-select>
             </div>
-            <div class="dropdown pull-left mg_l30" _v-0691d5dd="">
-                <button class="btn dropdown-toggle dropdown_toggle bo_w1 form-control w150" type="button" _v-0691d5dd="">
-                    <span class="btn-placeholder" _v-0691d5dd="">选择条件</span>
-                    <span class="btn-content" _v-0691d5dd=""></span>
-                    <span class="caret" _v-0691d5dd=""></span>
-                </button>
+            <div class="dropdown pull-left mg_l30" >
+                <v-select :value.sync="type" :options="typelist" :close-on-select="true" placeholder="选择条件"></v-select>
             </div>
-            <input placeholder="" class="add_input w160 pull-left form-control mg_l30" type="text">
-            <a href="#" class="btn_red bg8 f14 w70 h26 pull-left mg_l30">查&nbsp;询</a>
+            <input placeholder="" class="add_input w160 pull-left form-control mg_l30" v-model="key" type="text">
+            <button-docs text="查&nbsp;询" @click='query' class='pull-left mg_l30'></button-docs>
         </div>
         <div class="col-md-12 pd_l0 pd_r0 mg_t10 bdT_d0d0d0">
-            <table class="table table2 table_bg mg_t2">
+            <table class="table table2 table_bg mg_t2" v-for="(index,item) in list">
                 <thead>
                     <tr>
                         <th width="10%">库房名称</th>
@@ -41,71 +33,28 @@
                     <tr>
                         <td colspan="7">
                             <em class="flag"></em>
-                            <span class="pull-left">北京库存</span>
+                            <span class="pull-left">{{item.HouseName}}</span>
                         </td>
                     </tr>
                 </tbody>
-                <tbody>
+                <tbody v-for="(hindex,house) in item.StockHouses">
                     <tr>
-                        <td>无房库房</td>
-                        <td>03</td>
-                        <td>北京市朝阳区五方天雅汽配城</td>
-                        <td><span class="col_d50707">已停用</span><a href="#" class="saas_add mg_l10">开启</a></td>
-                        <td>张朝阳</td>
-                        <td>010-66668888</td>
+                        <td>{{house.HouseName}}</td>
+                        <td>{{house.HouseCode}}</td>
+                        <td>{{house.Address}}</td>
+                        <td v-if="house.HouseStatus==2">
+                          <span class="col_d50707">已停用</span>
+                          <a href="javascript:void(0)" class="saas_add mg_l10" @click="enable(house.Id,true,house)">开启</a>
+                        </td>
+                        <td v-if="house.HouseStatus==0">
+                          <span class="col_5ca50a">已通过</span>
+                          <a href="javascript:void(0)" class="saas_add mg_l10"@click="enable(house.Id,false,house)">停用</a>
+                        </td>
+                        <td>{{house.Manager}}</td>
+                        <td>{{house.Phone}}</td>
                         <td>
                             <a href="#" class="saas_edi mg_t10 pull-left">编辑</a>
-                            <a href="#" class="saas_del mg_t10 pull-left mg_l20">删除</a>
-                        </td>
-                    </tr>
-                </tbody>
-                <tbody>
-                    <tr>
-                        <td>无房库房</td>
-                        <td>03</td>
-                        <td>北京市朝阳区五方天雅汽配城</td>
-                        <td><span class="col_5ca50a">已通过</span><a href="#" class="saas_add mg_l10">停用</a></td>
-                        <td>张朝阳</td>
-                        <td>010-66668888</td>
-                        <td>
-                            <a href="#" class="saas_edi mg_t10 pull-left">编辑</a>
-                            <a href="#" class="saas_del mg_t10 pull-left mg_l20">删除</a>
-                        </td>
-                    </tr>
-                </tbody>
-
-            </table>
-            <table class="table table2 table_bg mg_t2">
-                <thead>
-                    <tr>
-                        <th width="10%" class="h40"></th>
-                        <th width="8%"></th>
-                        <th width="25%"></th>
-                        <th width="12%"></th>
-                        <th width="10%"></th>
-                        <th width="15%"></th>
-                        <th width="20%"></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td colspan="7">
-                            <em class="flag"></em>
-                            <span class="pull-left">天津库存</span>
-                        </td>
-                    </tr>
-                </tbody>
-                <tbody>
-                    <tr>
-                        <td>无房库房</td>
-                        <td>03</td>
-                        <td>北京市朝阳区五方天雅汽配城</td>
-                        <td><span class="col_d50707">已停用</span><a href="#" class="saas_add mg_l10">开启</a></td>
-                        <td>张朝阳</td>
-                        <td>010-66668888</td>
-                        <td>
-                            <a href="#" class="saas_edi mg_t10 pull-left">编辑</a>
-                            <a href="#" class="saas_del mg_t10 pull-left mg_l20">删除</a>
+                            <a href="#" class="saas_del mg_t10 pull-left mg_l20" @click="del(house.Id,index,hindex)">删除</a>
                         </td>
                     </tr>
                 </tbody>
@@ -122,12 +71,88 @@
 
 <script>
 
+import {
+    select as vSelect
+}
+from 'vue-strap'
+import buttonDocs from '../general/buttonDocs.vue'
+import pageDocs from '../general/pageDocs.vue'
 export default {
-    components: {},
+    components: {vSelect,buttonDocs,pageDocs},
     data() {
         return {
-
+          areas: [],
+          area: [],
+          typelist: [{
+              value: '1',
+              label: '库房名称'
+          }, {
+              value: '2',
+              label: '库房编码'
+          }],
+          type:[],
+          key:"",
+          list:[],
+          pagesize: 5,
+          pageindex: 1,
+          count: 0,
         }
+    },
+    methods:{
+      query(){
+        let _this = this;
+        let param = {
+            pagesize: _this.pagesize,
+            pageindex: _this.pageindex,
+            houseid: _this.area.length?_this.area[0]:0,
+            type: _this.type.length?_this.type[0]:0,
+            key: _this.key
+        };
+        var loading=layer.load();
+        Vue.http.get('/stock/GetHouse', param).then(function(res) {
+          _this.list=[];
+          _this.count=1;
+          layer.close(loading);
+            if (res.data.ok) {
+                _this.list = res.data.data;
+                _this.count = Math.ceil(res.data.count / _this.pagesize);
+            } else {
+                layer.alert(res.data.mes);
+            }
+        }, function() {
+            //error
+            console.log('查询订单信息错误');
+            layer.close(loading);
+        })
+      },
+      del(id,index,hindex){
+        let _this=this;
+        Vue.http.post('/stock/DelHosue?id='+id).then(function(res){
+          if(res.data.ok){
+            _this.list[index].StockHouses.splice(hindex,1);
+          }else{
+            layer.alert(res.data.mes);
+          }
+        })
+      },
+      enable(id,isenable,item){
+        let _this=this;
+        let state=isenable?0:2;
+        Vue.http.post(`/stock/EnableHouse?id=${id}&houseStatus=${state}`).then(function(res){
+            item.HouseStatus=state;
+        })
+      }
+    },
+    ready(){
+      let _this=this;
+      Vue.http.get('/stock/GetAreas').then(function(res){
+        let arr=[];
+        res.data.map(x=>arr.push({
+          label: x.HouseName,
+          value: x.Id.toString()
+        }));
+        _this.areas=arr;
+      })
     }
 }
 

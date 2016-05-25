@@ -14,7 +14,8 @@ module.exports = {
     '/order/list': './app/js/order/list.js',
     '/order/returned': './app/js/order/returned.js',
     '/stock/house': './app/js/stock/house.js',
-
+    '/stock/slot': './app/js/stock/slot.js',
+    '/stock/main': './app/js/stock/main.js',
   },
   output: {
     path: './build',
