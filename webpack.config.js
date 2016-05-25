@@ -6,6 +6,7 @@ module.exports = {
     '/product/addprodbysuit': './app/js/product/addprodbysuit.js',
     '/product/addprodbyno': './app/js/product/addprodbyno.js',
     '/product/list': './app/js/product/list.js',
+    '/account/index': './app/js/account/index.js',
     '/account/license': './app/js/account/license.js',
     '/account/reset': './app/js/account/reset.js',
     '/config/brand': './app/js/config/brand.js',
@@ -16,6 +17,8 @@ module.exports = {
     '/stock/house': './app/js/stock/house.js',
     '/stock/slot': './app/js/stock/slot.js',
     '/stock/main': './app/js/stock/main.js',
+    '/finance/current': './app/js/finance/current.js',
+    '/finance/past': './app/js/finance/past.js',
   },
   output: {
     path: './build',

@@ -127,12 +127,22 @@ export default {
       },
       del(id,index,hindex){
         let _this=this;
-        Vue.http.post('/stock/DelHosue?id='+id).then(function(res){
-          if(res.data.ok){
-            _this.list[index].StockHouses.splice(hindex,1);
-          }else{
-            layer.alert(res.data.mes);
-          }
+        layer.confirm('确认删除吗', {
+            btn: ['删除', '取消'] //按钮
+        }, function() {
+          Vue.http.post('/stock/DelHosue?id='+id).then(function(res){
+            if(res.data.ok){
+              _this.list[index].StockHouses.splice(hindex,1);
+              layer.msg('删除成功',{
+                  icon: 1,
+                  time: 800
+              });
+            }else{
+              layer.alert(res.data.mes);
+            }
+          })
+        },function(){
+
         })
       },
       enable(id,isenable,item){
