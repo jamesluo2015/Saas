@@ -2,14 +2,12 @@
 
 <template>
 
-<div class="right_contain">
-    <div class="row">
+      <!-- <tab :data="tablist" :value="1"></tab> -->
         <div class="col-md-12 pd_l0 mg_t10 select_dropdown clearfix z-top">
             <filter-docs :list='root_select' placeholder="请选择一级分类">
             </filter-docs>
         </div>
         <div class="row col-md-12 pd_l0 pd_r0 mg_l0 mg_r0 mg_b20 mg-t15">
-            <div class="shop_info pd_5">
                 <table class="table table2 mg_t15 table3">
                     <thead>
                         <tr>
@@ -19,36 +17,42 @@
                             <th width="30%">标准名称</th>
                         </tr>
                     </thead>
-                    <tbody>
-                        <tr class="table_bg" v-for="(index,item) in showlist">
+                    <tbody v-for="(index,item) in showlist">
+                        <tr class="" >
                             <td>{{index+1}}</td>
                             <td>{{item.RootName}}</td>
                             <td>{{item.ClassName}}</td>
                             <td>{{item.StandardName}}</td>
+                          </tr>
                     </tbody>
                 </table>
                 <page-docs :count='pagecount'></page-docs>
-            </div>
         </div>
-    </div>
-    </div>
 
 </template>
 
 <script>
 
-import filterDocs from '../general/filterDocs.vue'
+import filterDocs from './filterDocs.vue'
 import pageDocs from '../general/pageDocs.vue'
+import tab from '../general/tabDocs.vue'
 export default {
     components: {
-        filterDocs, pageDocs
+        filterDocs, pageDocs,tab
     },
     data() {
         return {
             classlist: [],
             pageindex: 1,
             pagesize: 10,
-            rootid: 0
+            rootid: 0,
+            // tablist: [{
+            //     val: 1,
+            //     text: "允许经营品类"
+            // }, {
+            //     val: 2,
+            //     text: "允许经营车型"
+            // }],
         }
     },
     ready() {
@@ -105,7 +109,12 @@ export default {
         },
         'page': function(val) {
             this.pageindex = val;
-        }
+        },
+        // 'tab':function(val){
+        //   if(val==2){
+        //     window.location.href="/account/carmodel";
+        //   }
+        // }
     },
     methods: {
 

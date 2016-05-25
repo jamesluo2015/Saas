@@ -48,15 +48,15 @@
                         <em class="pull-left mg_t20 col_b5 fS mg_l40">|</em>
                         <div class=" pd_l0 mg_t20 clearfix select_dropdown pull-left w250">
                             <label class="control-label pull-left f12 lineH20">选择库区：</label>
-                            <v-select :value.sync="house" :options="houselist" :close-on-select="true" ></v-select>
+                            <v-select :value.sync="detail.stockareaid" :options="houselist" :close-on-select="true" ></v-select>
                         </div>
                         <div class=" pd_l0 mg_t20 clearfix select_dropdown pull-left w250">
                             <label class="control-label pull-left f12 lineH20">选择库房：</label>
-                            <!-- <v-select></v-select> -->
+                            <v-select :value.sync="detail.stockhouseid" :options="houselist" :close-on-select="true"></v-select>
                         </div>
                         <div class=" pd_l0 mg_t20 clearfix select_dropdown pull-left w250">
                             <label class="control-label pull-left f12 lineH20">选择库位：</label>
-                            <!-- <v-select></v-select> -->
+                            <v-select :value.sync="detail.stockmainid" :options="houselist" :close-on-select="true"></v-select>
                         </div>
                     </div>
                 </div>

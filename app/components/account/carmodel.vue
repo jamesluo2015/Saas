@@ -2,50 +2,56 @@
 
 <template>
 
-<div class="right_contain">
-    <div class="row">
-        <div class="col-md-12 pd_l0 mg_t10 select_dropdown clearfix z-top">
-            <filter-docs :list='fac_select' placeholder="请选择主机厂">
-            </filter-docs>
-        </div>
-        <div class="row col-md-12 pd_l0 pd_r0 mg_l0 mg_r0 mg_b20 mg-t15">
-            <div class="shop_info pd_5">
-                <table class="table table2 mg_t15 table3">
-                    <thead>
-                        <tr>
-                            <th width="20%">序号</th>
-                            <th width="40%">主机厂</th>
-                            <th width="40%">车型</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr class="table_bg" v-for="(index,item) in showlist">
-                            <td>{{index+1}}</td>
-                            <td>{{item.FactoryName}}</td>
-                            <td>{{item.CarModelName}}</td>
-                    </tbody>
-                </table>
-                <page-docs :count='pagecount'></page-docs>
-            </div>
-        </div>
-    </div>
+<!-- <tab :data="tablist" :value="2"></tab> -->
+<div class="col-md-12 pd_l0 mg_t10 select_dropdown clearfix z-top">
+    <filter-docs :list='fac_select' placeholder="请选择主机厂">
+    </filter-docs>
 </div>
+<div class="row col-md-12 pd_l0 pd_r0 mg_l0 mg_r0 mg_b20 mg-t15">
+    <table class="table table2 table_bg table_center">
+        <thead>
+            <tr>
+                <th width="30%">序号</th>
+                <th width="40%">主机厂</th>
+                <th width="30%">车型</th>
+            </tr>
+        </thead>
+        <tbody v-for="(index,item) in showlist">
+            <tr>
+                <td>{{index+1}}</td>
+                <td>{{item.FactoryName}}</td>
+                <td>{{item.CarModelName}}</td>
+            </tr>
+        </tbody>
+
+    </table>
+    <page-docs :count='pagecount'></page-docs>
+</div>
+
 </template>
 
 <script>
 
-import filterDocs from '../general/filterDocs.vue'
+import filterDocs from './filterDocs.vue'
 import pageDocs from '../general/pageDocs.vue'
+import tab from '../general/tabDocs.vue'
 export default {
     components: {
-        filterDocs, pageDocs
+        filterDocs, pageDocs, tab
     },
     data() {
         return {
             carlist: [],
             pageindex: 1,
             pagesize: 10,
-            fac: 0
+            fac: 0,
+            // tablist: [{
+            //     val: 1,
+            //     text: "允许经营品类"
+            // }, {
+            //     val: 2,
+            //     text: "允许经营车型"
+            // }],
         }
     },
     ready() {
@@ -98,7 +104,12 @@ export default {
         },
         'page': function(val) {
             this.pageindex = val;
-        }
+        },
+        // 'tab':function(val){
+        //   if(val==1){
+        //     window.location.href="/account/category";
+        //   }
+        // }
     },
 }
 

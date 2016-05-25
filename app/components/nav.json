@@ -43,7 +43,7 @@
                 "action": "list"
             },
             {
-                "text": "退货管理",
+                "text": "退货单管理",
                 "action": "returned"
             }
         ]
@@ -106,13 +106,17 @@
         "title": "帐号设置",
         "controller":"account",
         "menus": [
-            {
+            /*{
                 "text": "企业信息",
                 "action": "index"
             },
             {
                 "text": "经营品类",
                 "action": "category"
+            },*/
+            {
+                "text": "经营许可",
+                "action": "license"
             },
             {
                 "text": "经营车型",

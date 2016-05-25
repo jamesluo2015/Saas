@@ -21,7 +21,7 @@
                             <li>等待发货</li>
                             <li>订单完成</li>
                         </ul>
-                        <div class="saas_step saas_step1"></div>
+                        <div class="saas_step " :class="'saas_step'+step"></div>
                         <ul class="saas_step_time clearfix">
                             <li>【{{model.AddTime}}】</li>
                             <li></li>
@@ -129,6 +129,19 @@ export default {
     },
     methods: {
 
+    },
+    computed:{
+      step(){
+        switch (this.model.OrderStatus) {
+          case 2:
+            return 3;
+            break;
+          case 9:
+            return 4;
+          default:
+            return 1;
+        }
+      }
     }
 }
 

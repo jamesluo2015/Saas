@@ -1,6 +1,6 @@
-//category.js
+//license.js
 import Vue from 'vue'
-import App from '../../components/account/category.vue';//页面模版
+import App from '../../components/account/license.vue';//页面模版
 import VueResource from 'vue-resource';//http请求
 
 

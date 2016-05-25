@@ -6,13 +6,15 @@ module.exports = {
     '/product/addprodbysuit': './app/js/product/addprodbysuit.js',
     '/product/addprodbyno': './app/js/product/addprodbyno.js',
     '/product/list': './app/js/product/list.js',
-    '/account/carmodel': './app/js/account/carmodel.js',
-    '/account/category': './app/js/account/category.js',
+    '/account/license': './app/js/account/license.js',
     '/account/reset': './app/js/account/reset.js',
     '/config/brand': './app/js/config/brand.js',
     '/config/express': './app/js/config/express.js',
     '/manage/bm': './app/js/manage/bm.js',
     '/order/list': './app/js/order/list.js',
+    '/order/returned': './app/js/order/returned.js',
+    '/stock/house': './app/js/stock/house.js',
+
   },
   output: {
     path: './build',

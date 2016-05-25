@@ -16,9 +16,9 @@
             <div class="dropdown pull-left mg_l20">
                 <v-select :value.sync="source" :options="sourcelist" :close-on-select="true" class='' placeholder="选择来源"></v-select>
             </div>
-            <div class="dropdown pull-left mg_l20">
+            <!-- <div class="dropdown pull-left mg_l20">
                 <v-select :value.sync="state" :options="statelist" :close-on-select="true" class='' placeholder="选择状态"></v-select>
-            </div>
+            </div> -->
             <div class="dropdown pull-left mg_l20">
                 <v-select :value.sync="type" :options="typelist" :close-on-select="true" class='' placeholder="选择条件"></v-select>
             </div>
@@ -26,7 +26,9 @@
             <button-docs text="查&nbsp;询" @click='query' class='pull-left mg_l30'></button-docs>
         </div>
 
-        <tab :data="tablist" :value="0" :tags="tags"></tab>
+        <tab :data="tablist" :value="0" :tips="tips"></tab>
+
+        <moon-loader :loading="loading" size="50px"></moon-loader>
 
         <table class="table table2 table_bg mg_t2" v-for="(index,item) in orderlist">
             <thead>
@@ -48,14 +50,14 @@
                         <span class="lineH30">车型：{{(detail.FactoryName || "") +" "+(detail.CarModelName || "") +" "+(detail.CarYearName || "")}}</span>
                     </td>
                     <!--状态-->
-                    <td width="15%" v-if="item.OrderStatus>2&&!dindex" :rowspan="item.OrderDetails.length*2"><em class="right pull-left"></em><span class="col_77b530 pull-left">已发货</span></td>
-                    <td width="15%" v-if="item.OrderStatus<=2&&!dindex" :rowspan="item.OrderDetails.length*2"><em class="waiting pull-left" :rowspan="item.OrderDetails.length*2"></em><span class="col_f8a504 pull-left">待发货</span></td>
+                    <td width="15%" v-if="(item.OrderStatus>2||item.OrderStatus==-1)&&!dindex" :rowspan="item.OrderDetails.length*2"><em class="right pull-left"></em><span class="col_77b530 pull-left">已发货</span></td>
+                    <td width="15%" v-if="item.OrderStatus<=2&&item.OrderStatus>=0&&!dindex" :rowspan="item.OrderDetails.length*2"><em class="waiting pull-left" :rowspan="item.OrderDetails.length*2"></em><span class="col_f8a504 pull-left">待发货</span></td>
                     <!--操作-->
-                     <td width="15%" v-if="item.OrderStatus>2&&!dindex" class="t-c" :rowspan="item.OrderDetails.length*2">
+                     <td width="15%" v-if="(item.OrderStatus>2||item.OrderStatus==-1)&&!dindex" class="t-c" :rowspan="item.OrderDetails.length*2">
                         <a href="#" class="saas_add mg_l0" @click="showdetail(index)">查看详情</a>
                      </td>
-                      <td width="15%" class="t-c" v-if="item.OrderStatus<=2&&!dindex" :rowspan="item.OrderDetails.length*2">
-                          <span class="f12 col_999999">还剩8小时5分钟</span>
+                      <td width="15%" class="t-c" v-if="item.OrderStatus<=2&&item.OrderStatus>=0&&!dindex" :rowspan="item.OrderDetails.length*2">
+                          <span class="f12 col_999999">还剩{{item.Remaintime}}</span>
                           <a href="#" class="btn_red bg8 f14 w100 h26 auto mg_b10" @click="delivery(index)">去发货</a>
                           <a href="#" class="saas_add mg_l0" @click="showdetail(index)">查看详情</a>
                       </td>
@@ -107,9 +109,10 @@ import pageDocs from '../general/pageDocs.vue'
 import DateFormat from '../utils/DateFormat.js'
 import detail from './detail.vue'
 import delivery from './delivery.vue'
+import MoonLoader from 'vue-spinner/src/MoonLoader.vue'
 export default {
     components: {
-        vSelect, vOption, datepicker, buttonDocs, tab,pageDocs,detail,delivery
+        vSelect, vOption, datepicker, buttonDocs, tab,pageDocs,detail,delivery,MoonLoader
     },
     data() {
         return {
@@ -123,25 +126,16 @@ export default {
                 label: '京东'
             }],
             source: [],
-            statelist: [{
-                value: '1',
-                label: '已发货'
-            }, {
-                value: '2',
-                label: '待发货'
-            }],
-            state: [],
+            state:0,
             typelist: [{
                 value: '1',
-                label: '零件编号'
+                label: '来源单号'
             }, {
                 value: '2',
-                label: '供应商编码'
-            }, {
-                value: '3',
-                label: '配件名称'
+                label: '订单号'
             }],
             type: [],
+            key : "",
             tablist: [{
                 val: 0,
                 text: "全部订单"
@@ -158,14 +152,15 @@ export default {
                 val: 4,
                 text: "已取消订单"
             }],
-            tags: [10, 2, 3, 4, 5],
+            tips: [],
             orderlist: [],
-            pagesize: 2,
+            pagesize: 5,
             pageindex: 1,
             count: 0,
             detailshow: false,
             model: {},
-            deshow: false
+            deshow: false,
+            loading:false
         }
     },
     methods: {
@@ -173,21 +168,40 @@ export default {
             let _this = this;
             let param = {
                 pagesize: _this.pagesize,
-                pageindex: _this.pageindex
+                pageindex: _this.pageindex,
+                state: _this.state,
+                type: _this.type.length ? _this.type[0] : 0,
+                key: _this.key,
             };
+            var loading=layer.load();
             Vue.http.get('/order/GetOrders', param).then(function(res) {
+              _this.orderlist=[];
+              // _this.tips=[];
+              _this.count=1;
+              layer.close(loading);
                 if (res.data.ok) {
                     res.data.data.forEach(function(item) {
+                        //时间转换
                         item.AddTime = DateFormat(item.AddTime);
+                        if(item.OrderStatus<=2){
+                          //发货库区
+                          item.OrderDetails.forEach(function(detail){
+                            detail.stockareaid=[];
+                            detail.stockhouseid=[];
+                            detail.stockmainid=[];
+                          })
+                        }
                     })
                     _this.orderlist = res.data.data;
                     _this.count = Math.ceil(res.data.count / _this.pagesize);
+                    // _this.tips=res.data.data2;
                 } else {
                     layer.alert(res.data.mes);
                 }
             }, function() {
                 //error
                 console.log('查询订单信息错误');
+                layer.close(loading);
             })
         },
         showdetail(index){
@@ -199,11 +213,24 @@ export default {
           this.deshow=true;
         }
     },
+    ready(){
+      let _this=this;
+      Vue.http.get('/order/GetTips').then(function(res){
+        if(res.ok){
+          _this.tips=res.data;
+        }
+      })
+    },
     events: {
       'page': function(index){
         this.pageindex=index;
         this.query();
         $('.container-fluid').animate({scrollTop: '0px'});
+      },
+      'tab': function(val){
+        this.state=val;
+        this.pageindex=1;
+        this.query();
       }
     }
 }
