@@ -1,5 +1,4 @@
 
-
 <template id="">
 
 <div class="right_contain" v-show="!detailshow&&!deshow">
@@ -91,7 +90,7 @@ export default {
     },
     data() {
         return {
-            sdate: GetFormatDate(),
+            sdate: GetFormatDate(1),
             edate: GetFormatDate(),
             sourcelist: [{
                 value: '1',
@@ -128,6 +127,9 @@ export default {
             pageindex: 1,
             count: 0,
         }
+    },
+    ready(){
+      this.query();
     },
     methods: {
         query() {

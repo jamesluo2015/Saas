@@ -116,7 +116,7 @@ export default {
     },
     data() {
         return {
-            sdate: GetFormatDate(),
+            sdate: GetFormatDate(1),
             edate: GetFormatDate(),
             sourcelist: [{
                 value: '1',
@@ -214,6 +214,7 @@ export default {
         }
     },
     ready(){
+      this.query();
       let _this=this;
       Vue.http.get('/order/GetTips').then(function(res){
         if(res.ok){

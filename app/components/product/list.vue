@@ -62,11 +62,17 @@ export default {
         },
         //查询商品 返回分页数据、总数
         'GetProducts': function(result) {
+          if(result.count){
             result.data.forEach(function(item) {
                 item.AddTime = DateFormat(item.AddTime)
             })
             this.list = result.data;
             this.count = Math.ceil(result.count / this.pagesize);
+          }else{
+            this.list=[];
+            this.count =0;
+            layer.alert('查询无数据');
+          }
         },
         //分页
         'page': function(index) {

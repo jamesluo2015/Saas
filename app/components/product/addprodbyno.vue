@@ -27,6 +27,9 @@ export default {
     },
     events: {
         'skumodel': function(model) {
+          model.StockCount="";
+          model.SalePrice="";
+          model.InPrice="";
             this.model = model;
         }
     },

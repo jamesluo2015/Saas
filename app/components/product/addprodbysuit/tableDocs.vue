@@ -220,6 +220,11 @@ export default {
             save(index) {
                 let _this = this;
                 let model = this.products[index];
+                //valid
+                if(!model.DealerNo||!model.SalePrice||!model.StockCount){
+                  return false;
+                }
+
                 //主机厂id
                 let param = store.get('param');
                 model.FactoryId = param[1];
@@ -259,6 +264,11 @@ export default {
                     showimg: ""
                 };
                 this.products.push(addmodel);
+                Vue.nextTick(function () {
+                  // DOM 更新了
+                  $('.container-fluid').animate({scrollTop: $('.row').height()});
+                })
+
             },
             delimg(item, img, index) {
                 layer.confirm('确认删除吗', {

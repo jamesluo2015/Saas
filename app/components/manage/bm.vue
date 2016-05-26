@@ -38,7 +38,7 @@
                             <div class="table_detail">
                               <div class="clearfix">
                                   <span class="pull-left col_010101 fB">{{item.ProdBrandName}} {{item.StandardName}}</span>
-                                  <span class="pull-right col_010101 f12">供应商编码：{{item.DealerNo}}</span>
+                                  <span class="pull-left col_010101 f12 mg_l30">供应商编码：{{item.DealerNo}}</span>
                               </div>
                               <div class="col-md-12 pd_l0 mg_t10 clearfix select_dropdown poR">
                                   <label class="control-label pull-left f12 poA l_l0 w60">配件说明：</label>
@@ -92,7 +92,7 @@ export default {
     },
     data() {
         return {
-            sdate: GetFormatDate(),
+            sdate: GetFormatDate(1),
             edate: GetFormatDate(),
             typelist: [{
                 value: '1',
@@ -113,6 +113,9 @@ export default {
             modalshow:false,
             modalist: []
         }
+    },
+    ready(){
+      this.query();
     },
     methods: {
         query() {

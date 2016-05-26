@@ -47,7 +47,7 @@ export default {
     },
     data() {
         return {
-            sdate: GetFormatDate(),
+            sdate: GetFormatDate(1),
             edate: GetFormatDate(),
             typelist: [{
                 value: '1',
@@ -79,13 +79,17 @@ export default {
             };
             _this.loading = true;
             Vue.http.get('/product/GetProducts', param).then(function(response) {
-                _this.$dispatch('GetProducts', response.data)
+                  _this.$dispatch('GetProducts', response.data)
+            
                 _this.loading = false;
             }, function(err) {
                 _this.loading = false;
                 console.log('查询失败');
             })
         }
+    },
+    ready(){
+      this.query(1);
     }
 }
 

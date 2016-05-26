@@ -95,6 +95,9 @@ export default {
           },
           update(model) {
               //派发事件
+              model.StockCount="";
+              model.SalePrice="";
+              model.InPrice="";
               this.$dispatch('update', model)
           },
           remove(index) {

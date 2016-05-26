@@ -39,21 +39,21 @@
         <div class="col-md-12 pd_l0 clearfix pd_b20 select_dropdown" v-if="stype==1">
             <div class="pull-left">
                 <label class="control-label pull-left"><em class="col_fb2727 mg_r5">*</em>销售价</label>
-                <input placeholder="" type="text" v-model='model.SalePrice' number class="add_input w160 pull-left form-control">
+                <input placeholder="" type="text" v-model='model.SalePrice'   class="add_input w160 pull-left form-control">
                 <label class="pull-left fN mg_t2 mg_l5">元</label>
             </div>
         </div>
         <div class="col-md-12 pd_l0 clearfix pd_b20 select_dropdown" v-else>
             <div class="pull-left">
                 <label class="control-label pull-left"><em class="col_fb2727 mg_r5">*</em>进货价</label>
-                <input placeholder="" type="text" v-model='model.InPrice' number class="add_input w160 pull-left form-control">
+                <input placeholder="" type="text" v-model='model.InPrice'  class="add_input w160 pull-left form-control">
                 <label class="pull-left fN mg_t2 mg_l5">元</label>
             </div>
         </div>
         <div class="col-md-12 pd_l0 clearfix pd_b20 select_dropdown">
             <div class="pull-left">
                 <label class="control-label pull-left" for="input01"><em class="col_fb2727 mg_r5">*</em>库存数：</label>
-                <input placeholder="" type="text" v-model='model.StockCount' number class="add_input w160 pull-left form-control">
+                <input placeholder="" type="text" v-model='model.StockCount'   class="add_input w160 pull-left form-control">
             </div>
         </div>
 
@@ -143,7 +143,7 @@ export default {
     methods: {
         commit() {
             //防止多次点击
-            if (this.iscommit) {
+            if (this.iscommit||!this.valid) {
                 return false;
             }
 

@@ -5,7 +5,7 @@
                 <form action="/account/reset" method="post" >
                     <div class="col-md-12 pd_l0 clearfix select_dropdown">
                         <label class="control-label pull-left col_010101 pd_r5" for="input01">新密码</label>
-                        <input placeholder="" class="add_input w160 form-control" v-model="pass" type="password">
+                        <input placeholder="" class="add_input w160 form-control" name="pass" v-model="pass" type="password">
                     </div>
                     <div class="col-md-12 pd_l0 mg_t20 clearfix select_dropdown">
                         <label class="control-label pull-left col_010101 pd_r5" for="input01">确认密码</label>

@@ -7,7 +7,7 @@
 
         <div class="col-md-12 pd_l0 mg_t10 mg_b30 clearfix">
             <span class="col_010101 f16 pull-left mg_l30 lineH26">快递公司管理</span>
-            <a href="#" class="green_btn w100 h26 pull-left mg_l30" @click="addBrand=true">+添加快递公司</a>
+            <a href="#" class="green_btn w100 h26 pull-left mg_l30" @click="addExpress=true">+添加快递公司</a>
         </div>
 
         <div class="row col-md-12 pd_l0 pd_r0 mg_l0 mg_r0 mg_b20">
@@ -15,10 +15,9 @@
                 <table class="table table2 mg_t15 table6 bd_tb5">
                     <thead>
                         <tr>
-                            <th width="25%">快递公司名称</th>
-                            <th width="25%">联系人</th>
-                            <th width="25%">联系方式</th>
-                            <th width="25%">操作</th>
+                            <th width="33%">快递公司名称</th>
+                            <th width="33%">联系方式</th>
+                            <th width="33%">操作</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -31,7 +30,6 @@
                                 </div>
                             </td>
                             <td>{{item.Tel}}</td>
-                            <td>{{item.Tel}}</td>
                             <td>
                                 <a href="#" class="saas_del mg_t10 pull-left mg_l20" @click="remove(index,item.Id)">删除</a>
                                 <a href="#" class="saas_moren_gray mg_t10 pull-left mg_l2 mg_l20" v-if="!item.IsDefault" @click="setdefault(index,item.Id)">设为默认</a>
@@ -42,6 +40,32 @@
                 </table>
             </div>
         </div>
+
+        <modal :show.sync="addExpress" effect="fade" width="360px">
+          <div slot="modal-header" class="modal-header ">
+              <button type="button" class="close " @click="addExpress=false"><span>×</span></button>
+              <h4 class="modal-title">添加快递公司</h4>
+          </div>
+          <div slot="modal-body" class="modal-body ">
+                    <div class="col-md-12 pd_l0 clearfix select_dropdown mg_t15 ">
+                        <div class="pull-left ">
+                            <label class="control-label pull-left f12 lineH20" for="input01 "><em class="col_fb2727 mg_r5 ">*</em>快递公司名称：</label>
+                            <textinfo :value.sync="model.ExpressName" :list="showlist" width="170px" class=" pull-left"></textinfo>
+                        </div>
+                    </div>
+                    <div class="col-md-12 pd_l0 clearfix select_dropdown mg_t15 ">
+                        <div class="pull-left ">
+                            <label class="control-label pull-left f12 lineH20 " for="input01 ">联系方式：</label>
+                            <input placeholder=" " v-model="model.Tel" class="w170 dropdown-toggle dropdown_toggle form-control " type="text ">
+                        </div>
+                    </div>
+                    <div class="col-md-12 mg_t10 mg_b20 clearfix ">
+                        <a href="javascript:void(0)" :class="{'disable':!model.ExpressName}" @click="Save"  class="btn_red bg8 mg_t20 mg_l40 w80 h26 pull-left "  >确&nbsp;定</a>
+                        <a href="javascript:void(0)" class="gray mg_t20 mg_l30 w80 h26 pull-left " @click="addExpress=false">取&nbsp;消</a>
+                    </div>
+          </div>
+        </modal>
+
     </div>
 </div>
 
@@ -53,13 +77,19 @@ import {
     modal
 }
 from 'vue-strap'
+import textinfo from '../general/textinfo.vue'
 export default {
-    companents: {
-        modal
+    components: {
+        modal,textinfo
     },
     data() {
         return {
-            list: []
+            list: [],
+            model:{ExpressName:"",Tel:"",IsDefault:false,Id:0},
+            addExpress: false,
+            showlist:[],
+            allist:[],
+            expresslist:[]
         }
     },
     ready() {
@@ -68,12 +98,35 @@ export default {
         Vue.http.get('/config/GetExpress', {}).then(function(response) {
             _this.list = response.data;
         });
+        Vue.http.get('/config/GetAllExpress').then(function(res){
+          let arr=[];
+          res.data.forEach(function(item){
+            arr.push(item.ExpressName);
+          })
+          _this.expresslist=res.data;
+          _this.allist=arr;
+        });
+    },
+    computed:{
+      showlist(){
+        let _this=this;
+        if(!_this.model.ExpressName){
+          return [];
+        }
+        return _this.allist.filter(function(item){
+          return item.indexOf(_this.model.ExpressName)>-1&&_this.model.ExpressName!=item;
+        })
+      }
     },
     methods: {
         remove(index, id) {
                 let _this = this;
                 Vue.http.post('/config/RemoveExpress?id=' + id).then(function(res) {
+                  let isdefault=_this.list[index].IsDefault;
                     _this.list.splice(index, 1);
+                    if(isdefault&&_this.list.length){
+                      _this.setdefault(0,_this.list[0].Id);
+                    }
                 }, function() {
                     layer.alert('删除失败', 5);
                 })
@@ -86,6 +139,33 @@ export default {
                 }, function() {
 
                 })
+            },
+            Save(){
+              let _this = this;
+              //判断是否存在
+             let exist=  _this.list.some(function(item){
+                return item.ExpressName==_this.model.ExpressName;
+              })
+              if(exist){
+                layer.alert('该品牌已存在');
+                return false;
+              }
+              //判断快递总表
+              let arr = _this.expresslist.filter(function(item){
+                return item.ExpressName==_this.model.ExpressName;
+              })
+              let id=0;
+              if(arr.length){
+                id=arr[0].ID;
+              }
+              Vue.http.post('/config/Save',{model:_this.model,id:id}).then(function(res) {
+                  _this.model.Id=res.data;
+                  _this.list.push(JSON.parse(JSON.stringify(_this.model)));
+                  _this.addExpress=false;
+                  _this.model=[];
+              }, function() {
+
+              })
             }
     }
 }

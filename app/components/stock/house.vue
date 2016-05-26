@@ -154,9 +154,10 @@ export default {
       }
     },
     ready(){
+      this.query();
       let _this=this;
       Vue.http.get('/stock/GetAreas').then(function(res){
-        let arr=[];
+        let arr=[{label:"全部",value: "0"}];
         res.data.map(x=>arr.push({
           label: x.HouseName,
           value: x.Id.toString()

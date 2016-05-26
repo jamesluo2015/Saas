@@ -6,7 +6,7 @@
     <div class="row">
         <div class="col-md-12 pd_l0 mg_t10 mg_b30 clearfix">
             <span class="col_010101 f16 pull-left mg_l30 lineH26">品牌管理</span>
-            <a href="#" class="green_btn w80 h26 pull-left mg_l30" @click="addBrand=true">+添加品牌</a>
+            <a href="#" class="green_btn w80 h26 pull-left mg_l30" @click="showadd">+添加品牌</a>
         </div>
         <div class="col-md-12 pd_l0 pd_r0 mg_r0 bdT_d0d0d0">
             <table class="table table2 table_bg mg_t2">
@@ -41,53 +41,55 @@
         </div>
 
 
-        <modal :show.sync="addBrand" effect="fade">
+        <modal :show.sync="addBrand" effect="fade" width="450px">
             <div slot="modal-header" class="modal-header">
                 <button type="button" class="close" @click="addBrand = false"><span>×</span></button>
-                <h4 class="modal-title">添加品牌</h4>
+                <h4 class="modal-title">{{title}}</h4>
             </div>
             <div slot="modal-body" class="modal-body">
-                <input type="hidden" value="0" name="txtIsType" id="txtIsType" />
-                <div class="modal-body">
-                    <div class="col-md-12 pd_l30 clearfix pd_b10 select_dropdown">
 
-                        <label class="control-label pull-left" for="input01">品牌名称：</label>
-                        <input placeholder="" class="add_input w300" v-model="model.BrandName" type="text" id="txtBrandName" name="txtBrandName">
-                    </div>
-                    <div class="col-md-12 pd_l30 clearfix pd_b10 select_dropdown">
-                        <label class="control-label pull-left">品牌所属地区：</label>
-                        <label class="radio pull-left fN poR">
-                            <input type="radio" name="rdBrandArea" v-model="model.GroupID" value="1" id="gnType"> 国内品牌
-                        </label>
-                        <label class="radio pull-left fN mg_t10 mg_l30 poR">
-                            <input type="radio" name="rdBrandArea" v-model="model.GroupID" value="2" id="gwType"> 国外品牌
-                        </label>
-                    </div>
-                    <div class="col-md-12 pd_l30 clearfix pd_b10 select_dropdown">
-                        <label class="control-label pull-left">品牌描述：</label>
-                        <textarea class="pull-left w300 h100 bd_d9" v-model="model.Description" name="txtDescribe" id="txtDescribe"></textarea>
-                    </div>
-                    <div class="col-md-12 pd_l30 clearfix select_dropdown">
-                        <div class="col-md-12 pd_l0 pull-left">
-                            <label class="control-label pull-left">品牌标识：</label>
-                            <p class="pull-left pd_l0 mg_t7 col_5b5d61">（上传品牌logo图片，图片尺寸：143*108像素）</p>
-                        </div>
-                        <div class="col-md-12 pd_l0 mg_t10 clearfix">
-                            <ul class="goods_img clearfix mg_l110 mg_t10">
-                                <li>
-                                    <a href="javascript:void(0)" class="filter-btn">
-                                        <img v-if="model.Logo" :src="model.Logo" height="108" width="143" name="brandImg">
-                                        <img v-else src="../../images/add.png" height="108" width="143" name="brandImg">
-                                        <input type="hidden" id="brandImgSrc" name="brandImgSrc" />
-                                    </a>
-                                </li>
-                            </ul>
+                    <div class="col-md-12 pd_l0 clearfix select_dropdown mg_t15">
+                        <div class="pull-left">
+                            <label class="control-label pull-left f12 lineH20" for="input01"><em class="col_fb2727 mg_r5">*</em>品牌名称：</label>
+                            <input placeholder="" v-model="model.BrandName" class="add_input w200 pull-left form-control" type="text">
                         </div>
                     </div>
-                    <div class="col-md-12 pd_l0 mg_t10">
-                        <a href="javascript:void(0);" class="btn_red bg8 w200 h36 auto" id="btnSave" @click="save">保&nbsp;&nbsp;存</a>
+                    <div class="col-md-12 pd_l0 clearfix select_dropdown mg_t15">
+                        <div class="pull-left">
+                            <label class="control-label pull-left f12 lineH20" for="input01">品牌描述：</label>
+                            <textarea placeholder="" v-model="model.Description" class="form-control w200 pull-left"></textarea>
+                        </div>
                     </div>
-                </div>
+                    <div class="col-md-12 pd_l0 clearfix select_dropdown mg_t15">
+                        <div class="pull-left">
+                            <label class="control-label pull-left f12 lineH20" for="input01"><em class="col_fb2727 mg_r5">*</em>品牌所属区域：</label>
+                            <!-- <a href="#" class="saas_moren mg_t5 col_767676 pull-left text-none">国内品牌</a>
+                            <a href="#" class="saas_moren_gray mg_t5 col_767676 pull-left mg_l20 text-none">国外品牌</a> -->
+                            <!-- <label class="radio pull-left fN poR">
+                                <input type="radio" name="rdBrandArea" v-model="model.GroupID" value="1" id="gnType"> 国内品牌
+                            </label>
+                            <label class="radio pull-left fN mg_t10 mg_l30 poR">
+                                <input type="radio" name="rdBrandArea" v-model="model.GroupID" value="2" id="gwType"> 国外品牌
+                            </label> -->
+                            <radio :value.sync="model.GroupID" :options="radios" left="mg_l20"></radio>
+                        </div>
+                    </div>
+                    <div class="col-md-12 pd_l0 mg_t10 clearfix select_dropdown">
+                        <label class="control-label pull-left f12 lineH20">产品图片：</label>
+                        <p class="pull-left pd_l0 mg_t4 f10 col_b5">（上传品牌LOGO图片，尺寸：143*108像素）</p>
+                    </div>
+                    <ul class="col-md-12 goods_img1 clearfix mg_t10 mg_l95">
+                        <li>
+                            <a href="javascript:void(0)"  class="filter-btn">
+                                <img v-if="model.Logo" :src="model.Logo" height="108" width="143" name="brandImg">
+                                <img v-else src="../../images/saas03.png" height="108" width="143" name="brandImg">
+                            </a>
+                        </li>
+                    </ul>
+                    <div class="col-md-12 mg_t10 mg_b20 clearfix">
+                        <a href="#" class="btn_red bg8 mg_t20 mg_l70 w80 h26 pull-left" @click="save">确&nbsp;定</a>
+                        <a href="#" class="gray mg_t20 mg_l30 w80 h26 pull-left" @click="addBrand = false">取&nbsp;消</a>
+                    </div>
             </div>
         </modal>
     </div>
@@ -102,10 +104,11 @@ import {
     modal
 }
 from 'vue-strap'
+import radio from '../general/radioDocs.vue'
 import upload from '../general/upload.vue'
 export default {
     components: {
-        modal, upload
+        modal, upload,radio
     },
     data() {
         return {
@@ -114,7 +117,9 @@ export default {
             model: {
                 Logo: ""
             },
-            userid: document.getElementById('user').getAttribute('uid')
+            title:"添加品牌",
+            userid: document.getElementById('user').getAttribute('uid'),
+            radios: [{text:'国内品牌',val:1},{text:'国外品牌',val:2}]
         }
     },
     ready() {
@@ -155,6 +160,7 @@ export default {
                 let _this = this;
                 _this.addBrand = true;
                 _this.model = _this.brandlist[index];
+                _this.title="编辑品牌";
             },
             save() {
                 let _this = this;
@@ -172,6 +178,11 @@ export default {
                 }, function() {
                     layer.alert('保存失败');
                 })
+            },
+            showadd(){
+              this.model = {Logo:"",GroupID:1};
+              this.addBrand=true;
+              this.title="添加品牌";
             }
     },
     events: {
