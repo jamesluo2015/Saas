@@ -8,7 +8,7 @@
         <thead>
             <tr>
                 <th width="45%">产品信息</th>
-                <th width="10%">进货价</th>
+                <th width="10%">{{stype==1?"销售价":"进货价"}}</th>
                 <th width="12%">电商销售价格</th>
                 <th width="10%">状态</th>
                 <th width="10%">添加时间</th>
@@ -76,7 +76,8 @@ export default {
             modalist: [],
             modalshow: false,
             tablist:[{val: 0,text:"全部"},{val: 1,text:"待审核"},{val: 2,text:"未通过"},{val: 3,text:"已通过"}],
-            first: true
+            first: true,
+            stype: document.getElementById('user').getAttribute('stype')
         }
     },
     ready() {
@@ -95,9 +96,6 @@ export default {
           },
           update(model) {
               //派发事件
-              model.StockCount="";
-              model.SalePrice="";
-              model.InPrice="";
               this.$dispatch('update', model)
           },
           remove(index) {

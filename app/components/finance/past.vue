@@ -73,7 +73,7 @@ export default {
     components: {vSelect,datepicker,buttonDocs,pageDocs},
     data(){
       return {
-        sdate: GetFormatDate(),
+        sdate: GetFormatDate(1),
         edate: GetFormatDate(),
         states:[{
             value: '1',

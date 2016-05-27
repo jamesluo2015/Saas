@@ -221,7 +221,7 @@ export default {
   },
   methods: {
     commit(){
-      if(!valid){
+      if(!this.valid){
         return false;
       }
       this.$dispatch('save',this.model)

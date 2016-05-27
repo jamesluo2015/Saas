@@ -6,7 +6,7 @@
     <div class="row">
         <div class="col-md-12 pd_l0 mg_t10 clearfix pd_b20 bdB_d0d0d0">
             <span class="mg_l30">结算单编码：123456</span>
-            <span class="mg_l30">结算周期：2016-01-01&nbsp;至&nbsp;2016-01-31</span>
+            <span class="mg_l30">结算周期：{{sdate}}&nbsp;至&nbsp;{{edate}}</span>
             <a href="#" class="saas_add">查看结算单</a>
         </div>
         <div class="col-md-12 pd_l0 mg_t30 mg_b20 clearfix pd_b20 h60 this_bill">
@@ -31,70 +31,8 @@
 
             <tab :data="tablist" :value="0"></tab>
 
-            <div class="col-md-12 pd_l0 mg_t30 mg_b30 clearfix select_dropdown">
-                <span class="pull-left mg_l10 mg_r10 f12 lineH26 mg_l20">下单时间</span>
-                <div class="datepicker pull-left">
-                    <datepicker :value.sync="sdate" :disabled-days-of-Week="disabled" format="yyyy-MM-dd" Width="120px" class="pull-left ">
-                    </datepicker>
-                </div>
-                <span class="pull-left mg_l10 mg_r10 f12 lineH26">至</span>
-                <div class="datepicker pull-left">
-                    <datepicker :value.sync="edate" :disabled-days-of-Week="disabled" format="yyyy-MM-dd" Width="120px" class="pull-left ">
-                    </datepicker>
-                </div>
-                <span class="pull-left mg_l10 f12 lineH26 mg_l30">订单号：</span>
-                <input placeholder="" v-model="key" class="add_input w160 pull-left form-control" type="text">
-                <button-docs text="查&nbsp;询" @click='query' class='pull-left mg_l30'></button-docs>
-                <a href="#" class="red_btn f14 w100 h26 pull-left mg_l30">导出订单明细</a>
-            </div>
-            <table class="table table2 table_bg mg_t2">
-                <thead>
-                    <tr>
-                        <th width="17%">订单号</th>
-                        <th width="34%">配件名称</th>
-                        <th width="10%">商品数量</th>
-                        <th width="10%">商品金额</th>
-                        <th width="8%">佣金</th>
-                        <th width="10%">付款方式</th>
-                        <th width="11%">下单时间</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>6102415245322156</td>
-                        <td>广州本田 思迪 1.3L 五档自动（2006-2008） 空气滤芯</td>
-                        <td>1</td>
-                        <td><em class="fS col_ee4145 f16">200.00</em> </td>
-                        <td><span class="col_5ca50a">10%<br>20.00</span></td>
-                        <td>在线支付</td>
-                        <td><span class="col_767676">2016-04-01<br>16:00:00</span></td>
-                    </tr>
-                </tbody>
-                <tbody>
-                    <tr>
-                        <td>6102415245322156</td>
-                        <td>广州本田 思迪 1.3L 五档自动（2006-2008） 空气滤芯</td>
-                        <td>1</td>
-                        <td><em class="fS col_ee4145 f16">200.00</em> </td>
-                        <td><span class="col_5ca50a">10%<br>20.00</span></td>
-                        <td>在线支付</td>
-                        <td><span class="col_767676">2016-04-01<br>16:00:00</span></td>
-                    </tr>
-                </tbody>
-                <tbody>
-                    <tr>
-                        <td>6102415245322156</td>
-                        <td>广州本田 思迪 1.3L 五档自动（2006-2008） 空气滤芯</td>
-                        <td>1</td>
-                        <td><em class="fS col_ee4145 f16">200.00</em> </td>
-                        <td><span class="col_5ca50a">10%<br>20.00</span></td>
-                        <td>在线支付</td>
-                        <td><span class="col_767676">2016-04-01<br>16:00:00</span></td>
-                    </tr>
-                </tbody>
-
-            </table>
-            <page-docs :count='count'></page-docs>
+            <order v-if="!tab"></order>
+            <pastorder v-else></pastorder>
         </div>
     </div>
 
@@ -103,27 +41,17 @@
 </template>
 
 <script>
-
-import {
-    select as vSelect
-}
-from 'vue-strap'
-import {
-    datepicker
-}
-from 'vue-strap'
-import buttonDocs from '../general/buttonDocs.vue'
 import tab from '../general/tabDocs.vue'
-import pageDocs from '../general/pageDocs.vue'
+import order from './order.vue'
+import pastorder from './pastorder.vue'
 export default {
     components: {
-        vSelect, datepicker, buttonDocs,tab
+        tab,order,pastorder
     },
     data() {
         return {
-            sdate: GetFormatDate(),
-            edate: GetFormatDate(),
-            key: "",
+          sdate: GetFormatDate(1),
+          edate: GetFormatDate(),
             tablist:[{
                 text: "订单",
                 val: 0
@@ -140,13 +68,8 @@ export default {
         }
     },
     events: {
-        'page': function(index) {
-          this.pageindex=index;
-          this.query();
-        },
         'tab':function(val){
-
-          this.tab=ind
+          this.tab=val;
         }
     }
 }

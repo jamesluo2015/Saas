@@ -60,7 +60,7 @@
                         </div>
                     </div>
                     <div class="col-md-12 mg_t10 mg_b20 clearfix ">
-                        <a href="javascript:void(0)" :class="{'disable':!model.ExpressName}" @click="Save"  class="btn_red bg8 mg_t20 mg_l40 w80 h26 pull-left "  >确&nbsp;定</a>
+                        <a href="javascript:void(0)" :class="{'disable':!model.ExpressName||!isNaN(model.ExpressName)}" @click="Save"  class="btn_red bg8 mg_t20 mg_l40 w80 h26 pull-left "  >确&nbsp;定</a>
                         <a href="javascript:void(0)" class="gray mg_t20 mg_l30 w80 h26 pull-left " @click="addExpress=false">取&nbsp;消</a>
                     </div>
           </div>
@@ -113,9 +113,13 @@ export default {
         if(!_this.model.ExpressName){
           return [];
         }
-        return _this.allist.filter(function(item){
-          return item.indexOf(_this.model.ExpressName)>-1&&_this.model.ExpressName!=item;
-        })
+        let arr=_this.allist.filter(function(item){
+          return item.indexOf(_this.model.ExpressName.toString())>-1&&_this.model.ExpressName!=item;
+        });
+        if(!arr.length){
+          arr=[];
+        }
+        return arr;
       }
     },
     methods: {
@@ -142,17 +146,21 @@ export default {
             },
             Save(){
               let _this = this;
+              //valid
+              if(!this.model.ExpressName||!isNaN(this.model.ExpressName)){
+                return false;
+              }
               //判断是否存在
              let exist=  _this.list.some(function(item){
-                return item.ExpressName==_this.model.ExpressName;
+                return item.ExpressName===_this.model.ExpressName;
               })
               if(exist){
-                layer.alert('该品牌已存在');
+                layer.alert('该快递公司已存在');
                 return false;
               }
               //判断快递总表
               let arr = _this.expresslist.filter(function(item){
-                return item.ExpressName==_this.model.ExpressName;
+                return item.ExpressName===_this.model.ExpressName;
               })
               let id=0;
               if(arr.length){
