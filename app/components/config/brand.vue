@@ -21,8 +21,8 @@
                         <th width="15%">操作</th>
                     </tr>
                 </thead>
-                <tbody>
-                    <tr v-for="(index,item) in brandlist">
+                <tbody v-for="(index,item) in brandlist">
+                    <tr >
                         <td> {{index+1}}</td>
                         <td><img :src="item.Logo" class="pinpai_img" /></td>
                         <td> {{item.BrandName}}</td>

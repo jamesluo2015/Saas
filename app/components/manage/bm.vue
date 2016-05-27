@@ -20,44 +20,56 @@
             <button-docs text="查&nbsp;询" @click='query' class='pull-left mg_l30'></button-docs>
         </div>
 
+        <tab :data="tablist" :value="0"></tab>
+
         <div class="col-md-12 pd_l0 pd_r0 mg_r0 bdT_d0d0d0">
-            <table class="table table2 table_bg mg_t2">
+            <table class="table table2 table_bg mg_t2" ms-if="list.length">
                 <thead>
                     <tr>
-                        <th width="55%">产品信息</th>
-                        <th width="15%">京东价</th>
-                        <th width="15%">添加时间</th>
-                        <th width="15%">操作</th>
+                        <th width="48%">产品信息</th>
+                        <th width="13%">京东价</th>
+                        <th width="13%">状态</th>
+                        <th width="13%">添加时间</th>
+                        <th width="13%">操作</th>
                     </tr>
                 </thead>
                 <tbody v-for="item in list">
                     <tr>
                         <td class="poR">
-                          <img v-if="item.Imglist&&item.Imglist.length" :src="item.Imglist[0].ImgUrl" class="saas_table_img">
-                          <img v-else src="../../images/noimg.png" class="saas_table_img">
+                            <img v-if="item.Imglist&&item.Imglist.length" :src="item.Imglist[0].ImgUrl" class="saas_table_img">
+                            <img v-else src="../../images/noimg.png" class="saas_table_img">
                             <div class="table_detail">
-                              <div class="clearfix">
-                                  <span class="pull-left col_010101 fB">{{item.ProdBrandName}} {{item.StandardName}}</span>
-                                  <span class="pull-left col_010101 f12 mg_l30">供应商编码：{{item.DealerNo}}</span>
-                              </div>
-                              <div class="col-md-12 pd_l0 mg_t10 clearfix select_dropdown poR">
-                                  <label class="control-label pull-left f12 poA l_l0 w60">配件说明：</label>
-                                  <p class="pull-left mg_t2 f12 pd_l65 col_767676">{{item.ContentInfo}}{{item.SpecialNote}}</p>
-                              </div>
-                              <div class="col-md-12 pd_l0 clearfix mg_t5 select_dropdown">
-                                  <label class="control-label pull-left f12 w60">零件编号：</label>
-                                  <a href="#" class="saas_add pull-left f12 mg_l0">查看</a>
-                                  <label class="control-label pull-left f12 w60 mg_l30">适用年款：</label>
-                                  <a href="#" class="saas_add pull-left f12 mg_l0" @click="getsuitcars(item.BmNo)">查看</a>
-                              </div>
-                          </div>
+                                <div class="clearfix">
+                                    <span class="pull-left col_010101 fB">{{item.ProdBrandName}} {{item.StandardName}}</span>
+                                    <span class="pull-left col_010101 f12 mg_l30">供应商编码：{{item.DealerNo}}</span>
+                                </div>
+                                <div class="col-md-12 pd_l0 mg_t10 clearfix select_dropdown poR">
+                                    <label class="control-label pull-left f12 poA l_l0 w60">配件说明：</label>
+                                    <p class="pull-left mg_t2 f12 pd_l65 col_767676">{{item.ContentInfo}}{{item.SpecialNote}}</p>
+                                </div>
+                                <div class="col-md-12 pd_l0 clearfix mg_t5 select_dropdown">
+                                    <label class="control-label pull-left f12 w60">零件编号：</label>
+                                    <a href="#" class="saas_add pull-left f12 mg_l0">查看</a>
+                                    <label class="control-label pull-left f12 w60 mg_l30">适用年款：</label>
+                                    <a href="#" class="saas_add pull-left f12 mg_l0" @click="getsuitcars(item.BmNo)">查看</a>
+                                </div>
+                            </div>
                         </td>
                         <td><a href="#" class="saas_add mYH14 mg_l0">查看</a></td>
+                        <td>
+                            <span v-if="item.ProdStatus==1 class=" col_000 ">待审核</span>
+                          <span v-if="item.ProdStatus==2 class="col_ed5521">未通过</span>
+                            <span v-if="item.ProdStatus==3" class="col_5ca50a">已通过</span>
+                        </td>
                         <td><span class="f12 col_010101">{{item.AddTime}}</span></td>
-                        <td><a href="#" class="saas_edi mg_t10">编辑</a><a href="#" class="saas_del mg_t10">删除</a></td>
+                        <td>
+                            <!-- <a href="#" class="saas_edi mg_t10">编辑</a> -->
+                            <a href="#" class="saas_del mg_t10">删除</a>
+                        </td>
                     </tr>
                 </tbody>
             </table>
+            <nothing v-else></nothing>
         </div>
         <page-docs :count='count'></page-docs>
     </div>
@@ -84,11 +96,13 @@ from 'vue-strap'
 import buttonDocs from '../general/buttonDocs.vue'
 import pageDocs from '../general/pageDocs.vue'
 import modalcarDocs from '../general/modalcarDocs.vue'
+import tab from '../general/tabDocs.vue'
+import nothing from '../general/nothing.vue'
 import DateFormat from '../utils/DateFormat.js'
 import convert from '../utils/convert.js'
 export default {
     components: {
-        vSelect, vOption, datepicker, buttonDocs,pageDocs,modalcarDocs
+        vSelect, vOption, datepicker, buttonDocs, pageDocs, modalcarDocs, tab,nothing
     },
     data() {
         return {
@@ -106,56 +120,75 @@ export default {
             }],
             type: [],
             key: "",
+            tablist: [{
+                val: 0,
+                text: "全部"
+            }, {
+                val: 1,
+                text: "待审核"
+            }, {
+                val: 2,
+                text: "未通过"
+            }, {
+                val: 3,
+                text: "已通过"
+            }],
+            tab: 0,
             list: [],
             pagesize: 10,
             pageindex: 1,
             count: 0,
-            modalshow:false,
+            modalshow: false,
             modalist: []
         }
     },
-    ready(){
-      this.query();
+    ready() {
+        this.query();
     },
     methods: {
         query() {
-            let _this = this;
-            let param = {
-                pageindex: _this.pageindex,
-                pagesize: _this.pagesize,
-                sdate: _this.sdate,
-                edate: _this.edate,
-                state: this.state || 0,
-                type: _this.type.length ? _this.type[0] : 0,
-                key: _this.key,
-            };
-            Vue.http.get('/manage/GetProducts', param).then(function(response) {
-                let result=response.data;
-                result.data.forEach(function(item) {
-                    item.AddTime = DateFormat(item.AddTime)
-                });
-                _this.list = result.data;
-                _this.count = Math.ceil(result.count / _this.pagesize);
-            }, function(err) {
-                console.log('查询失败');
-            })
-        },
-        getsuitcars(bmno) {
-              let _this = this;
-              Vue.http.get('/product/GetSuitByBmNo?bmno=' + bmno).then(function(response) {
-                  let suitcars = response.data;
-                  _this.modalist = convert(suitcars);
-                  _this.modalshow = true;
-              }, function(err) {
-                  console.log('获取适用性失败');
-              })
-          },
+                let _this = this;
+                let param = {
+                    pageindex: _this.pageindex,
+                    pagesize: _this.pagesize,
+                    sdate: _this.sdate,
+                    edate: _this.edate,
+                    state: this.tab || 0,
+                    type: _this.type.length ? _this.type[0] : 0,
+                    key: _this.key,
+                };
+                Vue.http.get('/manage/GetProducts', param).then(function(response) {
+                    let result = response.data;
+                    result.data.forEach(function(item) {
+                        item.AddTime = DateFormat(item.AddTime)
+                    });
+                    _this.list = result.data;
+                    _this.count = Math.ceil(result.count / _this.pagesize);
+                }, function(err) {
+                    console.log('查询失败');
+                })
+            },
+            getsuitcars(bmno) {
+                let _this = this;
+                Vue.http.get('/product/GetSuitByBmNo?bmno=' + bmno).then(function(response) {
+                    let suitcars = response.data;
+                    _this.modalist = convert(suitcars);
+                    _this.modalshow = true;
+                }, function(err) {
+                    console.log('获取适用性失败');
+                })
+            },
     },
-    events:{
-      'page': function(index) {
-          this.pageindex = index;
-          this.query();
-      },
+    events: {
+        'page': function(index) {
+            this.pageindex = index;
+            this.query();
+        },
+        'tab': function(val) {
+            this.tab = val;
+            this.pageindex = 1;
+            this.query();
+        }
     }
 }
 

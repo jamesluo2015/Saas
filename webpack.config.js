@@ -11,6 +11,7 @@ module.exports = {
     '/account/reset': './app/js/account/reset.js',
     '/config/brand': './app/js/config/brand.js',
     '/config/express': './app/js/config/express.js',
+    '/config/stock': './app/js/config/stock.js',
     '/manage/bm': './app/js/manage/bm.js',
     '/order/list': './app/js/order/list.js',
     '/order/returned': './app/js/order/returned.js',

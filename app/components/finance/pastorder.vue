@@ -43,6 +43,8 @@
           </tr>
       </tbody>
   </table>
+
+  <nothing v-if="!orderlist.length"></nothing>
   <page-docs :count='count'></page-docs>
 </template>
 
@@ -57,9 +59,10 @@ import {
 from 'vue-strap'
 import buttonDocs from '../general/buttonDocs.vue'
 import pageDocs from '../general/pageDocs.vue'
+import nothing from '../general/nothing.vue'
 import DateFormat from '../utils/DateFormat.js'
 export default{
-  components:{  vSelect, datepicker, buttonDocs,pageDocs},
+  components:{  vSelect, datepicker, buttonDocs,pageDocs,nothing},
   data(){
     return{
       sdate: GetFormatDate(1),

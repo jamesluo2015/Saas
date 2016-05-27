@@ -106,12 +106,13 @@ import {select as vSelect} from 'vue-strap'
 import {option as vOption} from 'vue-strap'
 import modalcarDocs from '../../general/modalcarDocs.vue'
 import upload from '../../general/upload.vue'
+import nothing from '../../general/upload.vue'
 import convert from '../../utils/convert.js'
 import store from 'store'
 
 export default {
     components: {
-        vSelect, vOption, modalcarDocs, upload
+        vSelect, vOption, modalcarDocs, upload,nothing
     },
     data() {
         return {

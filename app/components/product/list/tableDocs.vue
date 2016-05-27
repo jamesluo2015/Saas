@@ -53,6 +53,8 @@
                 </td>
             </tr>
         </tbody>
+
+    <nothing v-if="!list.length"></nothing>
 </div>
 <modalcar-docs title="查看年款" :list="modalist" :showmodal.sync="modalshow"></modalcar-docs>
 
@@ -61,10 +63,11 @@
 <script>
 import tab from '../../general/tabDocs.vue'
 import modalcarDocs from '../../general/modalcarDocs.vue'
+import nothing from '../../general/nothing.vue'
 import convert from '../../utils/convert.js'
 export default {
     components: {
-        modalcarDocs,tab
+        modalcarDocs,tab,nothing
     },
     props: {
         list: {

@@ -60,6 +60,7 @@
             </tbody>
 
         </table>
+        <nothing v-if="!orderlist.length"></nothing>
         <page-docs :count='count'></page-docs>
     </div>
 </div>
@@ -83,10 +84,11 @@ from 'vue-strap'
 import buttonDocs from '../general/buttonDocs.vue'
 import tab from '../general/tabDocs.vue'
 import pageDocs from '../general/pageDocs.vue'
+import nothing from '../general/nothing.vue'
 import DateFormat from '../utils/DateFormat.js'
 export default {
     components: {
-        vSelect, vOption, datepicker, buttonDocs, tab, pageDocs
+        vSelect, vOption, datepicker, buttonDocs, tab, pageDocs,nothing
     },
     data() {
         return {
@@ -152,7 +154,7 @@ export default {
                   _this.orderlist = res.data.data;
                   _this.count = Math.ceil(res.data.count / _this.pagesize);
               } else {
-                  layer.alert(res.data.mes);
+                  //layer.alert(res.data.mes);
               }
           }, function() {
               //error

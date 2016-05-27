@@ -71,7 +71,7 @@ export default {
           }else{
             this.list=[];
             this.count =0;
-            layer.alert('查询无数据');
+            //layer.alert('查询无数据');
           }
         },
         //分页

@@ -23,7 +23,7 @@
                 <a href="#" class="red_btn f14 w100 h26 pull-left mg_l30">导出订单明细</a>
                 <a href="#" class="btn_green f14 w70 h26 pull-left mg_l30">打&nbsp;印</a>
             </div>
-            <table class="table table2 table_bg mg_t2">
+            <table class="table table2 table_bg mg_t2" v-if="list.length">
                 <thead>
                     <tr>
                         <th width="15%">结算单编号</th>
@@ -48,8 +48,8 @@
                         <td><a href="#" class="saas_add mg_l0">查看结算单</a><a href="#" class="saas_add mg_l20">查看账单</a></td>
                     </tr>
                 </tbody>
-
             </table>
+            <nothing v-if="!list.length"></nothing>
             <page-docs :count='count'></page-docs>
         </div>
     </div>
@@ -69,8 +69,9 @@ import {
 from 'vue-strap'
 import buttonDocs from '../general/buttonDocs.vue'
 import pageDocs from '../general/pageDocs.vue'
+import nothing from '../general/nothing.vue'
 export default {
-    components: {vSelect,datepicker,buttonDocs,pageDocs},
+    components: {vSelect,datepicker,buttonDocs,pageDocs,nothing},
     data(){
       return {
         sdate: GetFormatDate(1),

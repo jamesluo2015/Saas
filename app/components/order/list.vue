@@ -30,7 +30,7 @@
 
         <moon-loader :loading="loading" size="50px"></moon-loader>
 
-        <table class="table table2 table_bg mg_t2" v-for="(index,item) in orderlist">
+        <table class="table table2 table_bg mg_t2" v-if="orderlist.length" v-for="(index,item) in orderlist">
             <thead>
                 <tr>
                     <th colspan="5" class="lineH30">
@@ -82,6 +82,7 @@
               </template>
             </tbody>
         </table>
+        <nothing v-if="!orderlist.length"></nothing>
         <page-docs :count='count'></page-docs>
     </div>
 </div>
@@ -106,13 +107,14 @@ from 'vue-strap'
 import buttonDocs from '../general/buttonDocs.vue'
 import tab from '../general/tabDocs.vue'
 import pageDocs from '../general/pageDocs.vue'
+import nothing from '../general/nothing.vue'
 import DateFormat from '../utils/DateFormat.js'
 import detail from './detail.vue'
 import delivery from './delivery.vue'
 import MoonLoader from 'vue-spinner/src/MoonLoader.vue'
 export default {
     components: {
-        vSelect, vOption, datepicker, buttonDocs, tab,pageDocs,detail,delivery,MoonLoader
+        vSelect, vOption, datepicker, buttonDocs, tab,pageDocs,detail,delivery,MoonLoader,nothing
     },
     data() {
         return {
@@ -196,7 +198,7 @@ export default {
                     _this.count = Math.ceil(res.data.count / _this.pagesize);
                     // _this.tips=res.data.data2;
                 } else {
-                    layer.alert(res.data.mes);
+                    //layer.alert(res.data.mes);
                 }
             }, function() {
                 //error
