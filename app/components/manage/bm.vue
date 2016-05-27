@@ -100,6 +100,7 @@ import tab from '../general/tabDocs.vue'
 import nothing from '../general/nothing.vue'
 import DateFormat from '../utils/DateFormat.js'
 import convert from '../utils/convert.js'
+import { GetFormatDate } from '../utils/date'
 export default {
     components: {
         vSelect, vOption, datepicker, buttonDocs, pageDocs, modalcarDocs, tab,nothing

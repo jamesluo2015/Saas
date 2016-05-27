@@ -35,7 +35,7 @@ import {
 from 'vue-strap'
 import PulseLoader from 'vue-spinner/src/PulseLoader.vue'
 import buttonDocs from '../../general/buttonDocs.vue'
-
+import { GetFormatDate } from '../../utils/date'
 export default {
     components: {
         vSelect, vOption, datepicker, PulseLoader, buttonDocs
@@ -80,7 +80,7 @@ export default {
             _this.loading = true;
             Vue.http.get('/product/GetProducts', param).then(function(response) {
                   _this.$dispatch('GetProducts', response.data)
-            
+
                 _this.loading = false;
             }, function(err) {
                 _this.loading = false;

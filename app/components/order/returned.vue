@@ -86,6 +86,7 @@ import tab from '../general/tabDocs.vue'
 import pageDocs from '../general/pageDocs.vue'
 import nothing from '../general/nothing.vue'
 import DateFormat from '../utils/DateFormat.js'
+import { GetFormatDate } from '../utils/date'
 export default {
     components: {
         vSelect, vOption, datepicker, buttonDocs, tab, pageDocs,nothing

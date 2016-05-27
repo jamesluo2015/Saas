@@ -2,7 +2,7 @@
 
 <template id="">
 
-<div class="right_contain">
+<div class="right_contain" v-if="!showbalance">
     <div class="row">
         <div class="col-md-12 pd_l0 pd_r0 mg_r0">
             <div class="col-md-12 pd_l0 mg_t20 mg_b30 clearfix select_dropdown">
@@ -45,7 +45,8 @@
                         <td><em class="fS col_77b530 f16">{{item.Rebate}}</em> </td>
                         <td>{{BillStatus==9?"已结算":"待审核"}}</td>
                         <td>{{item.AddTime}}</td>
-                        <td><a href="#" class="saas_add mg_l0">查看结算单</a><a href="#" class="saas_add mg_l20">查看账单</a></td>
+                        <td><a href="#" class="saas_add mg_l0" @click="show(item)">查看结算单</a>
+                          <a href="#" class="saas_add mg_l20">查看账单</a></td>
                     </tr>
                 </tbody>
             </table>
@@ -54,7 +55,7 @@
         </div>
     </div>
 </div>
-
+<balance :model="model" v-else></balance>
 </template>
 
 <script>
@@ -70,8 +71,11 @@ from 'vue-strap'
 import buttonDocs from '../general/buttonDocs.vue'
 import pageDocs from '../general/pageDocs.vue'
 import nothing from '../general/nothing.vue'
+import { GetFormatDate } from '../utils/date'
+import balance from './balance.vue'
+import DateFormat from '../utils/DateFormat.js'
 export default {
-    components: {vSelect,datepicker,buttonDocs,pageDocs,nothing},
+    components: {vSelect,datepicker,buttonDocs,pageDocs,nothing,balance},
     data(){
       return {
         sdate: GetFormatDate(1),
@@ -88,7 +92,12 @@ export default {
         pagesize: 5,
         pageindex: 1,
         count: 0,
+        model:{},
+        showbalance: false
       }
+    },
+    ready(){
+      this.query();
     },
     methods:{
       query(){
@@ -101,9 +110,18 @@ export default {
           state: _this.state.length>0?_this.state[0]:0
         };
         Vue.http.get('/finance/GetBills',param).then(function(res){
+          res.data.data.forEach(function(item){
+            item.AddTime=DateFormat(item.AddTime);
+            item.BeginDate=DateFormat(item.BeginDate);
+            item.EndDate=DateFormat(item.EndDate);
+          })
           _this.list=res.data.data;
           _this.count = Math.ceil(res.data.count / _this.pagesize);
         })
+      },
+      show(item){
+        this.model=item;
+        this.showbalance=true;
       }
     },
     events:{

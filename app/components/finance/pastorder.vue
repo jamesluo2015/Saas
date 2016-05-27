@@ -61,6 +61,7 @@ import buttonDocs from '../general/buttonDocs.vue'
 import pageDocs from '../general/pageDocs.vue'
 import nothing from '../general/nothing.vue'
 import DateFormat from '../utils/DateFormat.js'
+import { GetFormatDate } from '../utils/date'
 export default{
   components:{  vSelect, datepicker, buttonDocs,pageDocs,nothing},
   data(){

@@ -27,10 +27,10 @@
                         <th width="25%">操作</th>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody v-for="item in list">
                     <tr>
-                        <td>01-01-01</td>
-                        <td>20</td>
+                        <td>{{item.SlotCode}}</td>
+                        <td>{{item.}}</td>
                         <td>北京库区-五方库房 01号货位</td>
                         <td><a href="#" class="bianji mg_r30">编辑</a><a href="#" class="shanchu">删除</a></td>
                     </tr>
