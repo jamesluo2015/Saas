@@ -18,6 +18,7 @@ module.exports = {
     '/stock/house': './app/js/stock/house.js',
     '/stock/slot': './app/js/stock/slot.js',
     '/stock/main': './app/js/stock/main.js',
+    '/stock/outstock': './app/js/stock/outstock.js',
     '/finance/current': './app/js/finance/current.js',
     '/finance/past': './app/js/finance/past.js',
   },

@@ -23,6 +23,7 @@
     },
     methods:{
       click(item){
+        this.value=item.val;
         this.$dispatch('tab', item.val);
       }
     }

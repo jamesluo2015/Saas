@@ -57,8 +57,8 @@
                         </td>
                         <td><a href="#" class="saas_add mYH14 mg_l0">查看</a></td>
                         <td>
-                            <span v-if="item.ProdStatus==1 class=" col_000 ">待审核</span>
-                          <span v-if="item.ProdStatus==2 class="col_ed5521">未通过</span>
+                            <span v-if="item.ProdStatus==1" class="col_000">待审核</span>
+                          <span v-if="item.ProdStatus==2" class="col_ed5521">未通过</span>
                             <span v-if="item.ProdStatus==3" class="col_5ca50a">已通过</span>
                         </td>
                         <td><span class="f12 col_010101">{{item.AddTime}}</span></td>
@@ -69,7 +69,7 @@
                     </tr>
                 </tbody>
             </table>
-            <nothing v-else></nothing>
+            <nothing v-if="!list.length"></nothing>
         </div>
         <page-docs :count='count'></page-docs>
     </div>

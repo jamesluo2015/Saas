@@ -26,7 +26,7 @@
             <button-docs text="查&nbsp;询" @click='query' class='pull-left mg_l30'></button-docs>
         </div>
 
-        <tab :data="tablist" :value="0" :tips="tips"></tab>
+        <tab :data="tablist" :value.sync="state" :tips="tips"></tab>
 
         <moon-loader :loading="loading" size="50px"></moon-loader>
 
@@ -110,6 +110,7 @@ import pageDocs from '../general/pageDocs.vue'
 import nothing from '../general/nothing.vue'
 import DateFormat from '../utils/DateFormat.js'
 import { GetFormatDate } from '../utils/date'
+import QueryString from '../utils/QueryString'
 import detail from './detail.vue'
 import delivery from './delivery.vue'
 import MoonLoader from 'vue-spinner/src/MoonLoader.vue'
@@ -217,7 +218,13 @@ export default {
         }
     },
     ready(){
-      this.query();
+      let tab=QueryString('tab');
+      if(tab){
+        this.state=parseInt(tab);
+      }
+        this.query();
+
+
       let _this=this;
       Vue.http.get('/order/GetTips').then(function(res){
         if(res.ok){
@@ -232,7 +239,6 @@ export default {
         $('.container-fluid').animate({scrollTop: '0px'});
       },
       'tab': function(val){
-        this.state=val;
         this.pageindex=1;
         this.query();
       }

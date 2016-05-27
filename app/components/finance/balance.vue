@@ -108,6 +108,10 @@ export default {
     methods:{
       audit(){
         this.model.BillStatus=3;
+        let id=this.model.Id;
+        Vue.http.post(`/finance/UpdateStatus?id=${id}&status=3`).then(function(res){
+          
+        })
       }
     }
 }
