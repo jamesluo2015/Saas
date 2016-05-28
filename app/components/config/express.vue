@@ -170,7 +170,7 @@ export default {
                   _this.model.Id=res.data;
                   _this.list.push(JSON.parse(JSON.stringify(_this.model)));
                   _this.addExpress=false;
-                  _this.model=[];
+                  _this.model={};
               }, function() {
 
               })

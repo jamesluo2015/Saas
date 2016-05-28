@@ -64,7 +64,7 @@
                         <td><span class="f12 col_010101">{{item.AddTime}}</span></td>
                         <td>
                             <!-- <a href="#" class="saas_edi mg_t10">编辑</a> -->
-                            <a href="#" class="saas_del mg_t10">删除</a>
+                            <a href="#" class="saas_del mg_t10" @click="del($index)">删除</a>
                         </td>
                     </tr>
                 </tbody>
@@ -179,6 +179,12 @@ export default {
                     console.log('获取适用性失败');
                 })
             },
+            del(index){
+              let _this=this;
+              Vue.http.post('/manage/Del?stockid='+_this.list[index].StockId).then(function(){
+                _this.list.splice(index,1);
+              })
+            }
     },
     events: {
         'page': function(index) {

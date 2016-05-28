@@ -1,6 +1,8 @@
 
 
 <template id="">
+<template v-if="!showcurrent">
+
 
 <div class="right_contain" v-if="!showbalance">
     <div class="row">
@@ -46,7 +48,7 @@
                         <td>{{BillStatus==9?"已结算":"待审核"}}</td>
                         <td>{{item.AddTime}}</td>
                         <td><a href="#" class="saas_add mg_l0" @click="show(item)">查看结算单</a>
-                            <a href="#" class="saas_add mg_l20">查看账单</a></td>
+                            <a href="#" class="saas_add mg_l20" @click="showbill(item)">查看账单</a></td>
                     </tr>
                 </tbody>
             </table>
@@ -56,7 +58,8 @@
     </div>
 </div>
 <balance :model="model" v-else></balance>
-
+</template>
+<current :model="model" v-else></current>
 </template>
 
 <script>
@@ -78,9 +81,10 @@ import {
 from '../utils/date'
 import balance from './balance.vue'
 import DateFormat from '../utils/DateFormat.js'
+import current from './current.vue'
 export default {
     components: {
-        vSelect, datepicker, buttonDocs, pageDocs, nothing, balance
+        vSelect, datepicker, buttonDocs, pageDocs, nothing, balance,current
     },
     data() {
         return {
@@ -99,7 +103,8 @@ export default {
             pageindex: 1,
             count: 0,
             model: {},
-            showbalance: false
+            showbalance: false,
+            showcurrent: false
         }
     },
     ready() {
@@ -128,12 +133,15 @@ export default {
                         _this.list =[];
                         _this.count=0;
                     }
-
                 })
             },
             show(item) {
                 this.model = item;
                 this.showbalance = true;
+            },
+            showbill(item){
+              this.model = item;
+              this.showcurrent=true;
             }
     },
     events: {

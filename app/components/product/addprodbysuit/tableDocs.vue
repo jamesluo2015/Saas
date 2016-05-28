@@ -200,6 +200,15 @@ export default {
                                 }
                             })
                         }
+                        Vue.http.get('/product/GetSuitCarAndSku?bmno=' + item.BmNo).then(function(response) {
+                          if(response.data.ok){
+                              item.SuitCarList = response.data.data;
+                              item.SkuList = response.data.data2;
+                          }
+                        }, function(err) {
+                            console.log('获取适用性失败');
+                        })
+
                         item.Brandlist = [_this.brands[0].value];
                         item.Imglist = [];
                         item.showimg = "";

@@ -65,8 +65,8 @@ export default{
   components:{  vSelect, datepicker, buttonDocs,pageDocs,nothing},
   data(){
     return{
-      sdate: GetFormatDate(1),
-      edate: GetFormatDate(),
+      sdate: this.$parent.model.BeginDate,
+      edate: this.$parent.model.EndDate,
       key: "",
       orderlist:[],
       pagesize:10,

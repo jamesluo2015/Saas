@@ -49,7 +49,7 @@
             </li>
         </ul>
         <div class="col-md-12 mg_t10 mg_b20 clearfix">
-            <a href="#" class="btn_red bg8 mg_t20 mg_l70 w80 h26 pull-left" @click="saveaddress">确&nbsp;定</a>
+            <a href="#" class="btn_red bg8 mg_t20 mg_l70 w80 h26 pull-left" :class={'disable':isadd} @click="saveaddress" >确&nbsp;定</a>
             <a href="#" class="gray mg_t20 mg_l30 w80 h26 pull-left" @click="showaddress=false">取&nbsp;消</a>
         </div>
     </div>
@@ -72,7 +72,8 @@ export default {
             showaddress: false,
             provinces: [],
             list:[],
-            index: 0
+            index: 0,
+            isadd: false
         }
     },
     ready() {
@@ -118,11 +119,15 @@ export default {
         this.showaddress=true;
       },
       saveaddress(){
+        if(this.isadd){
+          return false;
+        }
+        let _this=this;
         let model=this.list[this.index];
 
         let param=[];
         let provinces=[];
-        let provinceids=[];
+        //let provinceids=[];
         this.provinces.forEach(function(item){
           if(item.check){
             let temp={
@@ -132,7 +137,7 @@ export default {
               ProvinceName: item.Name
             };
             provinces.push(item.Name);
-            provinceids.push(item.id);
+            //provinceids.push(item.id);
             param.push(temp);
           }
         })
@@ -141,10 +146,15 @@ export default {
           return false;
         }
         model.Provinces=provinces.join(',');
-        this.showaddress=false;
+        this.isadd=true;
         // console.log(param);
-        Vue.http.post('/config/SaveStockArea',{list:param,ids:model.ProvinceIds}).then(function(res){
-          model.ProvinceIds=provinceids;
+        Vue.http.post('/config/SaveStockArea',{list:param,ids:model.ids}).then(function(res){
+          //model.ProvinceIds=provinceids;
+          if(res.data){
+            model.ids=res.data;
+          }
+          _this.showaddress=false;
+          _this.isadd=false;
         })
       }
     }
