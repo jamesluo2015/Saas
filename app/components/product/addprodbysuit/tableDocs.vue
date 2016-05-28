@@ -59,19 +59,19 @@
             <!--1、返利  2、差价-->
             <div class="pd_l0 mg_t10 clearfix select_dropdown pull-left w300" v-if='stype==1'>
                 <label class="control-label pull-left"><em v-if="item.isupdate" class="col_fb2727 mg_r5">*</em>销售价：</label>
-                <input v-if="item.isupdate" placeholder="" type="text" v-model="item.SalePrice" class="add_input w160 pull-left form-control">
+                <input v-if="item.isupdate" placeholder="" type="text" v-model="item.SalePrice" number class="add_input w160 pull-left form-control">
                 <label v-if="item.isupdate" class="pull-left fN mg_t2 mg_l5">元</label>
                 <label v-else class="pull-left fN mg_t2 mg_l5">{{item.SalePrice}}元</label>
             </div>
             <div class="pd_l0 mg_t10 clearfix select_dropdown pull-left w300" v-else>
                 <label class="control-label pull-left"><em v-if="item.isupdate" class="col_fb2727 mg_r5">*</em>进货价：</label>
-                <input v-if="item.isupdate" placeholder="" type="text" v-model="item.InPrice" class="add_input w160 pull-left form-control">
+                <input v-if="item.isupdate" placeholder="" type="text" v-model="item.InPrice" number class="add_input w160 pull-left form-control">
                 <label v-if="item.isupdate" class="pull-left fN mg_t2 mg_l5">元</label>
                 <label v-else class="pull-left fN mg_t2 mg_l5">{{item.InPrice}}元</label>
             </div>
             <div class="pd_l0 mg_t10 clearfix select_dropdown pull-left w300">
                 <label class="control-label pull-left" for="input01"><em v-if="item.isupdate" class="col_fb2727 mg_r5">*</em>库存数：</label>
-                <input v-if="item.isupdate" placeholder="" type="text" v-model='item.StockCount' class="add_input w160 pull-left form-control pull-left">
+                <input v-if="item.isupdate" placeholder="" type="text" v-model='item.StockCount' number class="add_input w160 pull-left form-control pull-left">
                 <span v-else class="pull-left fN mg_t2 mg_l5">{{item.StockCount}}</span>
             </div>
         </div>
@@ -223,6 +223,10 @@ export default {
                         }
                         if (!item.Id && item.SkuList) {
                             item.Sku = item.SkuList.join(',');
+                        }
+                        if(!item.Id){
+                          item.StockCount="";
+                          item.SalePrice="";
                         }
                         //0待修改 1 待保存 2待添加
                         item.isupdate = item.Id ? 0 : 1;

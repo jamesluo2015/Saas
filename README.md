@@ -28,7 +28,7 @@ export default {
 
 ```js
 //下拉框
-import { Select as vSelect } from 'vue-strap'
+import { select as vSelect } from 'vue-strap'
 
 <v-select :value.sync="standardname" :search="true" :options="standardlist" :close-on-select="true" placeholder="选择标准名称">
 </v-select>

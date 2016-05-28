@@ -188,6 +188,9 @@ export default {
             }else{
               return false;
             }
+            if(!this.model.DealerNo){
+              return false;
+            }
             return result;
         }
     }

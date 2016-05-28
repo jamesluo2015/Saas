@@ -42,16 +42,31 @@
     </div>
     <div slot="modal-body" class="modal-body">
         <ul class="modal_add clearfix">
-            <li class="clearfix w_100" @click="checkall()"><em :class="allcheck?'saas_check':'saas_checkbox'"></em><em class="pull-left fS f12">全选</em></li>
-            <li class="clearfix" v-for="item in provinces" @click="item.check=!item.check">
-                <em v-if="all.indexOf(item.Name)>=0" class="saas_check" disabled="true"></em>
-                <em v-else :class="item.check?'saas_check':'saas_checkbox'"></em>
+            <li class="clearfix w_100" @click="checkall()">
+              <em :class="allcheck?'saas_check':'saas_checkbox'"></em>
+              <em class="pull-left fS f12">全选</em>
+              <span class="pull-right f12">区域选择具有唯一性，不同库区不可重复</span>
+            </li>
+            <li class="clearfix" v-for="item in provinces" >
 
-                <em class="pull-left fS f12">{{item.Name}}</em>
+                <!-- <em v-if="list[index].Provinces.indexOf(item.Name)>=0":class="item.check?'saas_check':'saas_checkbox'"></em>
+                <template v-else>
+                    <em v-if="all.indexOf(item.Name)>=0" class="saas_check" disabled="true"></em>
+                    <em v-else :class="item.check?'saas_check':'saas_checkbox'"></em>
+                </template> -->
+
+                <template v-if="item.cancheck" >
+                      <em :class="item.check?'saas_check':'saas_checkbox'" @click="item.check=!item.check"></em>
+                      <em class="pull-left fS f12" @click="item.check=!item.check">{{item.Name}}</em>
+                </template>
+                <template v-else>
+                      <em class="saas_none"></em>
+                      <em class="pull-left fS f12 col_b5">{{item.Name}}</em>
+                </template>
             </li>
         </ul>
         <div class="col-md-12 mg_t10 mg_b20 clearfix">
-            <a href="#" class="btn_red bg8 mg_t20 mg_l70 w80 h26 pull-left" :class={ 'disable':isadd} @click="saveaddress">确&nbsp;定</a>
+            <a href="#" class="btn_red bg8 mg_t20 mg_l70 w80 h26 pull-left" :class={'disable':isadd} @click="saveaddress">确&nbsp;定</a>
             <a href="#" class="gray mg_t20 mg_l30 w80 h26 pull-left" @click="showaddress=false">取&nbsp;消</a>
         </div>
     </div>
@@ -88,14 +103,18 @@ export default {
         Vue.http.get('/account/GetAreaInfo?headId=1').then(function(res) {
             res.data.forEach(function(item) {
                 item.check = false;
+                item.cancheck=true;
             })
             _this.provinces = res.data;
         })
     },
     computed: {
         allcheck() {
+                let _this = this;
                 return !this.provinces.some(function(item) {
-                    return !item.check;
+                    if (item.cancheck) {
+                        return !item.check;
+                    }
                 })
             },
             all() {
@@ -108,20 +127,30 @@ export default {
     },
     methods: {
         checkall() {
+                let _this = this;
                 let check = this.allcheck;
                 this.provinces.forEach(function(item) {
-                    item.check = !check;
+                    if (item.cancheck) {
+                      item.check = !check;
+                    } else {
+
+                    }
                 })
             },
             setAddress(index) {
+                let _this=this;
                 this.index = index;
                 let provinces = this.list[index].Provinces;
 
                 this.provinces.forEach(function(item) {
+                    item.cancheck=true;
                     if (provinces.indexOf(item.Name) >= 0) {
                         item.check = true;
                     } else {
                         item.check = false;
+                        if(_this.all.indexOf(item.Name)>=0){
+                          item.cancheck=false;
+                        }
                     }
                 })
                 this.showaddress = true;

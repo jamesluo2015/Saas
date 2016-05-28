@@ -5,7 +5,7 @@
 <div class="right_contain">
     <div class="row">
         <div class="col-md-12 pd_l0 mg_t10 mg_b30 clearfix select_dropdown">
-            <a href="#" class="green_btn w80 h26 pull-left mg_l30">+添加库区</a>
+            <a href="#" class="green_btn w80 h26 pull-left mg_l30" @click="addarea=true">+添加库区</a>
             <a href="#" class="green_btn w80 h26 pull-left mg_l30">+添加库房</a>
             <div class="dropdown pull-left mg_l30">
                 <v-select :value.sync="area" :options="areas" :close-on-select="true" placeholder="选择库区"></v-select>
@@ -58,15 +58,11 @@
                         </td>
                     </tr>
                 </tbody>
-
             </table>
         </div>
-
+        <area :show.sync="addarea" :model="areamodel"></area>
     </div>
-
-
 </div>
-
 </template>
 
 <script>
@@ -77,8 +73,9 @@ import {
 from 'vue-strap'
 import buttonDocs from '../general/buttonDocs.vue'
 import pageDocs from '../general/pageDocs.vue'
+import area from './addArea.vue'
 export default {
-    components: {vSelect,buttonDocs,pageDocs},
+    components: {vSelect,buttonDocs,pageDocs,area},
     data() {
         return {
           areas: [],
@@ -96,6 +93,8 @@ export default {
           pagesize: 5,
           pageindex: 1,
           count: 0,
+          addarea: false,
+          areamodel:{}
         }
     },
     methods:{
@@ -164,6 +163,13 @@ export default {
         }));
         _this.areas=arr;
       })
+    },
+    events:{
+      'addarea':function(model){
+        Vue.http.post('/stock/AddHouse',model).then(function(res){
+
+        })
+      }
     }
 }
 
