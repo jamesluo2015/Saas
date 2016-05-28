@@ -175,7 +175,7 @@ export default {
             },
             allcode(){
               let _this=this;
-              let arr=['01','01','01'];
+              let arr=['','',''];
               if(_this.model.area.length){
                 for (var i = 0; i < _this.allhouse.length; i++) {
                   if(_this.allhouse[i].Id==_this.model.area[0]){

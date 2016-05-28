@@ -11,7 +11,7 @@
     <div class="alert alert-danger" role="alert">
         <h3>
            <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
-           找不到此零件号,请确认零件号是否正确，或者您可以<a href="/product/addprodbysuit"><span class="label label-success">通过类目添加商品</span></a>
+           找不到此零件号,请确认零件号是否正确，或者您可以<a href="/product/addprodbysuit"><span class="label label-success">通过适用性添加商品</span></a>
        </h3>
     </div>
 </div>
@@ -40,10 +40,10 @@ export default {
     },
     ready() {
         //读取 sku
-        let sku = store.get('sku');
-        if (sku) {
-            this.txtsku = sku;
-        }
+        // let sku = store.get('sku');
+        // if (sku) {
+        //     this.txtsku = sku;
+        // }
     },
     methods: {
         query() {
@@ -60,6 +60,7 @@ export default {
                         //_this.model=res.data;
                         _this.$dispatch('skumodel', res.data)
                     } else {
+                        _this.$dispatch('skumodel', {})
                         _this.isnosku = true;
                     }
                 }, function() {

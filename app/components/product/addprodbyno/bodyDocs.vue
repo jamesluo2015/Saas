@@ -17,7 +17,7 @@
             <label class="control-label pull-left">配件说明：</label>
             <div class="col-md-10 pull-left pd_l0 mg_t2">
                 {{model.ContentInfo}}
-                <a href="#" class="saas_add">+补充零件编号</a>
+                <a href="#" class="saas_add">+补充配件说明</a>
             </div>
         </div>
 
@@ -172,11 +172,21 @@ export default {
     computed: {
         valid: function() {
             let result = true;
-            if (!this.model.SalePrice||isNaN(this.model.SalePrice)) {
-                result = false;
+            if(!isNaN(this.model.SalePrice)){
+              let temp=parseInt(this.model.SalePrice);
+              if(!temp){
+                return false;
+              }
+            }else{
+              return false;
             }
-            if (!this.model.StockCount||isNaN(this.model.StockCount)) {
-                result = false;
+            if(!isNaN(this.model.StockCount)){
+              let temp=parseInt(this.model.StockCount);
+              if(!temp){
+                return false;
+              }
+            }else{
+              return false;
             }
             return result;
         }

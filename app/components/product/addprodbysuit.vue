@@ -14,7 +14,7 @@
             <label class="control-label pull-left">适用车型：</label>
             <v-select :value.sync="factory"  class="pull-left mg_r30" :options="fac_select" :close-on-select="true" placeholder="选择主机厂">
             </v-select>
-            <v-select :value.sync="carmodel" class="pull-left mg_r30"  :options="car_select" :close-on-select="true" placeholder="选择车型">
+            <v-select id="carmodel" :value.sync="carmodel" class="pull-left mg_r30"  :options="car_select" :close-on-select="true" placeholder="选择车型">
             </v-select>
             <v-select :value.sync="partsyear" class="pull-left mg_r30"  :options="yearlist" :close-on-select="true" placeholder="选择年款">
             </v-select>
@@ -54,7 +54,8 @@ export default {
             factory: [],
             carmodel: [],
             partsyear: [],
-            standardname: []
+            standardname: [],
+            isstore:false
         }
     },
     ready() {
@@ -93,7 +94,11 @@ export default {
                 if (param[3] != "0") {
                     setTimeout(function() {
                         _this.partsyear = [param[3]];
+                        //用来判断是否默认加载完成
+                        _this.isstore=true;
                     }, 500)
+                }else{
+                  _this.isstore=true;
                 }
             }, 500)
         }
@@ -202,6 +207,12 @@ export default {
                     console.log('没有年款信息');
                 });
             }
+        },
+        factory(val){
+          if (val.length&&this.isstore) {
+            document.querySelector('#carmodel button').click()
+          }
+          return false;
         }
     }
 }

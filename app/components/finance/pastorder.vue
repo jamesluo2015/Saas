@@ -16,7 +16,7 @@
       <span class="pull-left mg_l10 f12 lineH26 mg_l30">订单号：</span>
       <input placeholder="" v-model="key" class="add_input w160 pull-left form-control" type="text">
       <button-docs text="查&nbsp;询" @click='query' class='pull-left mg_l30'></button-docs>
-      <a href="#" class="red_btn f14 w100 h26 pull-left mg_l30">导出订单明细</a>
+      <a href="#" class="red_btn f14 w100 h26 pull-left mg_l30">导出退货单明细</a>
   </div>
   <table class="table table2 table_bg mg_t2">
       <thead>

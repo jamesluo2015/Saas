@@ -44,12 +44,14 @@
         <ul class="modal_add clearfix">
             <li class="clearfix w_100" @click="checkall()"><em :class="allcheck?'saas_check':'saas_checkbox'"></em><em class="pull-left fS f12">全选</em></li>
             <li class="clearfix" v-for="item in provinces" @click="item.check=!item.check">
-              <em :class="item.check?'saas_check':'saas_checkbox'"></em>
-              <em class="pull-left fS f12">{{item.Name}}</em>
+                <em v-if="all.indexOf(item.Name)>=0" class="saas_check" disabled="true"></em>
+                <em v-else :class="item.check?'saas_check':'saas_checkbox'"></em>
+
+                <em class="pull-left fS f12">{{item.Name}}</em>
             </li>
         </ul>
         <div class="col-md-12 mg_t10 mg_b20 clearfix">
-            <a href="#" class="btn_red bg8 mg_t20 mg_l70 w80 h26 pull-left" :class={'disable':isadd} @click="saveaddress" >确&nbsp;定</a>
+            <a href="#" class="btn_red bg8 mg_t20 mg_l70 w80 h26 pull-left" :class={ 'disable':isadd} @click="saveaddress">确&nbsp;定</a>
             <a href="#" class="gray mg_t20 mg_l30 w80 h26 pull-left" @click="showaddress=false">取&nbsp;消</a>
         </div>
     </div>
@@ -71,7 +73,7 @@ export default {
         return {
             showaddress: false,
             provinces: [],
-            list:[],
+            list: [],
             index: 0,
             isadd: false
         }
@@ -79,11 +81,10 @@ export default {
     ready() {
         let _this = this;
         //获取已配置信息
-        Vue.http.get('/config/GetStockArea').then(function(res){
-
-          _this.list=res.data;
-        })
-        //获取所有省份
+        Vue.http.get('/config/GetStockArea').then(function(res) {
+                _this.list = res.data;
+            })
+            //获取所有省份
         Vue.http.get('/account/GetAreaInfo?headId=1').then(function(res) {
             res.data.forEach(function(item) {
                 item.check = false;
@@ -91,72 +92,82 @@ export default {
             _this.provinces = res.data;
         })
     },
-    computed:{
-      allcheck(){
-        return !this.provinces.some(function(item){
-          return !item.check;
-        })
-      },
+    computed: {
+        allcheck() {
+                return !this.provinces.some(function(item) {
+                    return !item.check;
+                })
+            },
+            all() {
+                let ids = "";
+                this.list.forEach(function(item) {
+                    ids += item.Provinces;
+                })
+                return ids;
+            }
     },
-    methods:{
-      checkall(){
-        let check=this.allcheck;
-        this.provinces.forEach(function(item){
-          item.check=!check;
-        })
-      },
-      setAddress(index){
-        this.index=index;
-        let provinces=this.list[index].Provinces;
+    methods: {
+        checkall() {
+                let check = this.allcheck;
+                this.provinces.forEach(function(item) {
+                    item.check = !check;
+                })
+            },
+            setAddress(index) {
+                this.index = index;
+                let provinces = this.list[index].Provinces;
 
-        this.provinces.forEach(function(item) {
-          if(provinces.indexOf(item.Name)>=0){
-            item.check=true;
-          }else{
-              item.check = false;
-          }
-        })
-        this.showaddress=true;
-      },
-      saveaddress(){
-        if(this.isadd){
-          return false;
-        }
-        let _this=this;
-        let model=this.list[this.index];
+                this.provinces.forEach(function(item) {
+                    if (provinces.indexOf(item.Name) >= 0) {
+                        item.check = true;
+                    } else {
+                        item.check = false;
+                    }
+                })
+                this.showaddress = true;
+            },
+            saveaddress() {
+                if (this.isadd) {
+                    return false;
+                }
+                let _this = this;
+                let model = this.list[this.index];
 
-        let param=[];
-        let provinces=[];
-        //let provinceids=[];
-        this.provinces.forEach(function(item){
-          if(item.check){
-            let temp={
-              StoreRegionId: model.Id,
-              StoreRegionName: model.HouseName,
-              ProvinceId: item.id,
-              ProvinceName: item.Name
-            };
-            provinces.push(item.Name);
-            //provinceids.push(item.id);
-            param.push(temp);
-          }
-        })
-        if(!provinces.length){
-          layer.alert('请选择省份');
-          return false;
-        }
-        model.Provinces=provinces.join(',');
-        this.isadd=true;
-        // console.log(param);
-        Vue.http.post('/config/SaveStockArea',{list:param,ids:model.ids}).then(function(res){
-          //model.ProvinceIds=provinceids;
-          if(res.data){
-            model.ids=res.data;
-          }
-          _this.showaddress=false;
-          _this.isadd=false;
-        })
-      }
+                let param = [];
+                let provinces = [];
+                //let provinceids=[];
+                this.provinces.forEach(function(item) {
+                    if (item.check) {
+                        let temp = {
+                            StoreRegionId: model.Id,
+                            StoreRegionName: model.HouseName,
+                            ProvinceId: item.id,
+                            ProvinceName: item.Name
+                        };
+                        provinces.push(item.Name);
+                        //provinceids.push(item.id);
+                        param.push(temp);
+                    }
+                })
+                if (!provinces.length) {
+                    layer.alert('请选择省份');
+                    return false;
+                }
+                model.Provinces = provinces.join(',');
+                this.isadd = true;
+                // console.log(param);
+                Vue.http.post('/config/SaveStockArea', {
+                    list: param,
+                    ids: model.ids
+                }).then(function(res) {
+                    //model.ProvinceIds=provinceids;
+                    if (res.data) {
+                        model.ids = res.data;
+                    }
+                    _this.showaddress = false;
+                    _this.isadd = false;
+                })
+            }
     }
 }
 

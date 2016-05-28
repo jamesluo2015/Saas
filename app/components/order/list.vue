@@ -37,15 +37,15 @@
                         <span class="pull-left col_999999">{{item.AddTime}}</span>
                         <span class="mg_l40 col_010101 pull-left">来源单号：{{item.SourceOrderId}}</span>
                         <span class="mg_l40 col_010101 pull-left">订单号：{{item.OrderCode}}</span>
-                        <img src="../../images/saas12.png" class="pull-right mg_r10">
+                        <img :src="'/content/images/third'+item.SourceId+'.png'" class="pull-right mg_r10">
                     </th>
                 </tr>
             </thead>
             <tbody >
               <template v-for="(dindex,detail) in item.OrderDetails">
 
-                <tr>
-                    <td colspan="3" style="padding-top:5px!important; padding-bottom:5px!important;">
+                <tr v-if="!dindex||detail.CarYearName!=item.OrderDetails[dindex-1].CarYearName">
+                    <td  colspan="3" style="padding-top:5px!important; padding-bottom:5px!important;">
                         <img src="../../images/saas15.png" height="30">
                         <span class="lineH30">车型：{{(detail.FactoryName || "") +" "+(detail.CarModelName || "") +" "+(detail.CarYearName || "")}}</span>
                     </td>
@@ -130,6 +130,7 @@ export default {
                 label: '京东'
             }],
             source: [],
+            third:[],
             state:0,
             typelist: [{
                 value: '1',
@@ -173,9 +174,12 @@ export default {
             let param = {
                 pagesize: _this.pagesize,
                 pageindex: _this.pageindex,
+                sdate:_this.sdate,
+                edate:_this.edate,
                 state: _this.state,
                 type: _this.type.length ? _this.type[0] : 0,
                 key: _this.key,
+                source: _this.source.length ? _this.source[0] : 0
             };
             var loading=layer.load();
             Vue.http.get('/order/GetOrders', param).then(function(res) {
@@ -219,17 +223,29 @@ export default {
     },
     ready(){
       let tab=QueryString('tab');
+      //根据参数默认tab
       if(tab){
         this.state=parseInt(tab);
       }
-        this.query();
-
-
+      this.query();
+      //获取订单数
       let _this=this;
       Vue.http.get('/order/GetTips').then(function(res){
         if(res.ok){
           _this.tips=res.data;
         }
+      })
+      //获取第三方平台(来源)
+      Vue.http.get('/order/GetSource').then(function(res){
+        _this.third=res.data;
+        let arr=[];
+        res.data.forEach(function(item){
+          arr.push({
+            label: item.CompanyName,
+            value:item.Id.toString()
+          })
+        })
+        _this.sourcelist=arr;
       })
     },
     events: {

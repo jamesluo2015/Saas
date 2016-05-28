@@ -27,7 +27,7 @@
                 <thead>
                     <tr>
                         <th width="48%">产品信息</th>
-                        <th width="13%">京东价</th>
+                        <th width="13%">北迈价</th>
                         <th width="13%">状态</th>
                         <th width="13%">添加时间</th>
                         <th width="13%">操作</th>

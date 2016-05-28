@@ -28,21 +28,45 @@ export default {
 
 ```js
 //下拉框
+import { Select as vSelect } from 'vue-strap'
+
 <v-select :value.sync="standardname" :search="true" :options="standardlist" :close-on-select="true" placeholder="选择标准名称">
 </v-select>
 //选择时间
+import { datepicker } from 'vue-strap'
 <datepicker :value.sync="sdate" :disabled-days-of-Week="disabled" format="yyyy-MM-dd" Width="120px" class="pull-left ">
 </datepicker>
+
 //分页
+import pageDocs from '../general/pageDocs.vue'
 <page-docs :count='count'></page-docs>
+
 //tab切换
+import tab from '../general/tab.vue'
 <tab :data="tablist" :value="0" :tips="tips"></tab>
+
 //单选
+import radio from '../general/radioDocs.vue'
 <radio :value.sync="model.GroupID" :options="radios" left="mg_l20"></radio>
+
 //输入框提示
+import textinfo from '../general/textinfo.vue'
 <textinfo :value.sync="model.ExpressName" :list="showlist" width="170px" class=" pull-left"></textinfo>
+
 //上传控件
+import upload from '../general/upload.vue'
 <upload upid=".filter-btn"></upload>
+
+//模态框
+import { modal } from 'vue-strap'
+<modal :show.sync="showModel" effect="fade" width="360px">
+  <div slot="modal-header" class="modal-header ">
+      <button type="button" class="close " @click="showModel=false"><span>×</span></button>
+      <h4 class="modal-title">{{title}}</h4>
+  </div>
+  <div slot="modal-body" class="modal-body ">
+  </div>
+</modal>
 ```
 
 ### 计算属性
@@ -59,6 +83,9 @@ computed:{
 ```js
 watch:{
   value(val){
+
+  },
+  'model.text': function(val){
 
   }
 }
@@ -80,8 +107,8 @@ events:{
 ```js
 props: {
     model: {
-        type: Object,
-        default: {}
+        type: Number,
+        default: 0
     }
 },
 ```

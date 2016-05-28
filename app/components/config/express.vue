@@ -56,7 +56,7 @@
                     <div class="col-md-12 pd_l0 clearfix select_dropdown mg_t15 ">
                         <div class="pull-left ">
                             <label class="control-label pull-left f12 lineH20 " for="input01 ">联系方式：</label>
-                            <input placeholder=" " v-model="model.Tel" class="w170 dropdown-toggle dropdown_toggle form-control " type="text ">
+                            <input :disabled="disabled" placeholder=" " v-model="model.Tel" class="w170 dropdown-toggle dropdown_toggle form-control " type="text ">
                         </div>
                     </div>
                     <div class="col-md-12 mg_t10 mg_b20 clearfix ">
@@ -89,7 +89,8 @@ export default {
             addExpress: false,
             showlist:[],
             allist:[],
-            expresslist:[]
+            expresslist:[],
+            disabled:false
         }
     },
     ready() {
@@ -122,6 +123,19 @@ export default {
         return arr;
       }
     },
+    watch:{
+      'model.ExpressName':function(val){
+        let _this=this;
+        for (var i = 0; i < _this.expresslist.length; i++) {
+          if(_this.expresslist[i].ExpressName==val){
+            _this.disabled=true;
+            _this.model.Tel=_this.expresslist[i].Tel;
+            return false;
+          }
+        }
+        _this.disabled=false;
+      }
+    },
     methods: {
         remove(index, id) {
                 let _this = this;
@@ -130,6 +144,8 @@ export default {
                     _this.list.splice(index, 1);
                     if(isdefault&&_this.list.length){
                       _this.setdefault(0,_this.list[0].Id);
+                    }else{
+                      _this.checkone();
                     }
                 }, function() {
                     layer.alert('删除失败', 5);
@@ -143,6 +159,11 @@ export default {
                 }, function() {
 
                 })
+            },
+            checkone(){
+              if(this.list.length==1){
+                this.setdefault(0,this.list[0].Id);
+              }
             },
             Save(){
               let _this = this;
@@ -171,6 +192,7 @@ export default {
                   _this.list.push(JSON.parse(JSON.stringify(_this.model)));
                   _this.addExpress=false;
                   _this.model={};
+                  _this.checkone();
               }, function() {
 
               })

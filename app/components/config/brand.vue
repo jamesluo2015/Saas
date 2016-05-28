@@ -87,7 +87,7 @@
                         </li>
                     </ul>
                     <div class="col-md-12 mg_t10 mg_b20 clearfix">
-                        <a href="#" class="btn_red bg8 mg_t20 mg_l70 w80 h26 pull-left" @click="save">确&nbsp;定</a>
+                        <a href="#" class="btn_red bg8 mg_t20 mg_l70 w80 h26 pull-left" :class="{'disable':!model.BrandName}" @click="save">确&nbsp;定</a>
                         <a href="#" class="gray mg_t20 mg_l30 w80 h26 pull-left" @click="addBrand = false">取&nbsp;消</a>
                     </div>
             </div>
@@ -164,6 +164,10 @@ export default {
             },
             save() {
                 let _this = this;
+                if(!_this.model.BrandName){
+                  return false;
+                }
+
                 Vue.http.post('/config/SaveBrand', {
                     model: _this.model
                 }).then(function(res) {

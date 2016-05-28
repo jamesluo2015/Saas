@@ -32,14 +32,15 @@
                         <span class="mg_l40 col_010101 pull-left">来源单号：{{item.SourceOrderId}}</span>
                         <span class="mg_l40 col_010101 pull-left">订单号：{{item.OrderCode}}</span>
                         <span class="mg_l40 col_010101 pull-left">退货单号：{{item.RoCode}}</span>
-                        <img src="../../images/saas12.png" class="pull-right mg_r10">
+                        <img :src="'/content/images/third'+item.SourceId+'.png'" class="pull-right mg_r10">
                     </th>
                 </tr>
             </thead>
             <tbody>
                 <tr>
                     <td class="poR" width="40%">
-                        <img src="../../images/logo.png" class="saas_table_img">
+                        <img v-if="item.SmallPic" :src="item.SmallPic" class="saas_table_img">
+                        <img v-else src="../../images/noimg.png" class="saas_table_img"/>
                         <div class="table_detail">
                           <div class="clearfix">
                               <span class="pull-left col_010101">{{item.ProdName}}</span>
@@ -103,16 +104,17 @@ export default {
                 label: '京东'
             }],
             source: [],
+            //third:[],
             state: 0,
             typelist: [{
                 value: '1',
-                label: '零件编号'
+                label: '退货单号'
             }, {
                 value: '2',
-                label: '供应商编码'
+                label: '订单号'
             }, {
                 value: '3',
-                label: '配件名称'
+                label: '来源单号'
             }],
             type: [],
             tablist: [{
@@ -125,6 +127,7 @@ export default {
                 val: 2,
                 text: "待入库"
             }],
+            key:"",
             orderlist: [],
             pagesize: 5,
             pageindex: 1,
@@ -133,6 +136,18 @@ export default {
     },
     ready(){
       this.query();
+      //获取第三方平台(来源)
+      Vue.http.get('/order/GetSource').then(function(res){
+        _this.third=res.data;
+        let arr=[];
+        res.data.forEach(function(item){
+          arr.push({
+            label: item.CompanyName,
+            value:item.Id.toString()
+          })
+        })
+        //_this.sourcelist=arr;
+      })
     },
     methods: {
         query() {
@@ -140,7 +155,12 @@ export default {
           let param = {
               pagesize: _this.pagesize,
               pageindex: _this.pageindex,
-              state: _this.state
+              sdate:_this.sdate,
+              edate:_this.edate,
+              state: _this.state,
+              type: _this.type.length ? _this.type[0] : 0,
+              key: _this.key,
+              source: _this.source.length ? _this.source[0] : 0
           };
           var loading=layer.load();
           Vue.http.get('/order/GetReturnOrders', param).then(function(res) {

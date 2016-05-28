@@ -30,7 +30,7 @@ export default {
           model.StockCount="";
           model.SalePrice="";
           model.InPrice="";
-            this.model = model;
+          this.model = model;
         }
     },
     methods: {

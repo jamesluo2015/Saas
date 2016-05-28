@@ -6,11 +6,12 @@
             <img v-if="item.showimg" :src="item.showimg">
             <img v-else src="../../../images/addimg.png">
         </a>
+
         <ul class="goods_img1 clearfix mg_t10">
             <li v-for="(imgindex,img) in item.Imglist" @click="item.showimg=img.ImgUrl">
-                <a href="javascript:void(0)">
-                    <img :src="img.ImgUrl">
-                    <em @click="delimg(item,img,imgindex)"></em>
+                <a href="javascript:void(0)" @mouseover="img.showdel=true" @mouseout="img.showdel=false">
+                    <img :src="img.ImgUrl" >
+                    <em v-show="img.showdel" @click="delimg(item,img,imgindex)"></em>
                 </a>
             </li>
             <li>
@@ -19,6 +20,7 @@
                 </a>
             </li>
         </ul>
+
     </div>
     <div class="col-md-8">
         <div class="bd_bd9 h40 lineH40 clearfix">
@@ -164,11 +166,15 @@ export default {
             //如果是已添加商品则直接插入数据库
             if(!model.isupdate&&model.StockId){
               Vue.http.post(`/product/AddImg?url=${url}&stockid=${model.StockId}`).then(function(res){
+                res.data.forEach(function(res){
+                  res.showdel =false
+                })
                 model.Imglist.push(res.data);
               })
             }else{
               model.Imglist.push({
-                  ImgUrl: url
+                  ImgUrl: url,
+                  showdel: false
               });
             }
             model.showimg = url;

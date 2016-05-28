@@ -110,9 +110,17 @@ export default {
         this.model.BillStatus=3;
         let id=this.model.Id;
         Vue.http.post(`/finance/UpdateStatus?id=${id}&status=3`).then(function(res){
-          
+
         })
       }
+    },
+    ready(){
+      var s =document.createElement("span");
+      s.textContent="查看结算单";
+      var e =document.createElement("em");
+      e.textContent=">";
+      document.querySelector('.breadLine').appendChild(e);
+      document.querySelector('.breadLine').appendChild(s);
     }
 }
 
