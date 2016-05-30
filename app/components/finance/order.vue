@@ -18,7 +18,7 @@
       <button-docs text="查&nbsp;询" @click='query' class='pull-left mg_l30'></button-docs>
       <a href="#" class="red_btn f14 w100 h26 pull-left mg_l30">导出订单明细</a>
   </div>
-  <table class="table table2 table_bg mg_t2">
+  <!-- <table class="table table2 table_bg mg_t2">
       <thead>
           <tr>
               <th width="15%">订单号</th>
@@ -27,7 +27,6 @@
               <th width="10%">商品数量</th>
               <th width="10%">商品金额</th>
               <th width="8%" v-if="stype==1">佣金</th>
-              <!-- <th width="10%">付款方式</th> -->
               <th width="11%">下单时间</th>
           </tr>
       </thead>
@@ -40,9 +39,43 @@
               <td>{{item.Quantity}}</td>
               <td><em class="fS col_ee4145 f16">{{item.SalePrice}}</em> </td>
               <td v-if="stype==1"><span class="col_5ca50a" >{{(item.DealerRatio||0.1)*100}}%<br>{{item.DealerRebate}}</span></td>
-              <!-- <td>{{item.Memo}}</td> -->
               <td><span class="col_767676">{{item.AddTime}}</span></td>
           </tr>
+      </tbody>
+  </table> -->
+  <table class="table table2 table_bg mg_t2" v-if="orderlist.length" v-for="(index,item) in orderlist">
+      <thead>
+          <tr>
+              <th colspan="5" class="lineH30">
+                  <span class="pull-left col_999999">{{item.AddTime}}</span>
+                  <span class="mg_l40 col_010101 pull-left">来源单号：{{item.SourceOrderId}}</span>
+                  <span class="mg_l40 col_010101 pull-left">订单号：{{item.OrderCode}}</span>
+                  <img :src="'/content/images/third'+item.SourceId+'.png'" class="pull-right mg_r10">
+              </th>
+          </tr>
+          <tr>
+              <td width="30%">配件名称</td>
+              <td width="20%">供应商编码</td>
+              <td width="11%">数量</td>
+              <td width="13%">销售单价</td>
+              <td width="13%"  v-if="stype==1">佣金</td>
+              <td width="13%" class="t-c">运费</td>
+          </tr>
+      </thead>
+      <tbody >
+        <template v-for="(dindex,detail) in item.OrderDetails">
+
+          <tr v-if="!dindex||detail.CarYearName!=item.OrderDetails[dindex-1].CarYearName">
+            <tr>
+                <td>{{(detail.FactoryName||"")+" "+(detail.CarModelName||"")+" "+(detail.CarYearName||"")}} {{detail.ProdName}}</td>
+                <td>{{detail.DealerNo}}</td>
+                <td>{{detail.Quantity}}</td>
+                <td><em class="fS col_ee4145 f16">{{detail.SalePrice}}</em></td>
+                <td v-if="stype==1"><span class="col_5ca50a" >{{(detail.DealerRatio||0.1)*100}}%<br>{{detail.DealerRebate}}</span></td>
+                <td v-if="!dindex" rowspan="2" class="t-c">{{item.Freight}}</td>
+            </tr>
+          </tr>
+        </template>
       </tbody>
   </table>
   <nothing v-if="!orderlist.length"></nothing>
@@ -71,7 +104,7 @@ export default{
       edate: this.$parent.model.EndDate,
       key: "",
       orderlist:[],
-      pagesize:10,
+      pagesize:3,
       pageindex:1,
       count:0,
       stype: document.getElementById('user').getAttribute('stype')

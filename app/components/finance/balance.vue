@@ -9,9 +9,9 @@
                 <div class="poR w620 h150 auto">
                     <ul class="saas_step_tip clearfix">
                         <li>新生成</li>
+                        <li>待财务核算</li>
                         <li>待商家确定</li>
-                        <li>待付款</li>
-                        <li>已付款</li>
+                        <li>{{step==4?"已付款":"待付款"}}</li>
                     </ul>
                     <div class="saas_step " :class="'saas_green_step'+step"></div>
                     <ul class="saas_step_time clearfix">
@@ -22,13 +22,13 @@
                         <li></li>
                     </ul>
                 </div>
-                <div class="clearfix bdD_d9 w600 pd_5 auto mg_b30">
+                <div class="clearfix bdD_d9 w600 pd_5 auto mg_b30" v-if="step<4">
                     <span class="pull-left lineH26 f12 col_767676">
                       提示 ：
-                      <span v-if="!step">结算单核算中…</span>
+                    <span v-if="!step">结算单核算中…</span>
+                    <span v-if="step==1">财务审核中</span>
                     <span v-if="step==2">请确认结账单</span>
                     <span v-if="step==3">待付款</span>
-                    <span v-if="step==4">已确认结算单</span>
                     </span>
                     <a href="#" v-if="step==2" class="redbtn f12 w130 h26 pull-right" @click="audit">确认无误，申请结款</a>
                 </div>

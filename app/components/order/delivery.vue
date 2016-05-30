@@ -48,18 +48,19 @@
                             <span class="pull-left mg_t20 mg_l10">{{detail.ProdName}}</span>
                             <span class="pull-left mg_t20 mg_l40">x{{detail.Quantity}}</span>
                             <em class="pull-left mg_t20 col_b5 fS mg_l40">|</em>
-                            <div class=" pd_l0 mg_t20 clearfix select_dropdown pull-left w250">
+                            <!-- <div class=" pd_l0 mg_t20 clearfix select_dropdown pull-left w250">
                                 <label class="control-label pull-left f12 lineH20">选择库区：</label>
-                                <v-select :value.sync="detail.stockareaid" :options="arealist" :close-on-select="true"></v-select>
+                                <v-select :value.sync="detail.stockareaid" :options="areas" :close-on-select="true"></v-select>
                             </div>
                             <div class=" pd_l0 mg_t20 clearfix select_dropdown pull-left w250">
                                 <label class="control-label pull-left f12 lineH20">选择库房：</label>
-                                <v-select :value.sync="detail.stockhouseid" :options="houselist" :close-on-select="true"></v-select>
+                                <v-select :value.sync="detail.stockhouseid" :options="houses" :close-on-select="true"></v-select>
                             </div>
                             <div class=" pd_l0 mg_t20 clearfix select_dropdown pull-left w250">
                                 <label class="control-label pull-left f12 lineH20">选择库位：</label>
-                                <v-select :value.sync="detail.stockmainid" :options="slotlist" :close-on-select="true"></v-select>
-                            </div>
+                                <v-select :value.sync="detail.stockmainid" :options="slots" :close-on-select="true"></v-select>
+                            </div> -->
+                            <selects :area.sync="detail.stockareaid" :house.sync="detail.stockhouseid" :slot.sync="detail.stockmainid"></selects>
                         </div>
                     </div>
                     <div class="col-md-12 clearfix select_dropdown">
@@ -81,9 +82,10 @@ import {
     select as vSelect
 }
 from 'vue-strap'
+import selects from './select.vue'
 export default {
     components: {
-        vSelect
+        vSelect,selects
     },
     props: {
         model: {
@@ -102,9 +104,10 @@ export default {
                 value: "0"
             }],
             expressno: "",
-            arealist: [],
-            houselist: [],
-            slotlist: []
+            // arealist: [],
+            // houselist: [],
+            // slotlist: [],
+            selectlist:[]
         }
     },
     computed:{
@@ -113,6 +116,48 @@ export default {
           return false;
         }
         return true;
+      },
+      areas(){
+        let arr=[{label:"全部库区",value:"0"}];
+        this.selectlist.forEach(function(item){
+          if(item.level==1){
+            arr.push({
+              label: item.label,
+              value: item.value
+            })
+          }
+        });
+        return arr;
+      },
+      houses(){
+        let arr=[{label:"全部库房",value:"0"}];
+        let _this=this;
+        if(this.area.length){
+          this.selectlist.forEach(function(item){
+            if(item.level==2 && item.pid==_this.area[0]){
+              arr.push({
+                label: item.label,
+                value: item.value
+              })
+            }
+          })
+        }
+        return arr;
+      },
+      slots(){
+        let arr=[{label:"全部库位",value:"0"}];
+        let _this=this;
+        if(this.house.length){
+         this.selectlist.forEach(function(item){
+            if(item.level==3 && item.pid==_this.house[0]){
+              arr.push({
+                label: item.label,
+                value: item.value
+              })
+            }
+          })
+        }
+        return arr;
       }
     },
     ready() {
@@ -132,7 +177,9 @@ export default {
             })
             _this.expresslist = arr;
         });
-
+        Vue.http.get('/stock/GetSelect').then(function(res){
+          _this.selectlist=res.data;
+        })
     },
     methods: {
         commit() {

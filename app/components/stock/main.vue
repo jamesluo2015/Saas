@@ -5,16 +5,16 @@
 <div class="right_contain1">
     <div class="row">
         <div class="col-md-12 pd_l0 mg_t10 mg_b30 clearfix select_dropdown">
-            <div class="dropdown pull-left mg_l30" _v-0691d5dd="">
+            <div class="dropdown pull-left mg_l30" >
                 <v-select :value.sync="area" :options="areas" :close-on-select="true" placeholder="选择库区"></v-select>
             </div>
-            <div class="dropdown pull-left mg_l30" _v-0691d5dd="">
+            <div class="dropdown pull-left mg_l30" >
                 <v-select :value.sync="house" :options="houses" :close-on-select="true" placeholder="选择库房"></v-select>
             </div>
-            <div class="dropdown pull-left mg_l30" _v-0691d5dd="">
+            <div class="dropdown pull-left mg_l30" >
                 <v-select :value.sync="slot" :options="slots" :close-on-select="true" placeholder="选择货位"></v-select>
             </div>
-            <div class="dropdown pull-left mg_l30" _v-0691d5dd="">
+            <div class="dropdown pull-left mg_l30" >
                 <v-select :value.sync="type" :options="typelist" :close-on-select="true" placeholder="选择条件"></v-select>
             </div>
             <input placeholder="" v-model="key" class="add_input w140 pull-left form-control mg_l30" type="text">
@@ -72,19 +72,19 @@ import {
     select as vSelect
 }
 from 'vue-strap'
-import buttonDocs from '../general/buttonDocs.vue'
 import pageDocs from '../general/pageDocs.vue'
+import buttonDocs from '../general/buttonDocs.vue'
 export default {
     components: {
         vSelect, buttonDocs, pageDocs
     },
     data() {
         return {
-            areas: [],
+            //areas: [],
             area: [],
-            houses: [],
+            //houses: [],
             house: [],
-            slots: [],
+            //slots: [],
             slot: [],
             typelist: [{
                 value: '1',
@@ -94,18 +94,67 @@ export default {
                 label: '实物ID'
             }],
             type: [],
+            key: "",
+            selectlist:[],
             list: [],
             countlist: [0,0,0],
-            pagesize: 3,
+            pagesize: 5,
             pageindex: 1,
             count: 0
         }
+    },
+    computed:{
+      areas(){
+        let arr=[{label:"全部库区",value:"0"}];
+        this.selectlist.forEach(function(item){
+          if(item.level==1){
+            arr.push({
+              label: item.label,
+              value: item.value
+            })
+          }
+        });
+        return arr;
+      },
+      houses(){
+        let arr=[{label:"全部库房",value:"0"}];
+        let _this=this;
+        if(this.area.length){
+          this.selectlist.forEach(function(item){
+            if(item.level==2 && item.pid==_this.area[0]){
+              arr.push({
+                label: item.label,
+                value: item.value
+              })
+            }
+          })
+        }
+        return arr;
+      },
+      slots(){
+        let arr=[{label:"全部库位",value:"0"}];
+        let _this=this;
+        if(this.house.length){
+         this.selectlist.forEach(function(item){
+            if(item.level==3 && item.pid==_this.house[0]){
+              arr.push({
+                label: item.label,
+                value: item.value
+              })
+            }
+          })
+        }
+        return arr;
+      }
     },
     ready() {
         this.query();
         let _this = this;
         Vue.http.get('/stock/GetStockCount').then(function(res) {
             _this.countlist = res.data;
+        })
+        Vue.http.get('/stock/GetSelect').then(function(res){
+          _this.selectlist=res.data;
         })
     },
     methods: {
@@ -114,13 +163,22 @@ export default {
             let param = {
                 pagesize: _this.pagesize,
                 pageindex: _this.pageindex,
+                type: _this.type.length?_this.type[0]:0,
+                key: _this.key,
+                areaid: _this.area.length?_this.area[0]:0,
+                houseid: _this.house.length?_this.house[0]:0,
+                slotcode: _this.slot.length?_this.slot[0]:0
             }
             Vue.http.get('/stock/GetStockMain', param).then(function(res) {
                 if (res.data.ok) {
                     _this.list = res.data.data;
-                    _this.count = Math.ceil(res.data.count / _this.pagesize);
+                    setTimeout(function(){
+                      _this.count = Math.ceil(res.data.count / _this.pagesize);
+                    },0)
                 } else {
-                    layer.alert(res.data.mes);
+                  _this.list=[];
+                  _this.count=1;
+                  //layer.alert(res.data.mes);
                 }
             })
         }

@@ -65,7 +65,7 @@
                           <a href="javascript:void(0)" class="saas_add mg_l10" @click="enable(house.Id,true,house)">开启</a>
                         </td>
                         <td v-if="house.HouseStatus==0">
-                          <span class="col_5ca50a">已通过</span>
+                          <span class="col_5ca50a">已启用</span>
                           <a href="javascript:void(0)" class="saas_add mg_l10"@click="enable(house.Id,false,house)">停用</a>
                         </td>
                         <td>{{house.Manager}}</td>

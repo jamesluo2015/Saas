@@ -16,7 +16,7 @@ export default {
     count(size){
       if(size){
         let _this=this;
-        let fir=true;
+        let first=true;
         laypage({
             cont: 'paging',
             pages: size,//总页数
@@ -29,17 +29,18 @@ export default {
             groups: 3,
             //total: data.length,
             jump: function (obj) {
-              if(!fir){
+              if(!first){
                 _this.$dispatch('page',obj.curr)
               }else{
-                fir=false;
+                first=false;
               }
             }
         })
       }else{
 
       }
-    }
+    },
+
   },
   data(){
      return {

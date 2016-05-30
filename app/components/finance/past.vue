@@ -30,11 +30,12 @@
                     <tr>
                         <th width="15%">结算单编号</th>
                         <th width="12%">账单时间</th>
-                        <th width="11%">应收金额</th>
-                        <th width="11%">本期货款</th>
-                        <th width="10%" v-if="stype==1">佣金</th>
+                        <th width="11%">账单总金额</th>
+                        <th width="11%">本期账单金额</th>
+                        <th width="6%">上期结余金额</th>
+                        <th width="8%" v-if="stype==1">佣金</th>
                         <th width="12%">结算状态</th>
-                        <th width="12%">生成时间</th>
+                        <th width="8%">生成时间</th>
                         <th width="17%">操作</th>
                     </tr>
                 </thead>
@@ -42,10 +43,11 @@
                     <tr>
                         <td>{{item.BillCode}}</td>
                         <td>{{item.BeginDate}}至{{item.EndDate}}</td>
+                        <td><em class="fS col_ee4145 f16">{{item.BillAmount}}</em> </td>
                         <td><em class="fS col_ee4145 f16">{{item.CurrBillAmount}}</em> </td>
-                        <td><em class="fS col_ee4145 f16">{{item.ProductAmount}}</em> </td>
+                        <td><em class="fS col_ee4145 f16">{{item.PrevBillAmount}}</em> </td>
                         <td v-if="stype==1"><em class="fS col_77b530 f16">{{item.Rebate}}</em> </td>
-                        <td>{{BillStatus==9?"已结算":"待审核"}}</td>
+                        <td>{{BillStatus==9?"已结算": BillStatus==-1?"已过期":"待审核"}}</td>
                         <td>{{item.AddTime}}</td>
                         <td><a href="#" class="saas_add mg_l0" @click="show(item)">查看结算单</a>
                             <a href="#" class="saas_add mg_l20" @click="showbill(item)">查看账单</a></td>

@@ -166,9 +166,7 @@ export default {
             //如果是已添加商品则直接插入数据库
             if(!model.isupdate&&model.StockId){
               Vue.http.post(`/product/AddImg?url=${url}&stockid=${model.StockId}`).then(function(res){
-                res.data.forEach(function(res){
-                  res.showdel =false
-                })
+                res.data.showdel=false;
                 model.Imglist.push(res.data);
               })
             }else{
