@@ -20,9 +20,10 @@
             </div>
             <input placeholder="请输入关键字" class="add_input w160 pull-left form-control mg_l30" type="text" v-model='key'>
             <button-docs text="查&nbsp;询" @click='query' class='pull-left mg_l30'></button-docs>
+            <a href="/stock/main" class="btn_red bg8 f14 w100 h26 auto mg_b10 pull-left mg_l30">去入库</a>
         </div>
 
-        <tab :data="tablist" :value="0"></tab>
+        <tab :data="tablist" :value.sync="state"></tab>
 
         <table class="table table2 table_bg mg_t2" v-for="item in orderlist">
             <thead>
@@ -88,6 +89,7 @@ import pageDocs from '../general/pageDocs.vue'
 import nothing from '../general/nothing.vue'
 import DateFormat from '../utils/DateFormat.js'
 import { GetFormatDate } from '../utils/date'
+import QueryString from '../utils/QueryString.js'
 export default {
     components: {
         vSelect, vOption, datepicker, buttonDocs, tab, pageDocs,nothing
@@ -119,7 +121,7 @@ export default {
             type: [],
             tablist: [{
                 val: 0,
-                text: "全部订单"
+                text: "全部退货单"
             }, {
                 val: 1,
                 text: "已入库"
@@ -135,18 +137,24 @@ export default {
         }
     },
     ready(){
+      let tab=QueryString('tab');
+      //根据参数默认tab
+      if(tab){
+        this.state=parseInt(tab);
+      }
       this.query();
       //获取第三方平台(来源)
+      let _this=this;
       Vue.http.get('/order/GetSource').then(function(res){
         _this.third=res.data;
-        let arr=[];
+        let arr=[{label:"全部",value:"0"}];
         res.data.forEach(function(item){
           arr.push({
             label: item.CompanyName,
             value:item.Id.toString()
           })
         })
-        //_this.sourcelist=arr;
+        _this.sourcelist=arr;
       })
     },
     methods: {

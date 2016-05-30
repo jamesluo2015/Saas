@@ -201,6 +201,9 @@ export default {
                         if (item.StockId) {
                             Vue.http.get('/product/GetImgList?Stockid=' + item.StockId).then(function(res) {
                                 if (res.data.length) {
+                                  res.data.forEach(function(item){
+                                    item.showdel=false;
+                                  })
                                     temp.Imglist = res.data;
                                     temp.showimg = res.data[0].ImgUrl;
                                 }

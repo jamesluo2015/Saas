@@ -28,7 +28,7 @@
                         <td> {{item.BrandName}}</td>
                         <td>{{item.GroupID==1?"国内":"国外"}}</td>
                         <td class="col_767676">{{item.Description}}</td>
-                        <td>待审核</td>
+                        <td>{{item.IsAuditing?"已通过":"待审核"}}</td>
                         <td>
                             <a href="#" class="saas_edi mg_t10 pull-left" v-if="item.UserId==userid" @click="update(index)">编辑</a>
                             <a href="#" class="saas_del mg_t10 pull-left mg_l20" @click="remove(index,item.id)">删除</a>

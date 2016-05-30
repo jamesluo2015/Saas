@@ -189,6 +189,7 @@ export default {
               }
               Vue.http.post('/config/Save',{model:_this.model,id:id}).then(function(res) {
                   _this.model.Id=res.data;
+                  _this.model.IsDefault=false;
                   _this.list.push(JSON.parse(JSON.stringify(_this.model)));
                   _this.addExpress=false;
                   _this.model={};

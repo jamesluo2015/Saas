@@ -14,11 +14,11 @@
             <label class="control-label pull-left">适用车型：</label>
             <v-select :value.sync="factory"  class="pull-left mg_r30" :options="fac_select" :close-on-select="true" placeholder="选择主机厂">
             </v-select>
-            <v-select id="carmodel" :value.sync="carmodel" class="pull-left mg_r30"  :options="car_select" :close-on-select="true" placeholder="选择车型">
+            <v-select id="carmodel" :show.sync="selectshow" :value.sync="carmodel" class="pull-left mg_r30"  :options="car_select" :close-on-select="true" placeholder="选择车型">
             </v-select>
             <v-select :value.sync="partsyear" class="pull-left mg_r30"  :options="yearlist" :close-on-select="true" placeholder="选择年款">
             </v-select>
-            <button-docs :text="isquery?'查询中':'查询'" @click='query' :class="{'disable':!valid || isquery }"></button-docs>
+            <button-docs :text="isquery?'查询中':'查询'" @click='query' :state="!valid || isquery"></button-docs>
         </div>
 
         <pulse-loader :loading="false"></pulse-loader>
@@ -47,6 +47,7 @@ export default {
         return {
             isquery: false,
             carlist: [],
+            selectshow: false,
 
             yearlist: [],
             standardlist: [],
@@ -210,7 +211,8 @@ export default {
         },
         factory(val){
           if (val.length&&this.isstore) {
-            document.querySelector('#carmodel button').click()
+            //document.querySelector('#carmodel button').click()
+            this.selectshow=true;
           }
           return false;
         }

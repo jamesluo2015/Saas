@@ -181,9 +181,19 @@ export default {
             },
             del(index){
               let _this=this;
-              Vue.http.post('/manage/Del?stockid='+_this.list[index].StockId).then(function(){
-                _this.list.splice(index,1);
-              })
+              layer.confirm('确认删除吗',{btn: ['确认','取消'] //按钮
+                }, function(){
+                  Vue.http.post('/manage/Del?stockid='+_this.list[index].StockId).then(function(){
+                    _this.list.splice(index,1);
+                    layer.msg('删除成功', {
+                      icon: 1,
+                      time: 800
+                    });
+                  })
+                }, function(){
+
+                });
+
             }
     },
     events: {

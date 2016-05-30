@@ -5,7 +5,7 @@
 <div class="right_contain">
     <div class="row">
         <div class="col-md-6 saas_bill mg_t10 pull-left">
-            <template id="" v-if="model.DealerName">
+            <template id="" v-if="model.Id">
                 <div class="col-md-12 mg_t20 clearfix select_dropdown">
                     <label class="control-label pull-left">企业信息：</label>
                     <p class="pull-left pd_l0 mg_t2" v-if="!isupdate">{{model.DealerName}}</p>
@@ -15,9 +15,9 @@
                     <label class="control-label pull-left">所在区域：</label>
                     <p class="pull-left pd_l0 mg_t2" v-if="!isupdate">{{model.ProvinceName+" "+model.CityName+" "+model.AreaName}}</p>
                     <template v-else>
-                        <v-select :value.sync="province" class='pull-left mg_l95' :search="true" :options="provinces" :close-on-select="true" placeholder="选择省份"></v-select>
-                        <v-select :value.sync="city" class='pull-left mg_l30' :search="true" :options="citys" :close-on-select="true" placeholder="选择城市"></v-select>
-                        <v-select :value.sync="area" class='pull-left mg_l30' :search="true" :options="areas" :close-on-select="true" placeholder="选择区域"></v-select>
+                        <v-select :value.sync="province" class='pull-left mg_l95' :options="provinces" :close-on-select="true" placeholder="选择省份"></v-select>
+                        <v-select :value.sync="city" class='pull-left mg_l30'  :options="citys" :close-on-select="true" placeholder="选择城市"></v-select>
+                        <v-select :value.sync="area" class='pull-left mg_l30' :options="areas" :close-on-select="true" placeholder="选择区域"></v-select>
                     </template>
                 </div>
                 <div class="col-md-12 mg_t20 clearfix select_dropdown">

@@ -5,7 +5,7 @@
 <modal :show.sync="show" effect="fade" width="560px">
     <div slot="modal-header" class="modal-header ">
         <button type="button" class="close " @click="show=false"><span>×</span></button>
-        <h4 class="modal-title">添加库区</h4>
+        <h4 class="modal-title">{{model.Id?"编辑库区":"添加库区"}}</h4>
     </div>
     <div slot="modal-body" class="modal-body ">
         <div class="col-md-12 pd_l0 clearfix select_dropdown mg_t15">
@@ -41,7 +41,7 @@
             <input placeholder="请输入地址" v-model="model.Address" class="add_input w170 pull-left form-control mg_t15" type="text">
         </div>
         <div class="col-md-12 mg_t20 mg_b20 clearfix">
-            <a href="#"class="btn_red bg8 mg_t20 auto w120 h26" :class="{'disable':!valid}" @click="add" >添&nbsp;加</a>
+            <a href="#"class="btn_red bg8 mg_t20 auto w120 h26" :class="{'disable':!valid}" @click="add" > {{model.Id?"保&nbsp;存":"添&nbsp;加"}}</a>
         </div>
     </div>
 </modal>
@@ -82,6 +82,12 @@ export default {
     watch: {
         province(val) {
           this.getcitys(val, true);
+        },
+        show(val){
+          if(val && this.model.CityId){
+            this.province=[this.model.ProvinceId.toString()];
+            this.city=[this.model.CityId.toString()];
+          }
         }
     },
     computed:{
@@ -116,8 +122,15 @@ export default {
             }
             this.model.ProvinceId=this.province[0];
             this.model.CityId=this.city[0];
-            this.$dispatch('addarea', this.model)
-            this.show=false;
+            let _this=this;
+            Vue.http.post('/stock/SaveHouse',  this.model).then(function(res){
+              if(!_this.model.Id){
+                _this.$dispatch('addarea', _this.model)
+              }
+              _this.model.Id=res.data;
+              _this.model.HouseStatus=0;
+              _this.show=false;
+            })
           }
     },
     ready() {
@@ -126,8 +139,6 @@ export default {
         Vue.http.get('/account/GetAreaInfo?headId=1').then(function(res) {
             _this.provinces = _this.convert(res.data);
         })
-
-
     }
 }
 

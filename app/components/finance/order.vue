@@ -21,11 +21,12 @@
   <table class="table table2 table_bg mg_t2">
       <thead>
           <tr>
-              <th width="17%">订单号</th>
-              <th width="34%">配件名称</th>
+              <th width="15%">订单号</th>
+              <th width="12%">供应商编码</th>
+              <th width="24%">配件名称</th>
               <th width="10%">商品数量</th>
               <th width="10%">商品金额</th>
-              <th width="8%">佣金</th>
+              <th width="8%" v-if="stype==1">佣金</th>
               <!-- <th width="10%">付款方式</th> -->
               <th width="11%">下单时间</th>
           </tr>
@@ -34,10 +35,11 @@
       <tbody v-for="item in orderlist">
           <tr>
               <td>{{item.OrderCode}}</td>
+              <td>{{item.DealerNo}}</td>
               <td>{{(item.FactoryName||"")+" "+(item.CarModelName||"")+" "+(CarYearName||"")}} {{item.ProdName}}</td>
               <td>{{item.Quantity}}</td>
               <td><em class="fS col_ee4145 f16">{{item.SalePrice}}</em> </td>
-              <td><span class="col_5ca50a">{{(item.DealerRatio||0.1)*100}}%<br>{{item.DealerRebate}}</span></td>
+              <td v-if="stype==1"><span class="col_5ca50a" >{{(item.DealerRatio||0.1)*100}}%<br>{{item.DealerRebate}}</span></td>
               <!-- <td>{{item.Memo}}</td> -->
               <td><span class="col_767676">{{item.AddTime}}</span></td>
           </tr>
@@ -71,7 +73,8 @@ export default{
       orderlist:[],
       pagesize:10,
       pageindex:1,
-      count:0
+      count:0,
+      stype: document.getElementById('user').getAttribute('stype')
     }
   },
   ready(){

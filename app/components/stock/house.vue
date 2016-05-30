@@ -5,10 +5,12 @@
 <div class="right_contain">
     <div class="row">
         <div class="col-md-12 pd_l0 mg_t10 mg_b30 clearfix select_dropdown">
-            <a href="#" class="green_btn w80 h26 pull-left mg_l30" @click="addarea=true">+添加库区</a>
-            <a href="#" class="green_btn w80 h26 pull-left mg_l30">+添加库房</a>
+            <a href="#" class="green_btn w80 h26 pull-left mg_l30" @click="showmodel(1)">+添加库区</a>
+            <a href="#" class="green_btn w80 h26 pull-left mg_l30" @click="showmodel(2)">+添加库房</a>
             <div class="dropdown pull-left mg_l30">
-                <v-select :value.sync="area" :options="areas" :close-on-select="true" placeholder="选择库区"></v-select>
+                <v-select :value.sync="area" :options="areas" :close-on-select="true" placeholder="选择库区">
+                  <v-option value="0">全部</v-option>
+                </v-select>
             </div>
             <div class="dropdown pull-left mg_l30" >
                 <v-select :value.sync="type" :options="typelist" :close-on-select="true" placeholder="选择条件"></v-select>
@@ -31,9 +33,25 @@
                 </thead>
                 <tbody>
                     <tr>
-                        <td colspan="7">
+                        <td>
                             <em class="flag"></em>
                             <span class="pull-left">{{item.HouseName}}</span>
+                        </td>
+                        <td>{{item.HouseCode}}</td>
+                        <td>{{item.Address}}</td>
+                        <td v-if="item.HouseStatus==2">
+                          <span class="col_d50707">已停用</span>
+                          <a href="javascript:void(0)" class="saas_add mg_l10" @click="enable(item.Id,true,item)">开启</a>
+                        </td>
+                        <td v-if="item.HouseStatus==0">
+                          <span class="col_5ca50a">已开启</span>
+                          <a href="javascript:void(0)" class="saas_add mg_l10"@click="enable(item.Id,false,item)">停用</a>
+                        </td>
+                        <td>{{item.Manager}}</td>
+                        <td>{{item.Phone}}</td>
+                        <td>
+                            <a href="#" class="saas_edi mg_t10 pull-left" @click="edit(item.Id,index)">编辑</a>
+                            <a href="#" class="saas_del mg_t10 pull-left mg_l20" @click="del(item.Id,index)">删除</a>
                         </td>
                     </tr>
                 </tbody>
@@ -53,14 +71,15 @@
                         <td>{{house.Manager}}</td>
                         <td>{{house.Phone}}</td>
                         <td>
-                            <a href="#" class="saas_edi mg_t10 pull-left">编辑</a>
+                            <a href="#" class="saas_edi mg_t10 pull-left" @click="edit(house.Id,index,hindex)">编辑</a>
                             <a href="#" class="saas_del mg_t10 pull-left mg_l20" @click="del(house.Id,index,hindex)">删除</a>
                         </td>
                     </tr>
                 </tbody>
             </table>
         </div>
-        <area :show.sync="addarea" :model="areamodel"></area>
+        <add-area :show.sync="addarea" :model="model"></add-area>
+        <add-house :show.sync="addhouse" :areas="arealist" :model="model"></add-house>
     </div>
 </div>
 </template>
@@ -71,11 +90,16 @@ import {
     select as vSelect
 }
 from 'vue-strap'
+import {
+    option as vOption
+}
+from 'vue-strap'
 import buttonDocs from '../general/buttonDocs.vue'
 import pageDocs from '../general/pageDocs.vue'
-import area from './addArea.vue'
+import addArea from './addArea.vue'
+import addHouse from './addHouse.vue'
 export default {
-    components: {vSelect,buttonDocs,pageDocs,area},
+    components: {vSelect,buttonDocs,pageDocs,addArea,addHouse,vOption},
     data() {
         return {
           areas: [],
@@ -94,8 +118,20 @@ export default {
           pageindex: 1,
           count: 0,
           addarea: false,
-          areamodel:{}
+          addhouse: false,
+          model:{}
         }
+    },
+    computed:{
+      arealist(){
+        let arr=[];
+        this.areas.forEach(function(item,index){
+          if(index){
+            arr.push(item);
+          }
+        })
+        return arr;
+      }
     },
     methods:{
       query(){
@@ -126,12 +162,23 @@ export default {
       },
       del(id,index,hindex){
         let _this=this;
+        if(!hindex){
+          if(_this.list[index].StockHouses.length){
+            layer.alert('当前库区下存在库房信息，不允许删除');
+            return false;
+          }
+        }
+
         layer.confirm('确认删除吗', {
             btn: ['删除', '取消'] //按钮
         }, function() {
           Vue.http.post('/stock/DelHosue?id='+id).then(function(res){
             if(res.data.ok){
-              _this.list[index].StockHouses.splice(hindex,1);
+              if(hindex){
+                _this.list[index].StockHouses.splice(hindex,1);
+              }else{
+                _this.list.splice(index,1);
+              }
               layer.msg('删除成功',{
                   icon: 1,
                   time: 800
@@ -144,12 +191,35 @@ export default {
 
         })
       },
+      edit(id,index,hindex){
+        if(hindex!=undefined){
+          this.model=this.list[index].StockHouses[hindex];
+          this.addhouse=true;
+        }else{
+          this.model=this.list[index];
+          this.addarea=true;
+        }
+      },
       enable(id,isenable,item){
         let _this=this;
         let state=isenable?0:2;
         Vue.http.post(`/stock/EnableHouse?id=${id}&houseStatus=${state}`).then(function(res){
             item.HouseStatus=state;
         })
+      },
+      showmodel(type){
+        this.model={};
+        switch (type) {
+          case 1:
+            this.addarea=true;
+            break;
+          case 2:
+            this.addhouse=true;
+            break;
+          default:
+
+        }
+
       }
     },
     ready(){
@@ -166,9 +236,18 @@ export default {
     },
     events:{
       'addarea':function(model){
-        Vue.http.post('/stock/AddHouse',model).then(function(res){
-
-        })
+        this.list.push(model);
+      },
+      'addhouse': function(model){
+        let id=model.ParentId;
+        let _this=this;
+        for (var i = 0; i < _this.list.length; i++) {
+          let item=_this.list[i];
+          if(item.Id==id){
+            item.StockHouses.push(model);
+            break;
+          }
+        }
       }
     }
 }

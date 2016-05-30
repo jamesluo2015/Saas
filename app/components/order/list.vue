@@ -50,8 +50,18 @@
                         <span class="lineH30">车型：{{(detail.FactoryName || "") +" "+(detail.CarModelName || "") +" "+(detail.CarYearName || "")}}</span>
                     </td>
                     <!--状态-->
-                    <td width="15%" v-if="(item.OrderStatus>2||item.OrderStatus==-1)&&!dindex" :rowspan="item.OrderDetails.length*2"><em class="right pull-left"></em><span class="col_77b530 pull-left">已发货</span></td>
-                    <td width="15%" v-if="item.OrderStatus<=2&&item.OrderStatus>=0&&!dindex" :rowspan="item.OrderDetails.length*2"><em class="waiting pull-left" :rowspan="item.OrderDetails.length*2"></em><span class="col_f8a504 pull-left">待发货</span></td>
+                    <td width="15%" v-if="(item.OrderStatus>2)&&!dindex" :rowspan="item.OrderDetails.length*2">
+                      <em class="right pull-left"></em>
+                      <span class="col_77b530 pull-left">已发货</span>
+                    </td>
+                    <td width="15%" v-if="item.OrderStatus<=2&&item.OrderStatus>=0&&!dindex" :rowspan="item.OrderDetails.length*2">
+                      <em class="waiting pull-left" :rowspan="item.OrderDetails.length*2"></em>
+                      <span class="col_f8a504 pull-left">待发货</span>
+                    </td>
+                    <td width="15%" v-if="item.OrderStatus==-1&&!dindex" :rowspan="item.OrderDetails.length*2">
+                      <em class="cancel pull-left mg_l30"></em>
+                      <span class="col_b5 pull-left">已取消</span>
+                    </td>
                     <!--操作-->
                      <td width="15%" v-if="(item.OrderStatus>2||item.OrderStatus==-1)&&!dindex" class="t-c" :rowspan="item.OrderDetails.length*2">
                         <a href="#" class="saas_add mg_l0" @click="showdetail(index)">查看详情</a>
@@ -238,7 +248,7 @@ export default {
       //获取第三方平台(来源)
       Vue.http.get('/order/GetSource').then(function(res){
         _this.third=res.data;
-        let arr=[];
+        let arr=[{label:"全部",value:"0"}];
         res.data.forEach(function(item){
           arr.push({
             label: item.CompanyName,

@@ -59,7 +59,7 @@
                     </tr>
                 </tbody>
             </table>
-            <page-docs :count='count'></page-docs>
+            <page-docs :count="count"></page-docs>
         </div>
     </div>
 </div>
@@ -96,12 +96,13 @@ export default {
             type: [],
             list: [],
             countlist: [0,0,0],
-            pagesize: 5,
+            pagesize: 3,
             pageindex: 1,
-            count: 0,
+            count: 0
         }
     },
     ready() {
+        this.query();
         let _this = this;
         Vue.http.get('/stock/GetStockCount').then(function(res) {
             _this.countlist = res.data;
@@ -125,8 +126,9 @@ export default {
         }
     },
     events: {
-        'page': function(val) {
-
+        'page': function(index) {
+          this.pageindex=index;
+          this.query();
         }
     }
 }
