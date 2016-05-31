@@ -44,7 +44,7 @@
             <tbody >
               <template v-for="(dindex,detail) in item.OrderDetails">
 
-                <tr v-if="!dindex||detail.CarYearName!=item.OrderDetails[dindex-1].CarYearName">
+                <tr v-if="!dindex">
                     <td  colspan="3" style="padding-top:5px!important; padding-bottom:5px!important;">
                         <img src="../../images/saas15.png" height="30">
                         <span class="lineH30">车型：{{(detail.FactoryName || "") +" "+(detail.CarModelName || "") +" "+(detail.CarYearName || "")}}</span>
@@ -205,8 +205,11 @@ export default {
                           //发货库区
                           item.OrderDetails.forEach(function(detail){
                             detail.stockareaid=[];
+                            detail.stockareas=[];
                             detail.stockhouseid=[];
+                            detail.stockhouses=[];
                             detail.stockmainid=[];
+                            detail.stockmains=[];
                           })
                         }
                     })

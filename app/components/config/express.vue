@@ -15,7 +15,7 @@
                 <table class="table table2 mg_t15 table6 bd_tb5">
                     <thead>
                         <tr>
-                            <th width="33%">快递公司名称</th>
+                            <th width="33%"><span class="mg_l30"></span>快递公司名称</th>
                             <th width="33%">联系方式</th>
                             <th width="33%">操作</th>
                         </tr>

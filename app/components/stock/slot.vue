@@ -10,7 +10,7 @@
                 <v-select :value.sync="area" :options="areas" :close-on-select="true" placeholder="选择库区"></v-select>
             </div>
             <div class="dropdown pull-left mg_l30">
-                <v-select :value.sync="house" :options="houses" :close-on-select="true" placeholder="选择库房"></v-select>
+                <v-select :value.sync="house" :options="houses" :show.sync="selectshow" :close-on-select="true" placeholder="选择库房"></v-select>
             </div>
             <!-- <div class="dropdown pull-left mg_l30">
                 <v-select :value.sync="slot" :options="slots" :close-on-select="true" placeholder="选择货位"></v-select>
@@ -31,7 +31,7 @@
                     <tr>
                         <td>{{item.SlotCode}}</td>
                         <td>2</td>
-                        <td>{{item.AreaName}}-{{item.HouseName}} {{item.SlotCode}}号货位</td>
+                        <td>{{item.AreaCode}}-{{item.StoreCode}}-{{item.SlotCode}}号货位</td>
                         <td>
                             <a href="javascript:void(0)" class="bianji mg_r30" @click="edit(index)">编辑</a>
                             <a href="javascript:void(0)" class="shanchu" @click="del(index)">删除</a>
@@ -111,7 +111,8 @@ export default {
             ModalShow: false,
             pageindex: 1,
             pagesize: 10,
-            count: 0
+            count: 0,
+            selectshow: false
         }
     },
     ready() {
@@ -121,6 +122,7 @@ export default {
             _this.allhouse = res.data;
         })
     },
+
     computed: {
         areas() {
                 let arr = [{
@@ -175,19 +177,22 @@ export default {
                 let arr = [];
                 if (_this.area2.length) {
                     let pid = _this.area2[0];
-                    _this.allhouse.forEach(function(item) {
-                        if (item.ParentId == pid) {
-                            arr.push({
-                                label: item.HouseName,
-                                value: item.Id.toString()
-                            });
-                        }
-                    })
+                    if(parseInt(pid)>0){
+                      _this.allhouse.forEach(function(item) {
+                          if (item.ParentId == pid) {
+                              arr.push({
+                                  label: item.HouseName,
+                                  value: item.Id.toString()
+                              });
+                          }
+                      })
+                    }
                 }
+                this.house2=[arr[0].value];
                 return arr;
             },
             valid() {
-                return this.model.SlotCode && this.house2.length;
+                return this.model.SlotCode && (this.house2.length?parseInt(this.house2[0]):false);
             },
             allcode() {
                 let _this = this;
@@ -250,10 +255,11 @@ export default {
                     if (_this.allhouse[i].Id == _this.area2[0]) {
                         _this.model.AreaName = _this.allhouse[i].HouseName;
                         _this.model.AreaId = _this.allhouse[i].Id;
+                        _this.model.AreaCode = _this.allhouse[i].HouseCode;
                     }
                     if (_this.allhouse[i].Id == _this.house2[0]) {
                         _this.model.HouseName = _this.allhouse[i].HouseName;
-                        _this.model.StoreId = _this.allhouse[i].Id;
+                        _this.model.StoreCode = _this.allhouse[i].HouseCode;
                     }
                 }
                 // _this.model.SlotCode = _this.allcode;
@@ -263,7 +269,7 @@ export default {
                     if (res.data) {
                       if(!_this.model.Id){
                         _this.model.Id = res.data;
-                        _this.list.push(_this.model);
+                        _this.list.splice(0,0,_this.model);
                       }
                         _this.ModalShow = false;
                         _this.model = {};
@@ -296,8 +302,8 @@ export default {
             show(){
               this.ModalShow=true;
               this.model={};
-              this.area2=["0"];
-              this.house2=["0"];
+              this.area2=[];
+              this.house2=[];
             },
             edit(index){
               let model=this.list[index];
@@ -307,6 +313,14 @@ export default {
 
               this.ModalShow=true;
             }
+    },
+    watch:{
+      area(val){
+        if(val){
+          this.selectshow=true;
+        }
+        return false;
+      }
     }
 }
 

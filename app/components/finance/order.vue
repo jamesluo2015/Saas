@@ -65,7 +65,7 @@
       <tbody >
         <template v-for="(dindex,detail) in item.OrderDetails">
 
-          <tr v-if="!dindex||detail.CarYearName!=item.OrderDetails[dindex-1].CarYearName">
+          <tr v-if="!dindex">
             <tr>
                 <td>{{(detail.FactoryName||"")+" "+(detail.CarModelName||"")+" "+(detail.CarYearName||"")}} {{detail.ProdName}}</td>
                 <td>{{detail.DealerNo}}</td>

@@ -12,7 +12,6 @@
             <table class="table table2 table_bg mg_t2">
                 <thead>
                     <tr>
-                        <th width="10%">序号</th>
                         <th width="12%">图片</th>
                         <th width="13%">品牌名称</th>
                         <th width="10%">品牌地区</th>
@@ -23,7 +22,6 @@
                 </thead>
                 <tbody v-for="(index,item) in brandlist">
                     <tr >
-                        <td> {{index+1}}</td>
                         <td><img :src="item.Logo" class="pinpai_img" /></td>
                         <td> {{item.BrandName}}</td>
                         <td>{{item.GroupID==1?"国内":"国外"}}</td>
@@ -174,6 +172,7 @@ export default {
                     if (res.data.ok) {
                         _this.addBrand = false;
                         _this.model.UserId = _this.userid;
+                        _this.model.id= res.data.data;
                         _this.brandlist.push(_this.model);
                         _this.model = {};
                     } else {

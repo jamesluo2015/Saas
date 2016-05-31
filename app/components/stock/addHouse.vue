@@ -39,7 +39,7 @@
             </div>
         </div>
         <div class="col-md-12 pd_l0 clearfix select_dropdown mg_t15">
-            <label class="control-label pull-left f12 lineH20">库区地址：</label>
+            <label class="control-label pull-left f12 lineH20"><em class="col_fb2727 mg_r5">*</em>库区地址：</label>
             <v-select :value.sync="province" :search="true" :options="provinces" :close-on-select="true" placeholder="城市">
             </v-select>
             <v-select :value.sync="city" :search="true" :options="citys" :close-on-select="true" placeholder="区域 ">
@@ -143,10 +143,10 @@ export default {
                 let _this=this;
                 Vue.http.post('/stock/SaveHouse',  this.model).then(function(res){
                   if(!_this.model.Id){
+                    _this.model.Id=res.data;
+                    _this.model.HouseStatus=0;
                     _this.$dispatch('addhouse', _this.model)
                   }
-                  _this.model.Id=res.data;
-                  _this.model.HouseStatus=0;
                   _this.show=false;
                 })
             }

@@ -47,7 +47,7 @@
                         <td><em class="fS col_ee4145 f16">{{item.CurrBillAmount}}</em> </td>
                         <td><em class="fS col_ee4145 f16">{{item.PrevBillAmount}}</em> </td>
                         <td v-if="stype==1"><em class="fS col_77b530 f16">{{item.Rebate}}</em> </td>
-                        <td>{{BillStatus==9?"已结算": BillStatus==-1?"已过期":"待审核"}}</td>
+                        <td>{{getstate(item.BillStatus)}}</td>
                         <td>{{item.AddTime}}</td>
                         <td><a href="#" class="saas_add mg_l0" @click="show(item)">查看结算单</a>
                             <a href="#" class="saas_add mg_l20" @click="showbill(item)">查看账单</a></td>
@@ -92,12 +92,26 @@ export default {
         return {
             sdate: GetFormatDate(1),
             edate: GetFormatDate(),
-            states: [{
+            states: [
+              {
+                value: '0',
+                label: '全部状态'
+            },{
+              value: '-1',
+              label: '已过期'
+            },{
                 value: '1',
                 label: '待审核'
             }, {
                 value: '2',
-                label: '已结款'
+                label: '待确认'
+            },{
+                value: '3',
+                label: '代付款'
+            },
+            {
+                value: '9',
+                label: '已结算'
             }],
             state: [],
             list: [],
@@ -137,6 +151,13 @@ export default {
                         _this.count=0;
                     }
                 })
+            },
+            getstate(val){
+              for (var i = 0; i < this.states.length; i++) {
+                if(this.states[i].value==val){
+                  return this.states[i].label;
+                }
+              }
             },
             show(item) {
                 this.model = item;

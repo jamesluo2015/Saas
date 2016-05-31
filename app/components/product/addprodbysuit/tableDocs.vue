@@ -299,7 +299,7 @@ export default {
                         Vue.http.post('/product/DeleteImg?id=' + img.Id).then(function(response) {
                             if (response.data) {
                                 item.Imglist.splice(index, 1);
-                                item.showimg = "";
+                                item.showimg = item.Imglist.length?item.Imglist[0].ImgUrl:"";
                                 layer.msg('删除成功', {
                                     icon: 1,
                                     time:800

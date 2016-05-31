@@ -44,7 +44,7 @@
                           <a href="javascript:void(0)" class="saas_add mg_l10" @click="enable(item.Id,true,item)">开启</a>
                         </td>
                         <td v-if="item.HouseStatus==0">
-                          <span class="col_5ca50a">已开启</span>
+                          <span class="col_5ca50a">已启动</span>
                           <a href="javascript:void(0)" class="saas_add mg_l10"@click="enable(item.Id,false,item)">停用</a>
                         </td>
                         <td>{{item.Manager}}</td>
@@ -66,7 +66,7 @@
                         </td>
                         <td v-if="house.HouseStatus==0">
                           <span class="col_5ca50a">已启用</span>
-                          <a href="javascript:void(0)" class="saas_add mg_l10"@click="enable(house.Id,false,house)">停用</a>
+                          <a href="javascript:void(0)" class="saas_add mg_l10" @click="enable(house.Id,false,house)">停用</a>
                         </td>
                         <td>{{house.Manager}}</td>
                         <td>{{house.Phone}}</td>
@@ -77,6 +77,7 @@
                     </tr>
                 </tbody>
             </table>
+            <nothing v-if="!list.length"></nothing>
         </div>
         <add-area :show.sync="addarea" :model="model"></add-area>
         <add-house :show.sync="addhouse" :areas="arealist" :model="model"></add-house>
@@ -98,8 +99,9 @@ import buttonDocs from '../general/buttonDocs.vue'
 import pageDocs from '../general/pageDocs.vue'
 import addArea from './addArea.vue'
 import addHouse from './addHouse.vue'
+import nothing from '../general/nothing.vue'
 export default {
-    components: {vSelect,buttonDocs,pageDocs,addArea,addHouse,vOption},
+    components: {vSelect,buttonDocs,pageDocs,addArea,addHouse,vOption,nothing},
     data() {
         return {
           areas: [],
@@ -162,8 +164,8 @@ export default {
       },
       del(id,index,hindex){
         let _this=this;
-        if(!hindex){
-          if(_this.list[index].StockHouses.length){
+        if(hindex == undefined){
+          if(_this.list[index].StockHouses&&_this.list[index].StockHouses.length){
             layer.alert('当前库区下存在库房信息，不允许删除');
             return false;
           }
@@ -174,7 +176,7 @@ export default {
         }, function() {
           Vue.http.post('/stock/DelHosue?id='+id).then(function(res){
             if(res.data.ok){
-              if(hindex){
+              if(hindex != undefined){
                 _this.list[index].StockHouses.splice(hindex,1);
               }else{
                 _this.list.splice(index,1);
@@ -208,7 +210,10 @@ export default {
         })
       },
       showmodel(type){
-        this.model={};
+        this.model={
+          Id:0,
+          HouseStatus:0
+        };
         switch (type) {
           case 1:
             this.addarea=true;
@@ -236,7 +241,12 @@ export default {
     },
     events:{
       'addarea':function(model){
-        this.list.push(model);
+        this.list.splice(0,0,model);
+        this.areas.push({
+          label: model.HouseName,
+          value: model.Id.toString()
+        });
+        // this.list.push(model);
       },
       'addhouse': function(model){
         let id=model.ParentId;

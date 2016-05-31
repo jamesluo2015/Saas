@@ -2,7 +2,7 @@
 
 <template id="">
 
-<modal :show.sync="show" effect="fade" width="560px">
+<modal :show.sync="show" effect="fade" width="540px">
     <div slot="modal-header" class="modal-header ">
         <button type="button" class="close " @click="show=false"><span>×</span></button>
         <h4 class="modal-title">{{model.Id?"编辑库区":"添加库区"}}</h4>
@@ -33,12 +33,12 @@
             </div>
         </div>
         <div class="col-md-12 pd_l0 clearfix select_dropdown mg_t15">
-            <label class="control-label pull-left f12 lineH20">库区地址：</label>
+            <label class="control-label pull-left f12 lineH20"><em class="col_fb2727 mg_r5">*</em>库区地址：</label>
             <v-select :value.sync="province" :search="true" :options="provinces" :close-on-select="true" placeholder="城市">
             </v-select>
             <v-select :value.sync="city" " :search="true" :options="citys" :close-on-select="true" placeholder="区域">
             </v-select>
-            <input placeholder="请输入地址" v-model="model.Address" class="add_input w170 pull-left form-control mg_t15" type="text">
+            <input placeholder="请输入地址" v-model="model.Address" class="add_input w325 pull-left form-control mg_t15" type="text">
         </div>
         <div class="col-md-12 mg_t20 mg_b20 clearfix">
             <a href="#"class="btn_red bg8 mg_t20 auto w120 h26" :class="{'disable':!valid}" @click="add" > {{model.Id?"保&nbsp;存":"添&nbsp;加"}}</a>
