@@ -188,7 +188,9 @@ export default {
                       })
                     }
                 }
-                this.house2=[arr[0].value];
+                //if(arr.length){
+                  //this.house2=[arr[0].value];
+                //}
                 return arr;
             },
             valid() {

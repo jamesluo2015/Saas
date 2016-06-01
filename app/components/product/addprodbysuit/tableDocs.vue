@@ -76,7 +76,7 @@
             </div>
         </div>
         <div class="col-md-12 mg_t30">
-            <a href="#" v-if="item.isupdate" class="btn_red bg8 auto f16 w200 h40" :class="{'disable':!item.DealerNo||!item.SalePrice||!item.StockCount}" @click='save(index)'>保&nbsp;存</a>
+            <a href="#" v-if="item.isupdate" class="btn_red bg8 auto f16 w200 h40" :class="{'disable':!item.DealerNo||(stype==1?!item.SalePrice:!item.InPrice)||!item.StockCount}" @click='save(index)'>保&nbsp;存</a>
             <a href="#" v-else class="btn_red bg8 auto f16 w200 h40" @click='item.isupdate=1'>修&nbsp;改</a>
         </div>
     </div>
@@ -242,7 +242,7 @@ export default {
                 let _this = this;
                 let model = this.products[index];
                 //valid
-                if(!model.DealerNo||!model.SalePrice||!model.StockCount){
+                if(!model.DealerNo||(this.stype==1?!model.SalePrice:!model.InPrice)||!model.StockCount){
                   return false;
                 }
 

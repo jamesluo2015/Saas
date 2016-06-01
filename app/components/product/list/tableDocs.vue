@@ -43,6 +43,7 @@
                   <span v-if="item.ProdStatus<=1" class="col_000">待审核</span>
                   <span v-if="item.ProdStatus==2" class="col_ed5521">未通过</span>
                   <span class="col_5ca50a" v-if="item.ProdStatus==3">已通过</span>
+                  <span class="col_5ca50a" v-if="item.ProdStatus==4">销售中</span>
                 </td>
                 <td><span class="f12 col_010101">{{item.AddTime}}</span></td>
                 <td>
@@ -114,7 +115,7 @@ export default {
                       model.Imglist.map(x => imgarr.push(x.Id));
                       imgIds = imgarr.join(',');
                   }
-                  Vue.http.post(`/product/DeletProduct?id=${model.Id}&ids=${imgIds}`).then(function(response) {
+                  Vue.http.post(`/product/DeletProduct?id=${model.Id}&ids=${imgIds}&stockid=${model.StockId}`).then(function(response) {
                       layer.msg('删除成功', {
                           icon: 1,
                           time: 800
@@ -123,7 +124,7 @@ export default {
                       if (!_this.list.length) {
                           _this.$nextTick(function() {
                               // DOM 更新了
-                              layer.alert('请点击下一页');
+                              //layer.alert('请点击下一页');
                           })
                       }
                   }, function(response) {

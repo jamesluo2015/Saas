@@ -1,14 +1,13 @@
 <style media="screen" scope>
   .content{
     margin: 20px;
-    word-wrap: break-word;
+    word-wrap: break-woard;
   }
 </style>
 
 <template>
 <outbydealerno v-if="dealernoshow"></outbydealerno>
-<outbysuit v-if="suitshow"></outbysuit>
-<div class="right_contain" v-if="!dealernoshow&&!suitshow">
+<div class="right_contain" v-if="!dealernoshow">
     <div class="row">
         <div class="col-md-12 pd_l0 mg_t10 mg_b30 clearfix select_dropdown min-w1200">
             <span class="pull-left mg_l10 mg_r10 lineH26 mg_l20">开单时间</span>
@@ -41,7 +40,7 @@
                           <img v-else src="../../images/noimg.png" class="saas_table_img"/>
                             <div class="table_detail">
                                 <div class="clearfix">
-                                    <span class="pull-left col_010101">{{detail.ProdBrandName || "" +" "+detail.ProdName}}</span>
+                                    <span class="pull-left col_010101">{{(detail.ProdBrandName || "") +" "+detail.ProdName}}</span>
                                 </div>
                                 <div class="col-md-12 pd_l0  clearfix select_dropdown poR">
                                     <p class="col_767676 mg_b0">实物ID：{{detail.StockId}}</p>
@@ -100,9 +99,8 @@ import DateFormat from '../utils/DateFormat.js'
 import pageDocs from '../general/pageDocs.vue'
 import {modal} from 'vue-strap'
 import outbydealerno from './outbydealerno.vue'
-import outbysuit from './outbysuit.vue'
 export default {
-    components: {vSelect,vOption,datepicker,buttonDocs,pageDocs,modal,outbydealerno,outbysuit},
+    components: {vSelect,vOption,datepicker,buttonDocs,pageDocs,modal,outbydealerno,},
     data() {
         return {
           sdate: GetFormatDate(1),
@@ -123,7 +121,6 @@ export default {
           showmodal: false,
           content: "",
           dealernoshow: false,
-          suitshow:false
         }
     },
     ready(){
@@ -165,16 +162,6 @@ export default {
         this.pageindex=index;
         this.query();
       },
-      'tab': function(val){
-        if(val==1){
-          this.dealernoshow=true;
-          this.suitshow=false;
-        }
-        if(val==2){
-          this.suitshow=true;
-          this.dealernoshow=false;
-        }
-      }
     }
 }
 

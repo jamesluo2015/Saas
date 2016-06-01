@@ -1,4 +1,6 @@
-# [VueJS](http://cn.vuejs.org/)
+技术栈
+
+vuejs webpack babel npm es6 vue-strap vue-resourc vue-spinner
 
 ### 模版
 

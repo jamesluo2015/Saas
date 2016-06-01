@@ -65,48 +65,9 @@
         </div>
     </div>
 </div>
-<!--入库-->
-<modal :show.sync="showin" effect="fade" width="360px">
-    <div slot="modal-header" class="modal-header">
-        <button type="button" class="close" @click='showin = false'><span>×</span></button>
-        <h4 class="modal-title">商品入库</h4>
-    </div>
-    <div slot="modal-body" class="modal-body">
-        <div class="col-md-12 pd_l0 clearfix select_dropdown mg_t15">
-            <label class="control-label pull-left f12 lineH20">标准名称：</label>
-            <v-select :value.sync="area" :options="areas" :close-on-select="true" placeholder="标准名称"></v-select>
-        </div>
-        <div class="col-md-12 pd_l0 clearfix select_dropdown mg_t15">
-            <label class="control-label pull-left f12 lineH20">供应商编码：</label>
-            <v-select :value.sync="area" :options="areas" :close-on-select="true" placeholder="供应商"></v-select>
-        </div>
-        <div class="col-md-12 pd_l0 clearfix select_dropdown mg_t15">
-            <label class="control-label pull-left f12 lineH20">选择库区：</label>
-            <v-select :value.sync="area" :options="areas" :close-on-select="true" placeholder="选择库区"></v-select>
-        </div>
-        <div class="col-md-12 pd_l0 clearfix select_dropdown mg_t15">
-            <label class="control-label pull-left f12 lineH20">选择库房：</label>
-            <v-select :value.sync="house" :options="houses" :close-on-select="true" placeholder="选择库房"></v-select>
-        </div>
-        <div class="col-md-12 pd_l0 clearfix select_dropdown mg_t15">
-            <label class="control-label pull-left f12 lineH20">选择货位：</label>
-            <v-select :value.sync="slot" :options="slots" :close-on-select="true" placeholder="选择货位"></v-select>
-        </div>
-        <div class="col-md-12 pd_l0 clearfix select_dropdown mg_t15">
-            <label class="control-label pull-left f12 lineH20">入库数量：</label>
-            <input placeholder="" v-model="quantity" class="add_input w170 pull-left form-control" type="text">
-        </div>
-        <div class="col-md-12 pd_l0 clearfix select_dropdown mg_t15">
-            <label class="control-label pull-left f12 lineH20">品相：</label>
-            <radio :value.sync="model.GroupID" :options="radios" left="mg_l20"></radio>
-        </div>
-        <div class="col-md-12 mg_t20 mg_b20 clearfix">
-            <a href="#" class="btn_red bg8 mg_t20 auto w120 h26" @click="instore">确&nbsp;定</a>
-        </div>
-    </div>
-</modal>
+
 <!--货位管理-->
-<modal :show.sync="showslot" effect="fade" width="520px">
+<modal :show.sync="showslot" effect="fade" width="580px">
     <div slot="modal-header" class="modal-header">
         <button type="button" class="close" @click='showslot = false'><span>×</span></button>
         <h4 class="modal-title">货位管理</h4>
@@ -135,7 +96,7 @@
         <div class="col-md-12 pd_l0 clearfix select_dropdown mg_t15 " style="margin-left: 65px;">
             <label class="control-label pull-left f12 lineH20">新货位：</label>
             <div class="dropdown pull-left">
-                <v-select :value.sync="slotcode" :options="slotcodelist" :close-on-select="true" placeholder="选择货位"></select>
+                <v-select :value.sync="slotcode" :search="true" :options="slotcodelist" :close-on-select="true" placeholder="选择货位"></select>
             </div>
         </div>
         <div class="col-md-12 pd_l0 clearfix select_dropdown mg_t15 "  style="margin-left: 65px;">
@@ -143,10 +104,12 @@
             <input placeholder="" v-model="slotcount" class="add_input w170 pull-left form-control" type="text">
         </div>
         <div class="col-md-12 mg_t20  clearfix">
-            <a href="#" class="btn_red bg8 mg_t20 auto w120 h26" :class="{'disable':!slotvalid}" @click="changeslot">确&nbsp;定</a>
+            <a href="#" class="btn_red bg8 mg_b20 mg_t20 auto w120 h26" :class="{'disable':!slotvalid}" @click="changeslot">确&nbsp;定</a>
         </div>
     </div>
 </modal>
+
+<instore :showin.sync="showin" :selectlist="selectlist"></instore>
 
 </template>
 
@@ -161,11 +124,11 @@ import {
 }
 from 'vue-strap'
 import pageDocs from '../general/pageDocs.vue'
-import radio from '../general/radioDocs.vue'
 import buttonDocs from '../general/buttonDocs.vue'
+import instore from './instore.vue'
 export default {
     components: {
-        vSelect, buttonDocs, pageDocs, modal, radio
+        vSelect, buttonDocs, pageDocs, modal,instore
     },
     data() {
         return {
@@ -191,18 +154,10 @@ export default {
             pageindex: 1,
             count: 0,
             showin: false,
-            radios: [{
-                text: '正品',
-                val: 1
-            }, {
-                text: '残品',
-                val: 2
-            }],
             showslot: false,
             slotcode: "",
-            clotcount: 0,
+            slotcount: "",
             model: {},
-
         }
     },
     computed: {
@@ -261,7 +216,7 @@ export default {
               let arr = [];
               let _this = this;
               this.selectlist.forEach(function(item) {
-                  if (item.level == 3 ) {
+                  if (item.level == 3 && item.code!=_this.model.AreaCode+"-"+_this.model.StoreCode+"-"+_this.model.SlotCode) {
                       arr.push({
                           label: item.code,
                           value: item.value
@@ -271,7 +226,7 @@ export default {
               return arr;
             },
             slotvalid(){
-              if(!this.slotcount || isNaN(this.slotcount)){
+              if(!this.slotcount || isNaN(parseInt(this.slotcount))){
                 return false;
               }else if(this.slotcount>this.model.StockCount){
                 return false
@@ -317,22 +272,57 @@ export default {
                     }
                 })
             },
-            instore() {
-                this.showin = false;
-            },
             slotmanage(index){
               this.model=this.list[index];
               this.showslot=true;
             },
             changeslot(){
-              if(slotvalid){
+              if(!this.slotvalid){
                 return false;
               }
-              let model=JSON.parse(JSON.stringify(this.model));
-              model.StockCount-=this.slotcount;
+              this.model.StockCount-=this.slotcount;
               //变更后的
-              this.model.StockCount=this.slotcount;
+              let model=JSON.parse(JSON.stringify(this.model));
+              model.StockCount=this.slotcount;
               //获取库区、库房
+              let slot=this.slotcode[0];
+
+              for (var i = 0; i < this.selectlist.length; i++) {
+                let item =  this.selectlist[i]
+                if(item.value==slot&&item.level==3){
+                  model.SlotCode=item.label;
+                  model.StoreId=item.pid;
+
+                  for (var i = 0; i < this.selectlist.length; i++) {
+                    let item2 =  this.selectlist[i]
+                    if(item2.value==model.StoreId&&item2.level==2){
+                      model.StoreCode=item2.code;
+                      model.StoreName=item2.label;
+                      model.AreaId=item2.pid;
+
+                      for (var i = 0; i < this.selectlist.length; i++) {
+                        let item3 =  this.selectlist[i]
+                        if(item3.value==model.AreaId&&item3.level==1){
+                          model.AreaCode=item3.code;
+                          model.AreaName=item3.label;
+                          break;
+                        }
+                      }
+                      break;
+                    }
+                  }
+                  break;
+                }
+              }
+              let _this=this;
+              Vue.http.post('/stock/ChangeSlot',{newmodel: model,model:this.model}).then(function(res){
+                if(model.StockCount>0){
+                  _this.list.splice(0,0,model);
+                }else{
+                  model.Id=_this.model.Id;
+                  _this.model=model;
+                }
+              })
               this.showslot=false;
             }
     },
@@ -340,6 +330,22 @@ export default {
         'page': function(index) {
             this.pageindex = index;
             this.query();
+        },
+        'instore': function(model){
+          // let arr=this.list.filter(function(item){
+          //   return item.StockId==model.StockId;
+          // })
+          // if(arr.length){
+          //   arr[0].StockCount=model.StockCount;
+          // }else{
+          //   this.list.splice(0,0,model);
+          // }
+          this.query();
+          let _this=this;
+          Vue.http.get('/stock/GetStockCount').then(function(res) {
+              _this.countlist = res.data;
+          })
+
         }
     }
 }

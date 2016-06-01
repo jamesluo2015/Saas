@@ -106,16 +106,18 @@ export default {
     },
     computed: {
         valid: function() {
-            let result = true;
-            let selects = this.$children;
-            for (let i = 0; i < 3; i++) {
-                let val = selects[i].value[0] || 0;
-                if (!val) {
-                    result = false;
-                    break;
-                }
+            // let selects = this.$children;
+            // for (let i = 0; i < 3; i++) {
+            //     let val = selects[i].value[0] || 0;
+            //     if (!val) {
+            //         result = false;
+            //         break;
+            //     }
+            // }
+            if(!this.standardname.length || ! this.carmodel.length){
+              return false;
             }
-            return result;
+            return true;
         },
         //主机厂
         fac_select: function() {

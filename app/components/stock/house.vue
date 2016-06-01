@@ -154,7 +154,9 @@ export default {
                 _this.list = res.data.data;
                 _this.count = Math.ceil(res.data.count / _this.pagesize);
             } else {
-                layer.alert(res.data.mes);
+              _this.list=[];
+              _this.count = 0;
+                //layer.alert(res.data.mes);
             }
         }, function() {
             //error

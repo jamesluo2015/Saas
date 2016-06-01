@@ -172,8 +172,9 @@ export default {
     computed: {
         valid: function() {
             let result = true;
-            if(!isNaN(this.model.SalePrice)){
-              let temp=parseInt(this.model.SalePrice);
+            let price=this.stype==1?this.model.SalePrice:this.model.InPrice;
+            if(!isNaN(price)){
+              let temp=parseInt(price);
               if(!temp){
                 return false;
               }
