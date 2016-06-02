@@ -63,6 +63,7 @@
             </table>
         </div>
         <page-docs :count="count"></page-docs>
+        <nothing v-if="!list.length"></nothing>
 
         <modal :show.sync="showmodal" effect="fade" width="400px" title="开单备注">
           <div slot="modal-body" class="modal-body">
@@ -93,10 +94,11 @@ import buttonDocs from '../general/buttonDocs.vue'
 import { GetFormatDate } from '../utils/date'
 import DateFormat from '../utils/DateFormat.js'
 import pageDocs from '../general/pageDocs.vue'
+import nothing from '../general/nothing.vue'
 import {modal} from 'vue-strap'
 import outbydealerno from './outbydealerno.vue'
 export default {
-    components: {vSelect,vOption,datepicker,buttonDocs,pageDocs,modal,outbydealerno,},
+    components: {vSelect,vOption,datepicker,buttonDocs,pageDocs,modal,outbydealerno,nothing},
     data() {
         return {
           sdate: GetFormatDate(1),
@@ -112,11 +114,11 @@ export default {
           key : "",
           list:[],
           pageindex: 1,
-          pagesize: 3,
+          pagesize: 5,
           count: 0,
           showmodal: false,
           content: "",
-          dealernoshow: false,
+          dealernoshow: false
         }
     },
     ready(){
@@ -134,7 +136,7 @@ export default {
             key: this.key
           }
           Vue.http.get('/stock/GetStockBill',param).then(function(res){
-            if(res.data.ok){
+            if(res.data.ok&&res.data.count){
               res.data.data.forEach(function(item){
                 item.AddTime=DateFormat(item.AddTime);
               })

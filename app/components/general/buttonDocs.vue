@@ -8,12 +8,14 @@
                 type: String
             },
             state:{
-              type: Boolean,
-              default: false
+              type: Boolean
             }
         },
         methods:{
           click(){
+            if(this.state){
+              return false;
+            }
             this.state=true;
             let _this=this;
             setTimeout(function(){

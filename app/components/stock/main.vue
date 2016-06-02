@@ -45,6 +45,7 @@
                 <thead>
                     <tr>
                         <th width="15%">商品名称</th>
+                        <th width="15%">供应商编码</th>
                         <th width="12%">实物ID</th>
                         <th width="11%">品相</th>
                         <th width="11%">数量</th>
@@ -54,6 +55,7 @@
                 <tbody v-for="item in list">
                     <tr>
                         <td>{{item.ProdName}}</td>
+                        <td>{{item.DealerNo}}</td>
                         <td>{{item.StockId}}</td>
                         <td>{{item.ProdType?"残品":"正品"}}</td>
                         <td>{{item.StockCount}}</td>
@@ -89,6 +91,7 @@
                 </tr>
             </tbody>
         </table>
+
         <div class="col-md-12 pd_l0 clearfix select_dropdown mg_t15 " style="margin-left: 65px;">
             <label class="control-label pull-left f12 lineH20">新货位：</label>
             <div class="dropdown pull-left">
