@@ -41,11 +41,7 @@
             </div>
         </div>
 
-        <modal :show.sync="addExpress" effect="fade" width="360px">
-          <div slot="modal-header" class="modal-header ">
-              <button type="button" class="close " @click="addExpress=false"><span>×</span></button>
-              <h4 class="modal-title">添加快递公司</h4>
-          </div>
+        <modal :show.sync="addExpress" effect="fade" width="360px" title="添加快递公司">
           <div slot="modal-body" class="modal-body ">
                     <div class="col-md-12 pd_l0 clearfix select_dropdown mg_t15 ">
                         <div class="pull-left ">

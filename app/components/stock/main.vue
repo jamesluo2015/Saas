@@ -67,11 +67,7 @@
 </div>
 
 <!--货位管理-->
-<modal :show.sync="showslot" effect="fade" width="580px">
-    <div slot="modal-header" class="modal-header">
-        <button type="button" class="close" @click='showslot = false'><span>×</span></button>
-        <h4 class="modal-title">货位管理</h4>
-    </div>
+<modal :show.sync="showslot" effect="fade" width="580px" title="货位管理">
     <div slot="modal-body" class="modal-body">
         <table class="table table2 table_bg mg_t10 mg_b30">
             <thead>
@@ -250,6 +246,15 @@ export default {
     methods: {
         query() {
                 let _this = this;
+                let slotcode="";
+                for (var i = 0; i < this.selectlist.length; i++) {
+                  let item =  this.selectlist[i]
+                  if(item.value==_this.slot[0]&&item.level==3){
+                    slotcode=item.label;
+                    break;
+                  }
+                }
+
                 let param = {
                     pagesize: _this.pagesize,
                     pageindex: _this.pageindex,
@@ -257,7 +262,7 @@ export default {
                     key: _this.key,
                     areaid: _this.area.length ? _this.area[0] : 0,
                     houseid: _this.house.length ? _this.house[0] : 0,
-                    slotcode: _this.slot.length ? _this.slot[0] : 0
+                    slotcode: slotcode //_this.slot.length ? _this.slot[0] : 0
                 }
                 Vue.http.get('/stock/GetStockMain', param).then(function(res) {
                     if (res.data.ok) {

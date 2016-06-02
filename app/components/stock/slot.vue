@@ -47,11 +47,7 @@
 
 
 </div>
-<modal :show.sync="ModalShow" effect="fade" width="520px">
-    <div slot="modal-header" class="modal-header">
-        <button type="button" class="close" @click="ModalShow = false"><span>×</span></button>
-        <h4 class="modal-title">{{model.Id?"编辑货位":"添加货位"}}</h4>
-    </div>
+<modal :show.sync="ModalShow" effect="fade" width="520px" :title="model.Id?'编辑货位':'添加货位'">
     <div slot="modal-body" class="modal-body">
         <div class="col-md-12 pd_l0 clearfix select_dropdown mg_t15">
             <label class="control-label pull-left f12 lineH20">库区地址：</label>

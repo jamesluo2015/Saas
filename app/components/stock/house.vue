@@ -97,8 +97,8 @@ import {
 from 'vue-strap'
 import buttonDocs from '../general/buttonDocs.vue'
 import pageDocs from '../general/pageDocs.vue'
-import addArea from './addArea.vue'
-import addHouse from './addHouse.vue'
+import addArea from '../modal/addArea.vue'
+import addHouse from '../modal/addHouse.vue'
 import nothing from '../general/nothing.vue'
 export default {
     components: {vSelect,buttonDocs,pageDocs,addArea,addHouse,vOption,nothing},

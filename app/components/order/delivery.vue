@@ -49,18 +49,17 @@
                             <span class="pull-left mg_t20 mg_l40">x{{detail.Quantity}}</span>
                             <em class="pull-left mg_t20 col_b5 fS mg_l40">|</em>
                             <div class=" pd_l0 mg_t20 clearfix select_dropdown pull-left w250">
-                                <label class="control-label pull-left f12 lineH20">选择库区：</label>
-                                <v-select :value.sync="detail.stockareaid" :options="areas" :close-on-select="true"></v-select>
+                                <label class="control-label pull-left f12 lineH20">选择库位：</label>
+                                <v-select :value.sync="detail.slot" :options="slots" :close-on-select="true"></v-select>
                             </div>
-                            <div class=" pd_l0 mg_t20 clearfix select_dropdown pull-left w250">
+                            <!-- <div class=" pd_l0 mg_t20 clearfix select_dropdown pull-left w250">
                                 <label class="control-label pull-left f12 lineH20">选择库房：</label>
                                 <v-select :value.sync="detail.stockhouseid" :options="houses" :close-on-select="true"></v-select>
                             </div>
                             <div class=" pd_l0 mg_t20 clearfix select_dropdown pull-left w250">
                                 <label class="control-label pull-left f12 lineH20">选择库位：</label>
                                 <v-select :value.sync="detail.stockmainid" :options="slots" :close-on-select="true"></v-select>
-                            </div>
-
+                            </div> -->
                         </div>
                     </div>
                     <div class="col-md-12 clearfix select_dropdown">
@@ -105,17 +104,23 @@ export default {
             expressno: "",
             // arealist: [],
             // houselist: [],
-            // slotlist: [],
-            selectlist:[]
+            slotlist: [],
+            slots: []
         }
     },
-    computed:{
-      valid(){
-        if(!this.expressno){
-          return false;
+    computed: {
+        valid() {
+            if (!this.expressno) {
+                return false;
+            }
+            let isslot=this.model.OrderDetails.some(function(item){
+              return item.slot.length==0;
+            })
+            if(isslot){
+              return false;
+            }
+            return true;
         }
-        return true;
-      }
     },
     ready() {
         let _this = this;
@@ -134,17 +139,50 @@ export default {
             })
             _this.expresslist = arr;
         });
-        Vue.http.get('/stock/GetSelect').then(function(res){
-          _this.selectlist=res.data;
+        Vue.http.get('/stock/GetAllSlot').then(function(res) {
+            if (res.data.length) {
+              let arr=[];
+                res.data.forEach(function(item) {
+                  if(item.SlotCode && item.AreaCode && item.StoreCode){
+                    arr.push({
+                      label: item.AreaCode+"-"+item.StoreCode+"-"+item.SlotCode,
+                      value: item.Id.toString()
+                    })
+                  }
+                });
+                _this.slots=arr;
+                _this.slotlist = res.data;
+            }
         })
     },
     methods: {
         commit() {
             //确认发货
-            if(!valid){
-              return false;
+            if (!this.valid) {
+                return false;
             }
-            this.show = false;
+            let _this=this;
+            // let expreesname="";
+            // for (var i = 0; i < this.expresslist.length; i++) {
+            //   let item=this.expresslist[i]
+            //   if(item.value==_this.express[0]){
+            //     expreesname=item.label;
+            //     break;
+            //   }
+            // };
+            // let model={
+            //   OrderCode: this.model.OrderCode,
+            //   SoStatus: 1,
+            //   SourceType: this.model.SourceType,
+            //   SourceOrderId: this.model.SourceOrderId,
+            //   ExpressId: this.express[0],
+            //   ExpressName:  expreesname,
+            //   ExpressNo: this.expressno
+            // };
+
+            Vue.http.post('/order/SaveOrderShip',{model: this.model}).then(function(res){
+              this.show = false;
+            })
         }
     }
 }

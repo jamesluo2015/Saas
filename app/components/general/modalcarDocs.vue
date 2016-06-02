@@ -1,9 +1,5 @@
 <template>
-      <modal :show.sync="showmodal" effect="fade" width="50%">
-        <div slot="modal-header" class="modal-header">
-          <button type="button" class="close" @click='showmodal = false'><span>×</span></button>
-          <h4 class="modal-title">{{title}}</h4>
-        </div>
+      <modal :show.sync="showmodal" effect="fade" width="50%" :title="title">
         <div slot="modal-body" class="modal-body">
           <accordion-docs :list="list"></accordion-docs>
         </div>

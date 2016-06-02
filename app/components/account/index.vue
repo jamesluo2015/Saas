@@ -8,8 +8,8 @@
             <template id="" v-if="model.Id">
                 <div class="col-md-12 mg_t20 clearfix select_dropdown">
                     <label class="control-label pull-left">企业信息：</label>
-                    <p class="pull-left pd_l0 mg_t2" v-if="!isupdate">{{model.DealerName}}</p>
-                    <input placeholder="" v-else v-model="model.DealerName" type="text" class="add_input w160 form-control pull-left pd_l0 mg_t2 mg_l95">
+                    <p class="pull-left pd_l0 mg_t2" >{{model.DealerName}}</p>
+                    <!-- <input placeholder="" v-else v-model="model.DealerName" type="text" class="add_input w160 form-control pull-left pd_l0 mg_t2 mg_l95"> -->
                 </div>
                 <div class="col-md-12 mg_t20 clearfix select_dropdown">
                     <label class="control-label pull-left">所在区域：</label>

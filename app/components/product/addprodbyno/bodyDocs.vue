@@ -11,21 +11,20 @@
         <div class="col-md-12 pd_l0 mg_t10 clearfix select_dropdown">
             <label class="control-label pull-left">零件编号：</label>
             <p class="pull-left pd_l0 mg_t2">{{model.Sku}}</p>
-            <a href="#" class="saas_add">+补充零件编号</a>
+            <a href="#" class="saas_add" @click="supplementsku">+补充零件编号</a>
         </div>
         <div class="col-md-12 pd_l0 mg_t10 clearfix select_dropdown">
             <label class="control-label pull-left">配件说明：</label>
             <div class="col-md-10 pull-left pd_l0 mg_t2">
                 {{model.ContentInfo}}
-                <a href="#" class="saas_add">+补充配件说明</a>
+                <a href="#" class="saas_add" @click="showdemo=true">+补充配件说明</a>
             </div>
         </div>
-
 
         <div class="col-md-12 pd_l0 mg_t20 clearfix select_dropdown">
             <label class="control-label pull-left">适用年款：</label>
 
-            <a href="#" class="saas_add">+补充年款</a>
+            <a href="#" class="saas_add" >+补充年款</a>
         </div>
 
         <div class="col-md-12 pd_l0 mg_t20 clearfix select_dropdown">
@@ -86,17 +85,19 @@
 </div>
 
 <upload upid=".imgs"></upload>
-
+<supplement-sku :show.sync="showsku" :list="model.SkuList" :stockid="model.StockId" :bmno="model.BmNo"></supplement-sku>
+<supplement-demo :show.sync="showdemo" :bmno="model.BmNo"></supplement-demo>
 </template>
 
 <script>
 import {select as vSelect} from 'vue-strap';
 import {option as vOption} from 'vue-strap';
 import upload from '../../general/upload.vue';
-
+import supplementSku from '../../modal/supplementSku.vue';
+import supplementDemo from '../../modal/supplementDemo.vue';
 export default {
     components: {
-        vSelect, vOption, upload
+        vSelect, vOption, upload,supplementSku,supplementDemo
     },
     props: {
         model: {
@@ -109,7 +110,10 @@ export default {
             brands: [],
             Brandlist: [],
             iscommit: false,
-            stype: document.getElementById('user').getAttribute('stype')
+            stype: document.getElementById('user').getAttribute('stype'),
+            showsku: false,
+            showdemo: false,
+
         }
     },
     events: {
@@ -167,6 +171,9 @@ export default {
             }, function(response) {
                 console.log('保存失败');
             });
+        },
+        supplementsku(){
+          this.showsku=true;
         }
     },
     computed: {

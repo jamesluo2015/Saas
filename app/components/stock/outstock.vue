@@ -64,11 +64,7 @@
         </div>
         <page-docs :count="count"></page-docs>
 
-        <modal :show.sync="showmodal" effect="fade" width="400px">
-          <div slot="modal-header" class="modal-header">
-            <button type="button" class="close" @click='showmodal = false'><span>×</span></button>
-            <h4 class="modal-title">开单备注</h4>
-          </div>
+        <modal :show.sync="showmodal" effect="fade" width="400px" title="开单备注">
           <div slot="modal-body" class="modal-body">
             <p class="content">
               {{content}}

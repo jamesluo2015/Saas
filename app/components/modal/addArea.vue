@@ -2,11 +2,7 @@
 
 <template id="">
 
-<modal :show.sync="show" effect="fade" width="540px">
-    <div slot="modal-header" class="modal-header ">
-        <button type="button" class="close " @click="show=false"><span>×</span></button>
-        <h4 class="modal-title">{{model.Id?"编辑库区":"添加库区"}}</h4>
-    </div>
+<modal :show.sync="show" effect="fade" width="540px" :title="model.Id?'编辑库区':'添加库区'">
     <div slot="modal-body" class="modal-body ">
         <div class="col-md-12 pd_l0 clearfix select_dropdown mg_t15">
             <div class="pull-left">
@@ -36,7 +32,7 @@
             <label class="control-label pull-left f12 lineH20"><em class="col_fb2727 mg_r5">*</em>库区地址：</label>
             <v-select :value.sync="province" :search="true" :options="provinces" :close-on-select="true" placeholder="城市">
             </v-select>
-            <v-select :value.sync="city" " :search="true" :options="citys" :close-on-select="true" placeholder="区域">
+            <v-select :value.sync="city" :search="true" :options="citys" :close-on-select="true" placeholder="区域">
             </v-select>
             <input placeholder="请输入地址" v-model="model.Address" class="add_input w325 pull-left form-control mg_t15" type="text">
         </div>
@@ -125,6 +121,7 @@ export default {
             let _this=this;
             Vue.http.post('/stock/SaveHouse',  this.model).then(function(res){
               if(!_this.model.Id){
+                _this.model.Id=res.data;
                 _this.$dispatch('addarea', _this.model)
               }
               _this.model.Id=res.data;

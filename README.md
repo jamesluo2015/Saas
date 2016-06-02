@@ -61,12 +61,9 @@ import upload from '../general/upload.vue'
 
 //模态框
 import { modal } from 'vue-strap'
-<modal :show.sync="showModel" effect="fade" width="360px">
-  <div slot="modal-header" class="modal-header ">
-      <button type="button" class="close " @click="showModel=false"><span>×</span></button>
-      <h4 class="modal-title">{{title}}</h4>
-  </div>
+<modal :show.sync="showModel" effect="fade" width="360px" :title="title">
   <div slot="modal-body" class="modal-body ">
+
   </div>
 </modal>
 ```

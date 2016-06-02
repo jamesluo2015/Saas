@@ -6,7 +6,7 @@
     <div class="row">
         <div class="col-md-12 pd_l0 mg_t10 mg_b30 clearfix select_dropdown">
             <span class="col_010101 f16 pull-left mg_l30 lineH26">库区管理</span>
-            <a href="#" class="green_btn w80 h26 pull-left mg_l30">+添加库区</a>
+            <a href="#" class="green_btn w80 h26 pull-left mg_l30" @click="addarea=true">+添加库区</a>
         </div>
 
         <div class="col-md-12 pd_l0 pd_r0 mg_r0">
@@ -66,12 +66,12 @@
             </li>
         </ul>
         <div class="col-md-12 mg_t10 mg_b20 clearfix">
-            <a href="#" class="btn_red bg8 mg_t20 mg_l70 w80 h26 pull-left" :class={'disable':isadd} @click="saveaddress">确&nbsp;定</a>
+            <a href="#" class="btn_red bg8 mg_t20 mg_l70 w80 h26 pull-left" :class="{'disable':isadd}" @click="saveaddress">确&nbsp;定</a>
             <a href="#" class="gray mg_t20 mg_l30 w80 h26 pull-left" @click="showaddress=false">取&nbsp;消</a>
         </div>
     </div>
 </modal>
-
+    <add-area :show.sync="addarea" :model="model"></add-area>
 </template>
 
 <script>
@@ -80,9 +80,10 @@ import {
     modal
 }
 from 'vue-strap'
+import addArea from '../modal/addArea.vue'
 export default {
     components: {
-        modal
+        modal,addArea
     },
     data() {
         return {
@@ -90,7 +91,9 @@ export default {
             provinces: [],
             list: [],
             index: 0,
-            isadd: false
+            isadd: false,
+            addarea: false,
+            model: {}
         }
     },
     ready() {
@@ -197,6 +200,17 @@ export default {
                     _this.isadd = false;
                 })
             }
+    },
+    events:{
+      'addarea':function(area){
+        this.list.push({
+          HouseName: area.HouseName,
+          Id: area.Id,
+          Provinces: "",
+          ids: ""
+        })
+        this.model={}
+      }
     }
 }
 

@@ -26,7 +26,7 @@
         <div class="bd_bd9 h40 lineH40 clearfix">
             <span class="f16 col_77b530 pull-left mg_l30">{{item.StandardName}}</span>
             <span class="col_767676 pull-left mg-l40">零件编号：
-              <a v-if="item.BmNo" href="javascript:void(0)" class="saas_add mg_l0">查看</a>
+              <a v-if="item.BmNo" href="javascript:void(0)" class="saas_add mg_l0" @click="skushow(item.SkuList,item.BmNo)">查看</a>
               <input v-else placeholder="" v-model="item.Sku" type="text" class="add_input w160 ">
             </span>
             <span class="col_767676 pull-right mg_r70">适用年款：
@@ -39,7 +39,7 @@
                 <label class="control-label pull-left">配件说明：</label>
                 <div v-if="item.BmNo" class="pull-left pd_l0 mg_t5 col_767676 f12">
                     {{item.ContentInfo}}
-                    <a href="#" class="saas_add">+更好的补充</a>
+                    <a href="#" class="saas_add" @click="demoshow(item.BmNo,item.StockId)">+更好的补充</a>
                 </div>
                 <div v-else class="pull-left pd_l0 mg_t5 col_767676 f12">
                     <textarea placeholder="备注" v-model="item.ContentInfo" class="form-control w500"></textarea>
@@ -100,7 +100,8 @@
     <modalcar-docs title="查看年款" :list="modalist" :showmodal.sync="modalshow"></modalcar-docs>
 </div>
 <upload upid=".imgs"> </upload>
-
+<supplement-sku :show.sync="showsku" :list="skuList" :bmno="bmno"></supplement-sku>
+<supplement-demo :show.sync="showdemo" :bmno="bmno" :stockid="stockid"></supplement-demo>
 </template>
 
 <script>
@@ -111,10 +112,11 @@ import upload from '../../general/upload.vue'
 import nothing from '../../general/upload.vue'
 import convert from '../../utils/convert.js'
 import store from 'store'
-
+import supplementSku from '../../modal/supplementSku.vue';
+import supplementDemo from '../../modal/supplementDemo.vue';
 export default {
     components: {
-        vSelect, vOption, modalcarDocs, upload,nothing
+        vSelect, vOption, modalcarDocs, upload,nothing,supplementSku,supplementDemo
     },
     data() {
         return {
@@ -124,7 +126,12 @@ export default {
             modalist: [],
             modalshow: false,
             first: true,
-            stype: document.getElementById('user').getAttribute('stype')
+            stype: document.getElementById('user').getAttribute('stype'),
+            showsku: false,
+            skuList: [],
+            bmno:"",
+            stockid:"",
+            showdemo: false
         }
     },
     ready() {
@@ -156,7 +163,7 @@ export default {
                 })
             }
             return count;
-        }
+        },
     },
     events: {
         'upload': function(data) {
@@ -323,6 +330,16 @@ export default {
                 }, function() {
 
                 });
+            },
+            skushow(skulist,bmno){
+                this.bmno=bmno;
+                this.showsku=true;
+                this.skuList=skulist;
+            },
+            demoshow(bmno,stockid){
+                this.bmno=bmno;
+                this.stockid=stockid;
+                this.showdemo=true;
             }
     }
 }

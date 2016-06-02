@@ -39,11 +39,7 @@
         </div>
 
 
-        <modal :show.sync="addBrand" effect="fade" width="450px">
-            <div slot="modal-header" class="modal-header">
-                <button type="button" class="close" @click="addBrand = false"><span>×</span></button>
-                <h4 class="modal-title">{{title}}</h4>
-            </div>
+        <modal :show.sync="addBrand" effect="fade" width="450px" :title="title">
             <div slot="modal-body" class="modal-body">
 
                     <div class="col-md-12 pd_l0 clearfix select_dropdown mg_t15">

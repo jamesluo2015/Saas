@@ -204,12 +204,7 @@ export default {
                         if(item.OrderStatus<=2){
                           //发货库区
                           item.OrderDetails.forEach(function(detail){
-                            detail.stockareaid=[];
-                            detail.stockareas=[];
-                            detail.stockhouseid=[];
-                            detail.stockhouses=[];
-                            detail.stockmainid=[];
-                            detail.stockmains=[];
+                             detail.slot=[];
                           })
                         }
                     })

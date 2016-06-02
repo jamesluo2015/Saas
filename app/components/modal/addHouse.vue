@@ -2,11 +2,7 @@
 
 <template id="addhouse">
 
-<modal :show.sync="show" effect="fade" width="560px">
-    <div slot="modal-header" class="modal-header ">
-        <button type="button" class="close " @click="show=false"><span>×</span></button>
-        <h4 class="modal-title">{{model.Id?"编辑库房":"添加库房"}}</h4>
-    </div>
+<modal :show.sync="show" effect="fade" width="560px" :title="model.Id?'编辑库房':'添加库房'">
     <div slot="modal-body" class="modal-body ">
         <div class="col-md-12 pd_l0 clearfix select_dropdown mg_t15">
             <div class="pull-left">
