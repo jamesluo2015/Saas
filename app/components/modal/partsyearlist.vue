@@ -60,7 +60,7 @@ export default {
         factorylist() {
                 let arr = [];
                 let set = new Set();
-                if (this.list.length) {
+                if (this.list&&this.list.length) {
                     this.list.forEach(function(x) {
                         if (!set.has(x.FactoryId)) {
                             arr.push({
@@ -74,7 +74,11 @@ export default {
                 return arr;
             },
             carmodellist() {
+              if(this.factorylist && this.factorylist.length){
                 return convert(this.list, this.factorylist[this.index].value);
+              }else{
+                return [];
+              }
             }
     }
 }

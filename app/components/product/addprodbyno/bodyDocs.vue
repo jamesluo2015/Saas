@@ -193,17 +193,9 @@ export default {
         exists: function() {
           let arr=[];
           this.model.SuitCarList.map(x=>arr.push(x.PartsYearId));
-          if(this.model.SupplementSuitcar.length){
+          if(model.SupplementSuitcar&&this.model.SupplementSuitcar.length){
             this.model.SupplementSuitcar.map(x=>arr.push(x));
           }
-          // let supplecars=[];
-          // Vue.http.get('/product/GetSuit?bmno='+this.model.BmNo).then(function(res){
-          //   if(res.data&&res.data.length){
-          //       res.data.length.forEach(function(car){
-          //         arr.push(car.PartsYearId || 0 );
-          //     });
-          //   }
-          // });
           return arr;
         },
         valid: function() {

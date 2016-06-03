@@ -1,3 +1,5 @@
+
+
 <template>
 
 <div class="col-md-12 pd_l0 mg_t20 clearfix select_dropdown bd_bD_d9 pd_b20" v-for="(index, item) in products">
@@ -10,7 +12,7 @@
         <ul class="goods_img1 clearfix mg_t10">
             <li v-for="(imgindex,img) in item.Imglist" @click="item.showimg=img.ImgUrl">
                 <a href="javascript:void(0)" @mouseover="img.showdel=true" @mouseout="img.showdel=false">
-                    <img :src="img.ImgUrl" >
+                    <img :src="img.ImgUrl">
                     <em v-show="img.showdel" @click="delimg(item,img,imgindex)"></em>
                 </a>
             </li>
@@ -26,12 +28,12 @@
         <div class="bd_bd9 h40 lineH40 clearfix">
             <span class="f16 col_77b530 pull-left mg_l30">{{item.StandardName}}</span>
             <span class="col_767676 pull-left mg-l40">零件编号：
-              <a v-if="item.BmNo" href="javascript:void(0)" class="saas_add mg_l0" @click="skushow(item.SkuList,item.BmNo)">查看</a>
+              <a v-if="item.BmNo" href="javascript:void(0)" class="saas_add mg_l0" @click="showModal(index,1)">查看</a>
               <input v-else placeholder="" v-model="item.Sku" type="text" class="add_input w160 ">
             </span>
             <span class="col_767676 pull-right mg_r70">适用年款：
-              <a v-if="item.BmNo" href="javascript:void(0)" class="saas_add mg_l0" @click="getsuitcars(index)">查看</a>
-              <a v-else href="javascript:void(0)" class="saas_add mg_l0" >+添加</a>
+              <a v-if="item.BmNo" href="javascript:void(0)" class="saas_add mg_l0" @click="showModal(index,3)" >查看</a>
+              <a v-else href="javascript:void(0)" class="saas_add mg_l0" @click="showModal(index,4)" >+添加</a>
             </span>
         </div>
         <div class="row">
@@ -39,7 +41,7 @@
                 <label class="control-label pull-left">配件说明：</label>
                 <div v-if="item.BmNo" class="pull-left pd_l0 mg_t5 col_767676 f12">
                     {{item.ContentInfo}}
-                    <a href="#" class="saas_add" @click="demoshow(item.BmNo,item.StockId)">+更好的补充</a>
+                    <a href="#" class="saas_add" @click="showModal(index,2)">+更好的补充</a>
                 </div>
                 <div v-else class="pull-left pd_l0 mg_t5 col_767676 f12">
                     <textarea placeholder="备注" v-model="item.ContentInfo" class="form-control w500"></textarea>
@@ -96,42 +98,53 @@
     </div>
 </div>
 
-<div>
-    <modalcar-docs title="查看年款" :list="modalist" :showmodal.sync="modalshow"></modalcar-docs>
-</div>
+
 <upload upid=".imgs"> </upload>
-<supplement-sku :show.sync="showsku" :list="skuList" :bmno="bmno"></supplement-sku>
-<supplement-demo :show.sync="showdemo" :bmno="bmno" :stockid="stockid"></supplement-demo>
+<supplement-sku :show.sync="showsku" :list="model.SkuList" :bmno="model.BmNo"></supplement-sku>
+<supplement-demo :show.sync="showdemo" :bmno="model.BmNo" :stockid="model.StockId"></supplement-demo>
+<supplement-year v-ref:year :show.sync="showyear" :bmno="model.BmNo" :exists="exists"></supplement-year>
+<partsyearlist :show.sync="showyears" :list="model.SuitCarList" :bmno="model.BmNo"></partsyearlist>
+
 </template>
 
 <script>
-import {select as vSelect} from 'vue-strap'
-import {option as vOption} from 'vue-strap'
-import modalcarDocs from '../../general/modalcarDocs.vue'
+
+import {
+    select as vSelect
+}
+from 'vue-strap'
+import {
+    option as vOption
+}
+from 'vue-strap'
 import upload from '../../general/upload.vue'
 import nothing from '../../general/upload.vue'
 import convert from '../../utils/convert.js'
 import store from 'store'
 import supplementSku from '../../modal/supplementSku.vue';
 import supplementDemo from '../../modal/supplementDemo.vue';
+import supplementYear from '../../modal/supplementYear.vue';
+import partsyearlist from '../../modal/partsyearlist.vue';
 export default {
     components: {
-        vSelect, vOption, modalcarDocs, upload,nothing,supplementSku,supplementDemo
+        vSelect, vOption, upload, nothing, supplementSku, supplementDemo, supplementYear, partsyearlist
     },
     data() {
         return {
             products: [],
             standardlist: [],
             brands: [],
-            modalist: [],
-            modalshow: false,
             first: true,
             stype: document.getElementById('user').getAttribute('stype'),
             showsku: false,
             skuList: [],
-            bmno:"",
-            stockid:"",
-            showdemo: false
+            bmno: "",
+            stockid: "",
+            showdemo: false,
+            showyears: false,
+            showyear: false,
+            pindex: 0,
+
         }
     },
     ready() {
@@ -152,18 +165,38 @@ export default {
         });
     },
     computed: {
-        addcount() {
-            let _this = this;
-            let count = 0;
-            if (_this.products.length) {
-                _this.products.forEach(function(item) {
-                    if (!item.BmNo) {
-                        count++;
-                    }
-                })
-            }
-            return count;
-        },
+        model() {
+                if (!this.products.length) {
+                    return {};
+                }
+                return this.products[this.pindex];
+            },
+            exists() {
+                if (!this.products.length) {
+                    return [];
+                }
+                let arr = [];
+                let model = this.products[this.pindex];
+
+                model.SuitCarList.map(x => arr.push(x.PartsYearId));
+                if (model.SupplementSuitcar && model.SupplementSuitcar.length) {
+                    model.SupplementSuitcar.map(x => arr.push(x));
+                }
+
+                return arr;
+            },
+            addcount() {
+                let _this = this;
+                let count = 0;
+                if (_this.products.length) {
+                    _this.products.forEach(function(item) {
+                        if (!item.BmNo) {
+                            count++;
+                        }
+                    })
+                }
+                return count;
+            },
     },
     events: {
         'upload': function(data) {
@@ -171,16 +204,16 @@ export default {
             let url = data.url;
             let model = this.products[index];
             //如果是已添加商品则直接插入数据库
-            if(!model.isupdate&&model.StockId){
-              Vue.http.post(`/product/AddImg?url=${url}&stockid=${model.StockId}`).then(function(res){
-                res.data.showdel=false;
-                model.Imglist.push(res.data);
-              })
-            }else{
-              model.Imglist.push({
-                  ImgUrl: url,
-                  showdel: false
-              });
+            if (!model.isupdate && model.StockId) {
+                Vue.http.post(`/product/AddImg?url=${url}&stockid=${model.StockId}`).then(function(res) {
+                    res.data.showdel = false;
+                    model.Imglist.push(res.data);
+                })
+            } else {
+                model.Imglist.push({
+                    ImgUrl: url,
+                    showdel: false
+                });
             }
             model.showimg = url;
         }
@@ -206,22 +239,29 @@ export default {
                         if (item.StockId) {
                             Vue.http.get('/product/GetImgList?Stockid=' + item.StockId).then(function(res) {
                                 if (res.data.length) {
-                                  res.data.forEach(function(item){
-                                    item.showdel=false;
-                                  })
+                                    res.data.forEach(function(item) {
+                                        item.showdel = false;
+                                    })
                                     temp.Imglist = res.data;
                                     temp.showimg = res.data[0].ImgUrl;
                                 }
                             })
                         }
+                        //获取适用性和SKU列表
                         Vue.http.get('/product/GetSuitCarAndSku?bmno=' + item.BmNo).then(function(response) {
-                          if(response.data.ok){
-                              item.SuitCarList = response.data.data;
-                              item.SkuList = response.data.data2;
-                          }
-                        }, function(err) {
-                            console.log('获取适用性失败');
-                        })
+                                if (response.data.ok) {
+                                    item.SuitCarList = response.data.data;
+                                    item.SkuList = response.data.data2;
+                                }
+                            }, function(err) {
+                                console.log('获取适用性失败');
+                            })
+                            //获取已补充年款
+                        Vue.http.get('/product/GetSuit?bmno=' + item.BmNo).then(function(res) {
+                            if (res.data && res.data.length) {
+                                item.SupplementSuitcar = res.data;
+                            }
+                        });
 
                         item.Brandlist = [_this.brands[0].value];
                         item.Imglist = [];
@@ -232,9 +272,9 @@ export default {
                         if (!item.Id && item.SkuList) {
                             item.Sku = item.SkuList.join(',');
                         }
-                        if(!item.Id){
-                          item.StockCount="";
-                          item.SalePrice="";
+                        if (!item.Id) {
+                            item.StockCount = "";
+                            item.SalePrice = "";
                         }
                         //0待修改 1 待保存 2待添加
                         item.isupdate = item.Id ? 0 : 1;
@@ -249,8 +289,8 @@ export default {
                 let _this = this;
                 let model = this.products[index];
                 //valid
-                if(!model.DealerNo||(this.stype==1?!model.SalePrice:!model.InPrice)||!model.StockCount){
-                  return false;
+                if (!model.DealerNo || (this.stype == 1 ? !model.SalePrice : !model.InPrice) || !model.StockCount) {
+                    return false;
                 }
 
                 //主机厂id
@@ -273,13 +313,6 @@ export default {
                     console.log('保存失败');
                 });
             },
-            getsuitcars(index) {
-                let item = this.products[index];
-                //根据年款id分组
-                let suitcars = item.SuitCarList;
-                this.modalist = convert(suitcars);
-                this.modalshow = true;
-            },
             addproduct() {
                 let param = store.get('param');
                 var addmodel = {
@@ -292,9 +325,11 @@ export default {
                     showimg: ""
                 };
                 this.products.push(addmodel);
-                Vue.nextTick(function () {
-                  // DOM 更新了
-                  $('.container-fluid').animate({scrollTop: $('.row').height()});
+                Vue.nextTick(function() {
+                    // DOM 更新了
+                    $('.container-fluid').animate({
+                        scrollTop: $('.row').height()
+                    });
                 })
 
             },
@@ -306,16 +341,16 @@ export default {
                         Vue.http.post('/product/DeleteImg?id=' + img.Id).then(function(response) {
                             if (response.data) {
                                 item.Imglist.splice(index, 1);
-                                item.showimg = item.Imglist.length?item.Imglist[0].ImgUrl:"";
+                                item.showimg = item.Imglist.length ? item.Imglist[0].ImgUrl : "";
                                 layer.msg('删除成功', {
                                     icon: 1,
-                                    time:800
+                                    time: 800
                                 });
                             }
                         }, function() {
                             layer.msg('删除失败', {
                                 icon: 5,
-                                time:800
+                                time: 800
                             });
                         });
                     } else {
@@ -323,7 +358,7 @@ export default {
                         item.Imglist.splice(index, 1);
                         layer.msg('删除成功', {
                             icon: 1,
-                            time:800
+                            time: 800
                         });
                     }
 
@@ -331,15 +366,32 @@ export default {
 
                 });
             },
-            skushow(skulist,bmno){
-                this.bmno=bmno;
-                this.showsku=true;
-                this.skuList=skulist;
-            },
-            demoshow(bmno,stockid){
-                this.bmno=bmno;
-                this.stockid=stockid;
-                this.showdemo=true;
+            // skushow(skulist, bmno) {
+            //     this.bmno = bmno;
+            //     this.showsku = true;
+            //     this.skuList = skulist;
+            // },
+            // demoshow(bmno, stockid) {
+            //     this.bmno = bmno;
+            //     this.stockid = stockid;
+            //     this.showdemo = true;
+            // },
+            showModal(index, type) {
+                this.pindex = index;
+                switch (type) {
+                    case 1:
+                        this.showsku = true;
+                        break;
+                    case 2:
+                        this.showdemo = true;
+                        break;
+                    case 3:
+                        this.showyears = true;
+                        break;
+                    case 4:
+                        this.showyeas = true;
+                        break;
+                }
             }
     }
 }
