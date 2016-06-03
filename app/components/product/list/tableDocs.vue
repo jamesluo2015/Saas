@@ -31,7 +31,7 @@
                         </div>
                         <div class="col-md-12 pd_l0 clearfix mg_t5 select_dropdown">
                             <label class="control-label pull-left f12 w60">零件编号：</label>
-                            <a href="#" class="saas_add pull-left f12 mg_l0">查看</a>
+                            <a href="#" class="saas_add pull-left f12 mg_l0" @click="skushow(item.SkuList,item.BmNo)">查看</a>
                             <label class="control-label pull-left f12 w60 mg_l30">适用年款：</label>
                             <a href="#" class="saas_add pull-left f12 mg_l0" @click="getsuitcars(item.BmNo)">查看</a>
                         </div>
@@ -49,7 +49,7 @@
                 <td>
                     <a href="#" class="saas_edi mg_t10" @click='update(item)'>编辑</a>
                     <a href="#" class="saas_del mg_t10" @click='remove($index)'>删除</a>
-                    <a href="#" class="saas_cho mg_t10" v-if="item.ProdStatus==3">选择销售平台</a>
+                    <a href="#" class="saas_cho mg_t10" v-if="item.ProdStatus==3" @click="thirdshow(item.StockId,item.InPrice)">选择销售平台</a>
                     <a href="#" class="saas_res mg_t10" v-if="item.ProdStatus==2" >查看原因</a>
                 </td>
             </tr>
@@ -58,7 +58,8 @@
     <nothing v-if="!list.length"></nothing>
 </div>
 <modalcar-docs title="查看年款" :list="modalist" :showmodal.sync="modalshow"></modalcar-docs>
-
+<supplement-sku :show.sync="showsku" :list="skuList" :bmno="bmno"></supplement-sku>
+<third :show.sync="showthird" :stockid="stockid" :inprice="inprice"></third>
 </template>
 
 <script>
@@ -66,9 +67,11 @@ import tab from '../../general/tabDocs.vue'
 import modalcarDocs from '../../general/modalcarDocs.vue'
 import nothing from '../../general/nothing.vue'
 import convert from '../../utils/convert.js'
+import supplementSku from '../../modal/supplementSku.vue';
+import third from '../../modal/third.vue';
 export default {
     components: {
-        modalcarDocs,tab,nothing
+        modalcarDocs,tab,nothing,supplementSku,third
     },
     props: {
         list: {
@@ -81,7 +84,13 @@ export default {
             modalshow: false,
             tablist:[{val: 0,text:"全部"},{val: 1,text:"待审核"},{val: 2,text:"未通过"},{val: 3,text:"已通过"}],
             first: true,
-            stype: document.getElementById('user').getAttribute('stype')
+            stype: document.getElementById('user').getAttribute('stype'),
+            showsku: false,
+            skuList:[],
+            bmno: "",
+            showthird:false,
+            stockid: "",
+            inprice: 0
         }
     },
     ready() {
@@ -136,6 +145,16 @@ export default {
               }, function() {
 
               })
+          },
+          skushow(skulist,bmno){
+            this.showsku=true;
+            this.skuList=skulist;
+            this.bmno=bmno;
+          },
+          thirdshow(stockid,inprice){
+            this.showthird=true;
+            this.stockid=stockid.toString();
+            this.inprice=inprice;
           }
     }
 }

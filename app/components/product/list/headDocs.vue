@@ -79,6 +79,7 @@ export default {
             };
             _this.loading = true;
             Vue.http.get('/product/GetProducts', param).then(function(response) {
+              
                   _this.$dispatch('GetProducts', response.data)
 
                 _this.loading = false;

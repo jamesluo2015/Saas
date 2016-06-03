@@ -63,8 +63,18 @@ export default {
         //查询商品 返回分页数据、总数
         'GetProducts': function(result) {
           if(result.count){
+
             result.data.forEach(function(item) {
                 item.AddTime = DateFormat(item.AddTime)
+                //异步获取年款和sku
+                Vue.http.get('/product/GetSuitCarAndSku?bmno=' + item.BmNo).then(function(response) {
+                  if(response.data.ok){
+                      item.SuitCarList = response.data.data;
+                      item.SkuList = response.data.data2;
+                  }
+                }, function(err) {
+                    console.log('获取适用性失败');
+                })
             })
             this.list = result.data;
             this.count = Math.ceil(result.count / this.pagesize);

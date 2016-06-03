@@ -49,7 +49,7 @@
                                 </div>
                                 <div class="col-md-12 pd_l0 clearfix mg_t5 select_dropdown">
                                     <label class="control-label pull-left f12 w60">零件编号：</label>
-                                    <a href="#" class="saas_add pull-left f12 mg_l0">查看</a>
+                                    <a href="#" class="saas_add pull-left f12 mg_l0" @click="skushow(item.SkuList,item.BmNo)">查看</a>
                                     <label class="control-label pull-left f12 w60 mg_l30">适用年款：</label>
                                     <a href="#" class="saas_add pull-left f12 mg_l0" @click="getsuitcars(item.BmNo)">查看</a>
                                 </div>
@@ -77,6 +77,7 @@
 
 <modalcar-docs title="查看年款" :list="modalist" :showmodal.sync="modalshow"></modalcar-docs>
 
+<supplement-sku :show.sync="showsku" :list="skuList" :bmno="bmno"></supplement-sku>
 </template>
 
 <script>
@@ -101,9 +102,10 @@ import nothing from '../general/nothing.vue'
 import DateFormat from '../utils/DateFormat.js'
 import convert from '../utils/convert.js'
 import { GetFormatDate } from '../utils/date'
+import supplementSku from '../modal/supplementSku.vue';
 export default {
     components: {
-        vSelect, vOption, datepicker, buttonDocs, pageDocs, modalcarDocs, tab,nothing
+        vSelect, vOption, datepicker, buttonDocs, pageDocs, modalcarDocs, tab,nothing,supplementSku
     },
     data() {
         return {
@@ -140,7 +142,10 @@ export default {
             pageindex: 1,
             count: 0,
             modalshow: false,
-            modalist: []
+            modalist: [],
+            showsku: false,
+            skuList:[],
+            bmno: ""
         }
     },
     ready() {
@@ -162,6 +167,15 @@ export default {
                     let result = response.data;
                     result.data.forEach(function(item) {
                         item.AddTime = DateFormat(item.AddTime)
+                        //异步获取年款和sku
+                        Vue.http.get('/product/GetSuitCarAndSku?bmno=' + item.BmNo).then(function(response) {
+                          if(response.data.ok){
+                              item.SuitCarList = response.data.data;
+                              item.SkuList = response.data.data2;
+                          }
+                        }, function(err) {
+                            console.log('获取适用性失败');
+                        })
                     });
                     _this.list = result.data;
                     _this.count = Math.ceil(result.count / _this.pagesize);
@@ -193,7 +207,11 @@ export default {
                 }, function(){
 
                 });
-
+            },
+            skushow(skulist,bmno){
+              this.showsku=true;
+              this.skuList=skulist;
+              this.bmno=bmno;
             }
     },
     events: {

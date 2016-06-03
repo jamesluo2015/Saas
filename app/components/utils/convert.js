@@ -1,6 +1,9 @@
 //convert.js
-export default (suitcars)=> {
+export default (suitcars,fid)=> {
 let s=new Set();
+suitcars=suitcars.filter(function(item){
+  return item.FactoryId==fid;
+})
 suitcars.map(x=>s.add(x.CarmodelId));
 let arr=[];
 for(var set of s){
@@ -12,7 +15,11 @@ for(var set of s){
         carlist.push({
             text: t.PartsYear,
             id: t.PartsYearId,
-            des: t.Description
+            des: t.Description,
+            carid: temp[0].CarmodelId,
+            carmodel: temp[0].Carmodel,
+            factoryname: temp[0].FactoryName,
+            factoryid: temp[0].FactoryId
         })
     })
     arr.push({

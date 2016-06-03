@@ -68,6 +68,7 @@ import {
     select as vSelect
 }
 from 'vue-strap';
+
 export default {
     components: {
         vSelect
@@ -135,7 +136,7 @@ export default {
             }
     },
     watch: {
-        province(val) {
+            province(val) {
                 this.getcitys(val, true);
             },
             city(val) {
