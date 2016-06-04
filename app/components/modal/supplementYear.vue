@@ -2,7 +2,7 @@
 
 <template id="">
 
-<modal :show.sync="show" effect="fade" width="800px" title="{{ isadd?"添加年款":"补充适用年款" }}">
+<modal :show.sync="show" effect="fade" width="800px" :title="isadd?'添加年款':'补充适用年款'">
     <div slot="modal-body" class="modal-body " style="padding:0px">
         <ul class="saas_letter clearfix">
             <li :class="{'checked':$index==index}" v-for="letter in letters" @click="index=$index"><a href="#">{{ letter }}</a></li>
@@ -123,6 +123,7 @@ export default {
       index(){
         this.fid=0;
         this.cid=0;
+        this.clist=[];
         this.ylist=[];
       },
       fid(val){
@@ -160,6 +161,11 @@ export default {
             //加到内存
             res.data.map(x=>_this.data[1].push(x));
           })
+        }
+      },
+      show(val){
+        if(!val){
+          this.yids=[];
         }
       }
     },

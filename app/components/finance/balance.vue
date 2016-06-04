@@ -28,7 +28,7 @@
                     <span v-if="!step">结算单核算中…</span>
                     <span v-if="step==1">财务审核中</span>
                     <span v-if="step==2">请确认结账单</span>
-                    <span v-if="step==3">待付款</span>
+                    <span v-if="step==3">待付款(为了不影响您的收款，请尽快开出发票)</span>
                     </span>
                     <a href="#" v-if="step==2" class="redbtn f12 w130 h26 pull-right" @click="audit">确认无误，申请结款</a>
                 </div>

@@ -59,7 +59,9 @@
 </div>
 <third :show.sync="showthird" :stockid="model.StockId" :inprice="model.InPrice"></third>
 <supplement-sku :show.sync="showsku" :list="model.SkuList" :bmno="model.BmNo"></supplement-sku>
+
 <supplement-year v-ref:year :show.sync="showyear" :bmno="model.BmNo" :exists="exists"></supplement-year>
+
 <partsyearlist :show.sync="showyears" :list="model.SuitCarList" :bmno="model.BmNo"></partsyearlist>
 </template>
 

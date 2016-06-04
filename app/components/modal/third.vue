@@ -22,7 +22,7 @@
             </div>
             <p class="text-left col_ed5521 mg_l20">适用车型：</p>
             <div class="col-md-12  mg_t5 mg_b5 clearfix select_dropdown">
-                <accordion :one-at-atime="true">
+                <accordion :one-at-atime="false">
                     <panel v-for="(index,item) in list | orderBy 'fac'" :header="item.fac" :is-open="false">
                         <ul class="mg_b0" style="*width: 408px;">
                             <li class="clearfix mg_t5 mg_b5" v-for="car in item.carlist" class="clearfix mg_t5 mg_b5">

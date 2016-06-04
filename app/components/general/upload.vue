@@ -32,36 +32,40 @@ export default {
         });
 
         jFile.unbind('change').change(function() {
-            let upLoadurl = "/upsinglefile.ashx?";
+            let upLoadurl = "http://filecloud.beimai.com/upload/pic"; //"/upsinglefile.ashx?";
 
             let jFile = $('#customfilename');
             let folder = '/saas/';
-            let param = {
-                ext: "jpg,gif,jpeg,png",
-                sz: 102400,
-                folder: encodeURIComponent(uploadParam.SaveFolder),
-                objname: "objAspNetUpload",
-                issmallimg: 1,
-                valstr: uploadParam.ValStr,
-                simg: uploadParam.SmallImgSizes
-            }
-            for (var item in param) {
-                upLoadurl += `${item}=${param[item]}&`;
-            }
-
+            // let param = {
+            //     ext: "jpg,gif,jpeg,png",
+            //     sz: 102400,
+            //     folder: encodeURIComponent(uploadParam.SaveFolder),
+            //     objname: "objAspNetUpload",
+            //     issmallimg: 1,
+            //     valstr: uploadParam.ValStr,
+            //     simg: uploadParam.SmallImgSizes
+            // }
+            // for (var item in param) {
+            //     upLoadurl += `${item}=${param[item]}&`;
+            // }
             var data = new FormData();
-            data.append('filedata', jFile[0].files[0]);
+            data.append('fileName', jFile[0].files[0]);
+            data.append('p', uploadParam.p);
+
             $.ajax({
                 url: upLoadurl,
                 type: 'POST',
                 data: data,
+                crossdomain: true,
                 processData: false, // 告诉jQuery不要去处理发送的数据
                 contentType: false // 告诉jQuery不要去设置Content-Type请求头
-            }).done(function(ret) {
-                ret = ret.replace(/'/g, '"');
-                ret = JSON.parse(ret);
-                ret.msg.CurrentBtn = upload;
-                _this.$dispatch('upload', ret.msg)
+            }).done(function(res) {
+                res.url=res.path;
+                res.CurrentBtn = upload;
+                _this.$dispatch('upload', res)
+                if(res.status!="SUCCESS"){
+                  console.error(res);
+                }
             });
         })
     },
