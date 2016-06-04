@@ -42,7 +42,7 @@
     <div class="row">
         <div class="col-md-12 pd_l0 pd_r0 mg_r0">
             <img src="../../images/logo.png" class="pull-left mg_l70" width="170">
-            <div class="pull-left mg_l105 w500 mg_t20">
+            <div class="pull-left mg_l105 w500 mg_t20" id="printsingle">
                 <div class="f16 bdB_474747 w240 t-c h40 mg_l70">供应商结算单</div>
                 <div class="col-md-12 pd_l0 mg_t30 clearfix">
                     <label class="control-label pull-left fN">供应商名称：</label>
@@ -71,6 +71,7 @@
                     </div>
                 </div>
             </div>
+            <a href="#" class="btn_green f14 w70 h26 poA" @click="print" style="right:15px;top:7px;*right:100px;">打&nbsp;印</a>
         </div>
     </div>
 </div>
@@ -78,7 +79,6 @@
 </template>
 
 <script>
-
 export default {
     props: {
         model: {
@@ -112,6 +112,9 @@ export default {
         Vue.http.post(`/finance/UpdateStatus?id=${id}&status=3`).then(function(res){
 
         })
+      },
+      print(){
+        $('#printsingle').printArea();
       }
     },
     ready(){

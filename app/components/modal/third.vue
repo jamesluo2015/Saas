@@ -69,7 +69,6 @@ export default {
             default: false
         },
         stockid: {
-            type: String,
             require: true
         },
         inprice: {

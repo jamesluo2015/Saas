@@ -11,7 +11,7 @@
         <div class="col-md-12 pd_l0 mg_t10 clearfix select_dropdown">
             <label class="control-label pull-left">零件编号：</label>
             <p class="pull-left pd_l0 mg_t2">{{model.Sku}}</p>
-            <a href="#" class="saas_add" @click="supplementsku">+补充零件编号</a>
+            <a href="#" class="saas_add" @click="showsku=true">+补充零件编号</a>
         </div>
         <div class="col-md-12 pd_l0 mg_t10 clearfix select_dropdown">
             <label class="control-label pull-left">配件说明：</label>
@@ -85,7 +85,7 @@
 </div>
 
 <upload upid=".imgs"></upload>
-<supplement-sku :show.sync="showsku" :list="model.SkuList" :bmno="model.BmNo"></supplement-sku>
+<supplement-sku :supplement="true" :show.sync="showsku" :list="model.SkuList" :bmno="model.BmNo"></supplement-sku>
 <supplement-demo :show.sync="showdemo" :bmno="model.BmNo"></supplement-demo>
 <supplement-year v-ref:year :show.sync="showyear" :bmno="model.BmNo" :exists="exists"></supplement-year>
 <partsyearlist :show.sync="showyears" :list="model.SuitCarList" :bmno="model.BmNo"></partsyearlist>
@@ -159,44 +159,43 @@ export default {
     },
     methods: {
         commit() {
-                //防止多次点击
-                if (this.iscommit || !this.valid) {
-                    return false;
-                }
-
-                let _this = this;
-                let model = _this.model;
-                //品牌处理
-                model.ProdBrandId = this.Brandlist[0];
-                if (parseInt(model.ProdBrandId) > 0) {
-                    model.ProdBrandName = this.brands.filter(function(item) {
-                        return item.value == model.ProdBrandId;
-                    })[0].label;
-                }
-                _this.iscommit = true;
-                Vue.http.post('/product/SaveProduct', JSON.stringify(model)).then(function(response) {
-                    if (response.data.ok) {
-                        window.location.reload();
-                    } else {
-                        _this.iscommit = false;
-                        layer.alert(response.data.mes);
-                    }
-                }, function(response) {
-                    console.log('保存失败');
-                });
-            },
-            supplementsku() {
-                this.showsku = true;
+            //防止多次点击
+            if (this.iscommit || !this.valid) {
+                return false;
             }
+
+            let _this = this;
+            let model = _this.model;
+            //品牌处理
+            model.ProdBrandId = this.Brandlist[0];
+            if (parseInt(model.ProdBrandId) > 0) {
+                model.ProdBrandName = this.brands.filter(function(item) {
+                    return item.value == model.ProdBrandId;
+                })[0].label;
+            }
+            _this.iscommit = true;
+            Vue.http.post('/product/SaveProduct', JSON.stringify(model)).then(function(response) {
+                if (response.data.ok) {
+                    window.location.reload();
+                } else {
+                    _this.iscommit = false;
+                    layer.alert(response.data.mes);
+                }
+            }, function(response) {
+                console.log('保存失败');
+            });
+        },
     },
     computed: {
         exists: function() {
-          let arr=[];
-          this.model.SuitCarList.map(x=>arr.push(x.PartsYearId));
-          if(model.SupplementSuitcar&&this.model.SupplementSuitcar.length){
-            this.model.SupplementSuitcar.map(x=>arr.push(x));
-          }
-          return arr;
+            let arr = [];
+            if (this.model && this.model.SuitCarList.length) {
+                this.model.SuitCarList.map(x => arr.push(x.PartsYearId));
+                if (this.model.SupplementSuitcar && this.model.SupplementSuitcar.length) {
+                    this.model.SupplementSuitcar.map(x => arr.push(x));
+                }
+            }
+            return arr;
         },
         valid: function() {
             let result = true;

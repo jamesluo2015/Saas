@@ -1,82 +1,4 @@
 <template>
-    <!-- <h3>修改商品</h3>
-
-    <div>
-        <div class="col-md-12 pd_l0 mg_t10 clearfix select_dropdown">
-            <label class="control-label pull-left">配件名称：</label>
-            <p class="pull-left pd_l0 mg_t7">{{model.StandardName}}</p>
-        </div>
-        <div class="col-md-12 pd_l0 mg_t10 clearfix select_dropdown">
-            <label class="control-label pull-left">零件编号：</label>
-            <p class="pull-left pd_l0 mg_t7">{{model.Sku}}</p>
-            <a class="col_007aff cursor mg_l10 mg_t5" data-toggle="modal" data-target="#SkuList" sku="2200100U8130">
-                <span class="label label-warning">查看</span>
-            </a>
-
-        </div>
-        <div class="col-md-12 pd_l0 mg_t10 clearfix select_dropdown">
-            <label class="control-label pull-left">配件说明：</label>
-            <div class="col-md-10 pull-left pd_l0 mg_t7">
-                {{model.ContentInfo}}
-                <a href="#" class="mg_l10 mg_t5"><span class="label label-warning">我有更好的补充</span></a>
-            </div>
-        </div>
-        <div class="col-md-12 pd_l0 mg_t10 clearfix select_dropdown">
-            <label class="control-label pull-left">适用年款：</label>
-
-        </div>
-        <div class="col-md-12 pd_l0 clearfix pd_b20 mg-t20 select_dropdown">
-            <div class="pull-left">
-                <label class="control-label pull-left" for="input01">*品牌：</label>
-                <v-select :value.sync="Brandlist" :options="brands" class='min_w160' :close-on-select="true" placeholder="品牌"></v-select>
-            </div>
-            <div class="pull-left mg_l20">
-                <label class="control-label pull-left" for="input01">供应商编码：</label>
-                <input bmtitle="这是您自己的商品编码" placeholder="" type="text" id="dealerno" v-model='model.DealerNo' class="w160 add_input form-control">
-            </div>
-        </div>
-        <div class="col-md-12 pd_l0 clearfix pd_b20 select_dropdown" style="position: relative;">
-            <div class="pull-left" v-if="stype==1">
-                <label class="control-label pull-left">*销售价：</label>
-                <input placeholder="" id="SalePrice" type="text"  v-model='model.SalePrice' class="add_input w160 pull-left form-control">
-                <label class="pull-left fN mg_t7 mg_l5">元</label>
-            </div>
-            <div class="pull-left" v-else>
-                <label class="control-label pull-left">*进货价：</label>
-                <input placeholder="" id="InPrice" type="text" v-model='model.InPrice' class="add_input w160 pull-left form-control">
-                <label class="pull-left fN mg_t7 mg_l5">元</label>
-            </div>
-            <div class="pull-left mg_l5">
-                <label class="control-label pull-left" for="input01">*库存量：</label>
-                <input placeholder="" id="stockcount" type="text"  v-model='model.StockCount' class="add_input w160 pull-left form-control">
-            </div>
-        </div>
-
-        <div class="col-md-12 pd_l0 mg_t10 clearfix select_dropdown">
-            <div class="col-md-12 pd_l0 pull-left">
-                <label class="control-label pull-left">产品图片：</label>
-                <p class="pull-left pd_l0 mg_t7">（上传图片格式：JPG、JPEG、PNG;最多可上传5张）</p>
-            </div>
-            <div class="col-md-12 pd_l0 mg_t10 clearfix">
-                <ul class="goods_img clearfix mg_l110 mg_t10">
-                    <li v-for="img in model.Imglist">
-                        <a href="javascript:void(0)">
-                            <img :src="img.ImgUrl" height="54" width="72 ">
-                        </a>
-                    </li>
-                    <li v-if="!model.Imglist||model.Imglist.length<5">
-                        <a href="javascript:void(0)" class="imgs">
-                            <img src="../../../images/add.png" height="54" width="72 ">
-                        </a>
-                    </li>
-                </ul>
-            </div>
-        </div>
-        <div class="col-md-12">
-            <a href="javascript:void(0)" class="btn_red bg8 auto f16 mg_t20 w300"  @click='commit'>提交</a>
-        </div>
-    </div> -->
-
     <div class="col-md-12 pull-right">
         <div class="row pd_l0 pd_r0 mg_l0 mg_r0 mg_b20">
             <div class="col-md-12 pd_l0 mg_t10 clearfix select_dropdown">
@@ -85,24 +7,21 @@
             </div>
             <div class="col-md-12 pd_l0 mg_t10 clearfix select_dropdown">
                 <label class="control-label pull-left">零件编号：</label>
-                <p class="pull-left pd_l0 mg_t2">{{model.Sku}}</p>
-                <a href="#" class="saas_add">+补充零件编号</a>
+                <p class="pull-left pd_l0 mg_t2">{{model.SkuList.join(',')}}</p>
+                <a href="#" class="saas_add"  @click="showsku=true">+补充零件编号</a>
             </div>
             <div class="col-md-12 pd_l0 mg_t10 clearfix select_dropdown">
                 <label class="control-label pull-left">配件说明：</label>
                 <div class="col-md-10 pull-left pd_l0 mg_t2">
                     {{model.ContentInfo}}
-                    <a href="#" class="saas_add">+补充零件编号</a>
+                    <a href="#" class="saas_add" @click="showdemo=true">+补充配件说明</a>
                 </div>
             </div>
-
-
             <div class="col-md-12 pd_l0 mg_t20 clearfix select_dropdown">
                 <label class="control-label pull-left">适用年款：</label>
-
-                <a href="#" class="saas_add">+补充年款</a>
+                <a href="#" class="mg_l10" @click="showyears=true">查看年款</a>
+                <a href="#" class="saas_add" @click="showyear=true">+补充年款</a>
             </div>
-
             <div class="col-md-12 pd_l0 mg_t20 clearfix select_dropdown">
                 <label class="control-label pull-left">品牌：</label>
                 <v-select :value.sync="Brandlist" :options="brands" class='pull-left' :close-on-select="true" placeholder="品牌"></v-select>
@@ -160,12 +79,20 @@
         </div>
     </div>
 <upload upid=".imgs"></upload>
+<supplement-sku :supplement="true" :show.sync="showsku" :list="model.SkuList" :bmno="model.BmNo"></supplement-sku>
+<supplement-demo :show.sync="showdemo" :bmno="model.BmNo"></supplement-demo>
+<supplement-year v-ref:year :show.sync="showyear" :bmno="model.BmNo" :exists="exists"></supplement-year>
+<partsyearlist :show.sync="showyears" :list="model.SuitCarList" :bmno="model.BmNo"></partsyearlist>
 </template>
 <script>
 import {select as vSelect} from 'vue-strap';
 import upload from '../../general/upload.vue';
+import supplementSku from '../../modal/supplementSku.vue';
+import supplementDemo from '../../modal/supplementDemo.vue';
+import supplementYear from '../../modal/supplementYear.vue';
+import partsyearlist from '../../modal/partsyearlist.vue';
 export default {
-  components: { vSelect,upload },
+  components: { vSelect,upload,supplementSku, supplementDemo, partsyearlist, supplementYear },
   props:{
     model: {
       type: Object
@@ -174,7 +101,11 @@ export default {
   data(){
      return {
        brands:[],
-       stype: document.getElementById('user').getAttribute('stype')
+       stype: document.getElementById('user').getAttribute('stype'),
+       showsku: false,
+       showdemo: false,
+       showyear: false,
+       showyears: false,
      }
   },
   ready(){
@@ -194,6 +125,14 @@ export default {
     });
   },
   computed:{
+    exists: function() {
+      let arr=[];
+      this.model.SuitCarList.map(x=>arr.push(x.PartsYearId));
+      if(this.model.SupplementSuitcar&&this.model.SupplementSuitcar.length){
+        this.model.SupplementSuitcar.map(x=>arr.push(x));
+      }
+      return arr;
+    },
     Brandlist(){
       return [this.model.ProdBrandId.toString()];
     },

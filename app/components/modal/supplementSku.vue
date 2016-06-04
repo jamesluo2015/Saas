@@ -45,11 +45,15 @@ export default {
       },
       bmno:{
         required: true
+      },
+      supplement:{
+        type:Boolean,
+        default: false
       }
     },
     data(){
       return {
-        supplement: false,
+        // supplement: false,
         skus: ""
       }
     },
@@ -69,7 +73,7 @@ export default {
     watch:{
       show(val){
         if(!val){
-          this.supplement=false;
+          //this.supplement=false;
         }
       }
     }

@@ -56,6 +56,13 @@ export default {
         this.$parent.$refs.year.show=true;
       }
     },
+    watch:{
+      show(val){
+        if(!val){
+          this.index=0;
+        }
+      }
+    },
     computed: {
         factorylist() {
                 let arr = [];

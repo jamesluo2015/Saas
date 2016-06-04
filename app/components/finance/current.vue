@@ -29,9 +29,7 @@
     <div class="right_contain1 mg_t15 mg_b20">
         <div class="row">
             <div class="col-md-12 pd_l0 pd_r0 mg_r0">
-
                 <tab :data="tablist" :value="0"></tab>
-
                 <order v-if="!tab"></order>
                 <pastorder v-else></pastorder>
             </div>

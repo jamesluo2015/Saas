@@ -2,7 +2,7 @@
 
 <template id="">
 
-<modal :show.sync="show" effect="fade" width="800px" title="补充适用年款">
+<modal :show.sync="show" effect="fade" width="800px" title="{{ isadd?"添加年款":"补充适用年款" }}">
     <div slot="modal-body" class="modal-body " style="padding:0px">
         <ul class="saas_letter clearfix">
             <li :class="{'checked':$index==index}" v-for="letter in letters" @click="index=$index"><a href="#">{{ letter }}</a></li>
@@ -74,6 +74,10 @@ export default {
         exists:{
           type: Array,
           default(){return []}
+        },
+        isadd:{
+          type: Boolean,
+          default: false
         }
     },
     data() {
@@ -221,11 +225,15 @@ export default {
           arr.push(model);
         }
 
+        if(this.isadd){
+          this.$dispatch('addyear', arr)
+        }else{
+          Vue.http.post('/product/AddSuit',{list:arr}).then(function(res){
+            _this.yids.map(x=>_this.exists.push(x));
+            _this.yids=[];
+          })
+        }
 
-        Vue.http.post('/product/AddSuit',{list:arr}).then(function(res){
-          _this.yids.map(x=>_this.exists.push(x));
-          _this.yids=[];
-        })
         this.show=false;
         layer.msg('保存成功',{icon:1,time:800});
       }

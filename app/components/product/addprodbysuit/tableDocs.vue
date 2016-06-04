@@ -1,4 +1,4 @@
-
+``
 
 <template>
 
@@ -78,7 +78,9 @@
             </div>
         </div>
         <div class="col-md-12 mg_t30">
-            <a href="#" v-if="item.isupdate" class="btn_red bg8 auto f16 w200 h40" :class="{'disable':!item.DealerNo||(stype==1?!item.SalePrice:!item.InPrice)||!item.StockCount}" @click='save(index)'>保&nbsp;存</a>
+            <a href="#" v-if="item.isupdate" class="btn_red bg8 auto f16 w200 h40"
+            :class="{'disable':!item.DealerNo||(stype==1?!item.SalePrice:!item.InPrice)||!item.StockCount || isNaN(parseInt(item.StockCount)) ||isNaN(parseInt(item.SalePrice)) ||!model.Sku}"
+            @click='save(index)'>保&nbsp;存</a>
             <a href="#" v-else class="btn_red bg8 auto f16 w200 h40" @click='item.isupdate=1'>修&nbsp;改</a>
         </div>
     </div>
@@ -102,7 +104,7 @@
 <upload upid=".imgs"> </upload>
 <supplement-sku :show.sync="showsku" :list="model.SkuList" :bmno="model.BmNo"></supplement-sku>
 <supplement-demo :show.sync="showdemo" :bmno="model.BmNo" :stockid="model.StockId"></supplement-demo>
-<supplement-year v-ref:year :show.sync="showyear" :bmno="model.BmNo" :exists="exists"></supplement-year>
+<supplement-year v-ref:year :isadd="isadd" :show.sync="showyear" :bmno="model.BmNo" :exists="exists"></supplement-year>
 <partsyearlist :show.sync="showyears" :list="model.SuitCarList" :bmno="model.BmNo"></partsyearlist>
 
 </template>
@@ -177,13 +179,20 @@ export default {
                 }
                 let arr = [];
                 let model = this.products[this.pindex];
-
-                model.SuitCarList.map(x => arr.push(x.PartsYearId));
-                if (model.SupplementSuitcar && model.SupplementSuitcar.length) {
-                    model.SupplementSuitcar.map(x => arr.push(x));
+                if(this.model.SuitCarList && this.model.SuitCarList.length){
+                  model.SuitCarList.map(x => arr.push(x.PartsYearId));
+                  if (model.SupplementSuitcar && model.SupplementSuitcar.length) {
+                      model.SupplementSuitcar.map(x => arr.push(x));
+                  }
                 }
 
                 return arr;
+            },
+            isadd(){
+              if (!this.products.length) {
+                  return false;
+              }
+              return !this.products[this.pindex].Id;
             },
             addcount() {
                 let _this = this;
@@ -211,11 +220,22 @@ export default {
                 })
             } else {
                 model.Imglist.push({
+                    Id: 0,
+                    StockId: 0,
                     ImgUrl: url,
                     showdel: false
                 });
             }
             model.showimg = url;
+        },
+        'addyear': function(arr){
+          let sid=this.products[this.pindex].StandardId;
+          let sname=this.products[this.pindex].StandardName;
+          arr.forEach(function(item){
+            item.StandardNameId=sid;
+            item.StandardName=sname;
+          })
+          this.products[this.pindex].SuitCarList=arr;
         }
     },
     methods: {
@@ -248,14 +268,25 @@ export default {
                             })
                         }
                         //获取适用性和SKU列表
-                        Vue.http.get('/product/GetSuitCarAndSku?bmno=' + item.BmNo).then(function(response) {
-                                if (response.data.ok) {
-                                    item.SuitCarList = response.data.data;
-                                    item.SkuList = response.data.data2;
-                                }
-                            }, function(err) {
-                                console.log('获取适用性失败');
-                            })
+                        if(item.Id){
+                          Vue.http.get('/product/GetSuitCar?bmno=' + item.BmNo).then(function(response) {
+                            item.SuitCarList = response.data;
+                          })
+                          if(item.Sku){
+                            item.SkuList=item.Sku.split(',');
+                          }
+                        }else{
+                          Vue.http.get('/product/GetSuitCarAndSku?bmno=' + item.BmNo).then(function(response) {
+                                  if (response.data.ok) {
+                                      item.SuitCarList = response.data.data;
+                                      item.SkuList = response.data.data2;
+                                      item.Sku=item.SkuList.join(',');
+                                  }
+                              }, function(err) {
+                                  console.log('获取适用性失败');
+                              })
+                        }
+
                             //获取已补充年款
                         Vue.http.get('/product/GetSuit?bmno=' + item.BmNo).then(function(res) {
                             if (res.data && res.data.length) {
@@ -289,10 +320,14 @@ export default {
                 let _this = this;
                 let model = this.products[index];
                 //valid
-                if (!model.DealerNo || (this.stype == 1 ? !model.SalePrice : !model.InPrice) || !model.StockCount) {
+                if (!model.DealerNo || (this.stype == 1 ? !model.SalePrice : !model.InPrice) ||
+                 !model.StockCount ||!model.Sku || isNaN(parseInt(model.StockCount)) ||isNaN(parseInt(model.SalePrice)) ) {
                     return false;
                 }
-
+                if(!model.Id && !model.SuitCarList){
+                  layer.alert('请添加年款');
+                  return false;
+                }
                 //主机厂id
                 let param = store.get('param');
                 model.FactoryId = param[1];
@@ -305,9 +340,21 @@ export default {
                 }
                 //保存
                 model.isupdate = 0;
+                if(!model.Id){
+                  model.SkuList=model.Sku.split(',');
+                }
+
                 Vue.http.post('/product/SaveProduct', JSON.stringify(model)).then(function(response) {
-                    if (!response.data.ok) {
-                        layer.alert(response.data.mes);
+                    if (response.data.ok) {
+                      let data=response.data.data;
+                      model.Id = data.Id;
+                      model.BmNo = data.BmNo;
+                      model.Imglist.forEach(function(item,index){
+                        item.Id=data.Imglist[index].Id;
+                      })
+                        //_this.products[index]=response.data.data;
+                    }else{
+                      layer.alert(response.data.mes);
                     }
                 }, function(response) {
                     console.log('保存失败');
@@ -316,13 +363,16 @@ export default {
             addproduct() {
                 let param = store.get('param');
                 var addmodel = {
+                    Id: 0,
                     BmNo: 0,
                     isupdate: 1,
                     Brandlist: [this.brands[0].value],
                     StandardId: param[0],
                     StandardName: param[param.length - 1],
+                    ProdName: param[param.length - 1],
                     Imglist: [],
-                    showimg: ""
+                    showimg: "",
+                    SuitCarList: [],
                 };
                 this.products.push(addmodel);
                 Vue.nextTick(function() {
@@ -366,16 +416,6 @@ export default {
 
                 });
             },
-            // skushow(skulist, bmno) {
-            //     this.bmno = bmno;
-            //     this.showsku = true;
-            //     this.skuList = skulist;
-            // },
-            // demoshow(bmno, stockid) {
-            //     this.bmno = bmno;
-            //     this.stockid = stockid;
-            //     this.showdemo = true;
-            // },
             showModal(index, type) {
                 this.pindex = index;
                 switch (type) {
@@ -389,7 +429,7 @@ export default {
                         this.showyears = true;
                         break;
                     case 4:
-                        this.showyeas = true;
+                        this.showyear = true;
                         break;
                 }
             }
