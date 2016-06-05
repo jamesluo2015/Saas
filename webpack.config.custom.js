@@ -7,8 +7,9 @@ module.exports = {
   },
   output: {
     path: './build/components/',
-    publicPath: '/build/components/',
-    filename: '[name].js'
+    filename: '[name].js',
+    library: 'VueStrap2',
+    libraryTarget: 'umd'
   },
   resolve: {
     root: path.resolve('./'),
