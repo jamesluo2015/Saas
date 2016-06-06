@@ -118,7 +118,9 @@
 
 <div class="alert_dialog" v-if="list.length">
     <div class="alert_body poR mg_b20">
-        <h3><span class="mg_l15 pull-left">已选配件</span><a href="#" class="pull-right mg_r10 arial"></a></h3>
+        <h3><span class="mg_l15 pull-left">已选配件</span>
+          <a href="#" class="pull-right mg_r10 arial" @click="list=[]"></a>
+        </h3>
         <div class="w_100 ovau-x">
             <ul class="alert_list clearfix" >
                 <li class="clearfix poR" v-for="item in list" @mouseover="item.ishover=true" @mouseout="item.ishover=false">

@@ -63,6 +63,15 @@ export default {
           return false;
         }
         let _this=this;
+        //判断
+        let isexists= this.list.some(function(item){
+          return _this.skus.indexOf(item)>-1;
+        })
+        if(isexists){
+          layer.alert('不允许与现有零件编号重复');
+          return false;
+        }
+
 
         Vue.http.post(`/product/AddSkus?bmno=${this.bmno}&skus=${this.skus}`).then(function(res){
           _this.show=false;

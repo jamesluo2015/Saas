@@ -50,16 +50,8 @@
                             <em class="pull-left mg_t20 col_b5 fS mg_l40">|</em>
                             <div class=" pd_l0 mg_t20 clearfix select_dropdown pull-left w250">
                                 <label class="control-label pull-left f12 lineH20">选择库位：</label>
-                                <v-select :value.sync="detail.slot" :options="slots" :close-on-select="true"></v-select>
+                                <v-select :value.sync="detail.slot" width="w300" placeholder="请选择库存" multiple :options="detail.selects"></v-select>
                             </div>
-                            <!-- <div class=" pd_l0 mg_t20 clearfix select_dropdown pull-left w250">
-                                <label class="control-label pull-left f12 lineH20">选择库房：</label>
-                                <v-select :value.sync="detail.stockhouseid" :options="houses" :close-on-select="true"></v-select>
-                            </div>
-                            <div class=" pd_l0 mg_t20 clearfix select_dropdown pull-left w250">
-                                <label class="control-label pull-left f12 lineH20">选择库位：</label>
-                                <v-select :value.sync="detail.stockmainid" :options="slots" :close-on-select="true"></v-select>
-                            </div> -->
                         </div>
                     </div>
                     <div class="col-md-12 clearfix select_dropdown">
@@ -112,11 +104,11 @@ export default {
             if (!this.expressno) {
                 return false;
             }
-            let isslot=this.model.OrderDetails.some(function(item){
-              return item.slot.length==0;
+            let isslot = this.model.OrderDetails.some(function(item) {
+                return item.slot.length == 0;
             })
-            if(isslot){
-              return false;
+            if (isslot) {
+                return false;
             }
             return true;
         }
@@ -138,21 +130,9 @@ export default {
             })
             _this.expresslist = arr;
         });
-        Vue.http.get('/stock/GetAllSlot').then(function(res) {
-            if (res.data.length) {
-              let arr=[];
-                res.data.forEach(function(item) {
-                  if(item.SlotCode && item.AreaCode && item.StoreCode){
-                    arr.push({
-                      label: item.AreaCode+"-"+item.StoreCode+"-"+item.SlotCode,
-                      value: item.Id.toString()
-                    })
-                  }
-                });
-                _this.slots=arr;
-                _this.slotlist = res.data;
-            }
-        })
+    },
+    watch: {
+
     },
     methods: {
         commit() {
@@ -160,27 +140,69 @@ export default {
             if (!this.valid) {
                 return false;
             }
-            let _this=this;
-            // let expreesname="";
-            // for (var i = 0; i < this.expresslist.length; i++) {
-            //   let item=this.expresslist[i]
-            //   if(item.value==_this.express[0]){
-            //     expreesname=item.label;
-            //     break;
-            //   }
-            // };
-            // let model={
-            //   OrderCode: this.model.OrderCode,
-            //   SoStatus: 1,
-            //   SourceType: this.model.SourceType,
-            //   SourceOrderId: this.model.SourceOrderId,
-            //   ExpressId: this.express[0],
-            //   ExpressName:  expreesname,
-            //   ExpressNo: this.expressno
-            // };
+            let _this = this;
+            let expreesname = "";
+            for (var i = 0; i < this.expresslist.length; i++) {
+                let item = this.expresslist[i]
+                if (item.value == _this.express[0]) {
+                    expreesname = item.label;
+                    break;
+                }
+            };
+            let model = {
+                OrderCode: this.model.OrderCode,
+                SoStatus: 1,
+                SourceType: this.model.SourceType,
+                SourceOrderId: this.model.SourceOrderId,
+                ExpressId: this.express[0],
+                ExpressName: expreesname,
+                ExpressNo: this.expressno
+            };
+            let DetailList = [];
+            let LockList = [];
 
-            Vue.http.post('/order/SaveOrderShip',{model: this.model}).then(function(res){
-              this.show = false;
+            this.model.OrderDetails.forEach(function(item) {
+                let temp = {
+                    StockId: item.StockId,
+                    ProdName: item.ProdName,
+                    SmallPic: item.SmallPic,
+                    SmallPic: item.SalePrice,
+                    Quantity: item.Quantity,
+                    DealerProdNo: item.DealerProdNo,
+                    FactoryId: item.FactoryId,
+                    CarModelId: item.CarModelId,
+                    CarYearId: item.CarYearId,
+                    FactoryName: item.FactoryName,
+                    CarModelName: item.CarModelName,
+                    CarYearName: item.CarYearName
+                }
+                DetailList.push(temp);
+                //锁定列表
+                item.slot.forEach(function(s) {
+                    let count = item.selects.filter(function(sel) {
+                        return sel.value == s;
+                    })[0].count;
+                    //库存数
+                    let lockcount=0;
+                    if(count>=item.Quantity){
+                      lockcount=item.Quantity;
+                    }else{
+                      item.Quantity-=count;
+                      lockcount=count;
+                    }
+                    let lock = {
+                        MainId: s,
+                        LockCount: lockcount
+                    }
+                    LockList.push(lock);
+                })
+            })
+            model.DetailList = DetailList;
+            model.LockList = LockList;
+            Vue.http.post('/order/SaveOrderShip', {
+                model: model
+            }).then(function(res) {
+                this.show = false;
             })
         }
     }

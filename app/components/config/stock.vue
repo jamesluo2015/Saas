@@ -103,7 +103,7 @@ export default {
                 _this.list = res.data;
             })
             //获取所有省份
-        Vue.http.get('/account/GetAreaInfo?headId=1').then(function(res) {
+        Vue.http.get('/account/GetAreaInfo?headId=0').then(function(res) {
             res.data.forEach(function(item) {
                 item.check = false;
                 item.cancheck=true;

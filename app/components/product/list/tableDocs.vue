@@ -57,7 +57,7 @@
 
     <nothing v-if="!list.length"></nothing>
 </div>
-<third :show.sync="showthird" :stockid="model.StockId" :inprice="model.InPrice"></third>
+<third :show.sync="showthird" :suitcars="model.SuitCarList" :stockid="model.StockId" :inprice="model.InPrice"></third>
 <supplement-sku :show.sync="showsku" :list="model.SkuList" :bmno="model.BmNo"></supplement-sku>
 
 <supplement-year v-ref:year :show.sync="showyear" :bmno="model.BmNo" :exists="exists"></supplement-year>
@@ -106,11 +106,11 @@ export default {
               return this.list[this.pindex];
           },
           exists() {
-              if (!this.list.length || !this.list.SuitCarList) {
-                  return [];
-              }
               let arr = [];
               let model = this.list[this.pindex];
+              if (!this.list.length || !model.SuitCarList) {
+                  return [];
+              }
 
               model.SuitCarList.map(x => arr.push(x.PartsYearId));
               if (model.SupplementSuitcar && model.SupplementSuitcar.length) {
@@ -118,7 +118,8 @@ export default {
               }
 
               return arr;
-          },
+
+            }
     },
     methods: {
           update(model) {

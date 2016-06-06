@@ -94,7 +94,7 @@ export default {
                 })
                 _this.standards = res.data;
             } else {
-                layer.alert('请添加商品后再进行入库操作!');
+                // layer.alert('请添加商品后再进行入库操作!');
             }
         })
     },

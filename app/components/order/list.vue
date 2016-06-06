@@ -41,63 +41,64 @@
                     </th>
                 </tr>
             </thead>
-            <tbody >
-              <template v-for="(dindex,detail) in item.OrderDetails">
+            <tbody>
+                <template v-for="(dindex,detail) in item.OrderDetails">
 
-                <tr v-if="!dindex">
-                    <td  colspan="3" style="padding-top:5px!important; padding-bottom:5px!important;">
-                        <img src="../../images/saas15.png" height="30">
-                        <span class="lineH30">车型：{{(detail.FactoryName || "") +" "+(detail.CarModelName || "") +" "+(detail.CarYearName || "")}}</span>
-                    </td>
-                    <!--状态-->
-                    <td width="15%" v-if="(item.OrderStatus>2)&&!dindex" :rowspan="item.OrderDetails.length*2">
-                      <em class="right pull-left"></em>
-                      <span class="col_77b530 pull-left">已发货</span>
-                    </td>
-                    <td width="15%" v-if="item.OrderStatus<=2&&item.OrderStatus>=0&&!dindex" :rowspan="item.OrderDetails.length*2">
-                      <em class="waiting pull-left" :rowspan="item.OrderDetails.length*2"></em>
-                      <span class="col_f8a504 pull-left">待发货</span>
-                    </td>
-                    <td width="15%" v-if="item.OrderStatus==-1&&!dindex" :rowspan="item.OrderDetails.length*2">
-                      <em class="cancel pull-left mg_l30"></em>
-                      <span class="col_b5 pull-left">已取消</span>
-                    </td>
-                    <!--操作-->
-                     <td width="15%" v-if="(item.OrderStatus>2||item.OrderStatus==-1)&&!dindex" class="t-c" :rowspan="item.OrderDetails.length*2">
-                        <a href="#" class="saas_add mg_l0" @click="showdetail(index)">查看详情</a>
-                     </td>
-                      <td width="15%" class="t-c" v-if="item.OrderStatus<=2&&item.OrderStatus>=0&&!dindex" :rowspan="item.OrderDetails.length*2">
-                          <span class="f12 col_999999">还剩{{item.Remaintime}}</span>
-                          <a href="#" class="btn_red bg8 f14 w100 h26 auto mg_b10" @click="delivery(index)">去发货</a>
-                          <a href="#" class="saas_add mg_l0" @click="showdetail(index)">查看详情</a>
-                      </td>
-                </tr>
-                <tr>
-                    <td class="poR" width="40%">
-                        <img v-if='detail.SmallPic' :src="detail.SmallPic" class="saas_table_img">
-                        <img v-else src="../../images/noimg.png" class="saas_table_img"/>
-                        <div class="table_detail">
-                            <div class="clearfix">
-                                <span class="pull-left col_010101">{{detail.ProdBrandName+" "+detail.ProdName}}</span>
+                    <tr v-if="!dindex">
+                        <td colspan="3" style="padding-top:5px!important; padding-bottom:5px!important;">
+                            <img src="../../images/saas15.png" height="30">
+                            <span class="lineH30">车型：{{(detail.FactoryName || "") +" "+(detail.CarModelName || "") +" "+(detail.CarYearName || "")}}</span>
+                        </td>
+                        <!--状态-->
+                        <td width="15%" v-if="(item.OrderStatus>2)&&!dindex" :rowspan="item.OrderDetails.length*2">
+                            <em class="right pull-left"></em>
+                            <span class="col_77b530 pull-left">已发货</span>
+                        </td>
+                        <td width="15%" v-if="item.OrderStatus<=2&&item.OrderStatus>=0&&!dindex" :rowspan="item.OrderDetails.length*2">
+                            <em class="waiting pull-left" :rowspan="item.OrderDetails.length*2"></em>
+                            <span class="col_f8a504 pull-left">待发货</span>
+                        </td>
+                        <td width="15%" v-if="item.OrderStatus==-1&&!dindex" :rowspan="item.OrderDetails.length*2">
+                            <em class="cancel pull-left mg_l30"></em>
+                            <span class="col_b5 pull-left">已取消</span>
+                        </td>
+                        <!--操作-->
+                        <td width="15%" v-if="(item.OrderStatus>2||item.OrderStatus==-1)&&!dindex" class="t-c" :rowspan="item.OrderDetails.length*2">
+                            <a href="#" class="saas_add mg_l0" @click="showdetail(index)">查看详情</a>
+                        </td>
+                        <td width="15%" class="t-c" v-if="item.OrderStatus<=2&&item.OrderStatus>=0&&!dindex" :rowspan="item.OrderDetails.length*2">
+                            <span class="f12 col_999999">还剩{{item.Remaintime}}</span>
+                            <a href="#" class="btn_red bg8 f14 w100 h26 auto mg_b10" @click="delivery(index)">去发货</a>
+                            <a href="#" class="saas_add mg_l0" @click="showdetail(index)">查看详情</a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="poR" width="40%">
+                            <img v-if='detail.SmallPic' :src="detail.SmallPic" class="saas_table_img">
+                            <img v-else src="../../images/noimg.png" class="saas_table_img" />
+                            <div class="table_detail">
+                                <div class="clearfix">
+                                    <span class="pull-left col_010101">{{detail.ProdBrandName+" "+detail.ProdName}}</span>
+                                </div>
+                                <div class="col-md-12 pd_l0 mg_t10 clearfix select_dropdown poR">
+                                    <p class="col_767676 mg_b0">实物ID：{{detail.StockId}}</p>
+                                    <p class="col_767676">供应商编码：{{detail.DealerProdNo}}</p>
+                                </div>
                             </div>
-                            <div class="col-md-12 pd_l0 mg_t10 clearfix select_dropdown poR">
-                                <p class="col_767676 mg_b0">实物ID：{{detail.StockId}}</p>
-                                <p class="col_767676">供应商编码：{{detail.DealerProdNo}}</p>
-                            </div>
-                        </div>
-                    </td>
-                    <td width="15%">x{{detail.Quantity}}</td>
-                    <td width="15%">单价：{{detail.SalePrice}}</td>
-                </tr>
-              </template>
+                        </td>
+                        <td width="15%">x{{detail.Quantity}}</td>
+                        <td width="15%">单价：{{detail.SalePrice}}</td>
+                    </tr>
+                </template>
             </tbody>
         </table>
         <nothing v-if="!orderlist.length"></nothing>
         <page-docs :count='count'></page-docs>
     </div>
 </div>
-  <detail :show.sync="detailshow" :model="model"></detail>
-  <delivery :show.sync="deshow" :model="model"></delivery>
+<detail :show.sync="detailshow" :model="model"></detail>
+<delivery :show.sync="deshow" :model="model"></delivery>
+
 </template>
 
 <script>
@@ -119,14 +120,17 @@ import tab from '../general/tabDocs.vue'
 import pageDocs from '../general/pageDocs.vue'
 import nothing from '../general/nothing.vue'
 import DateFormat from '../utils/DateFormat.js'
-import { GetFormatDate } from '../utils/date'
+import {
+    GetFormatDate
+}
+from '../utils/date'
 import QueryString from '../utils/QueryString'
 import detail from './detail.vue'
 import delivery from './delivery.vue'
 import MoonLoader from 'vue-spinner/src/MoonLoader.vue'
 export default {
     components: {
-        vSelect, vOption, datepicker, buttonDocs, tab,pageDocs,detail,delivery,MoonLoader,nothing
+        vSelect, vOption, datepicker, buttonDocs, tab, pageDocs, detail, delivery, MoonLoader, nothing
     },
     data() {
         return {
@@ -140,8 +144,8 @@ export default {
                 label: '京东'
             }],
             source: [],
-            third:[],
-            state:0,
+            third: [],
+            state: 0,
             typelist: [{
                 value: '1',
                 label: '来源单号'
@@ -150,7 +154,7 @@ export default {
                 label: '订单号'
             }],
             type: [],
-            key : "",
+            key: "",
             tablist: [{
                 val: 0,
                 text: "全部订单"
@@ -175,7 +179,7 @@ export default {
             detailshow: false,
             model: {},
             deshow: false,
-            loading:false
+            loading: false
         }
     },
     methods: {
@@ -184,89 +188,121 @@ export default {
             let param = {
                 pagesize: _this.pagesize,
                 pageindex: _this.pageindex,
-                sdate:_this.sdate,
-                edate:_this.edate,
+                sdate: _this.sdate,
+                edate: _this.edate,
                 state: _this.state,
                 type: _this.type.length ? _this.type[0] : 0,
                 key: _this.key,
                 source: _this.source.length ? _this.source[0] : 0
             };
-            var loading=layer.load();
+            var loading = layer.load();
             Vue.http.get('/order/GetOrders', param).then(function(res) {
-              _this.orderlist=[];
-              // _this.tips=[];
-              _this.count=1;
-              layer.close(loading);
-                if (res.data.ok) {
-                    res.data.data.forEach(function(item) {
-                        //时间转换
-                        item.AddTime = DateFormat(item.AddTime);
-                        if(item.OrderStatus<=2){
-                          //发货库区
-                          item.OrderDetails.forEach(function(detail){
-                             detail.slot=[];
-                          })
-                        }
+                        _this.orderlist = [];
+                        // _this.tips=[];
+                        _this.count = 1;
+                        layer.close(loading);
+                        if (res.data.ok) {
+                            res.data.data.forEach(function(item) {
+                                        //时间转换
+                                        item.AddTime = DateFormat(item.AddTime);
+                                        if (item.OrderStatus <= 2) {
+                                            //发货库区
+                                            let ids = [];
+                                            item.OrderDetails.forEach(function(detail) {
+                                                    detail.slot = [];
+                                                    detail.selects = [];
+                                                    ids.push(detail.StockId);
+
+                                                    //获取对应库存
+                                                    if (item.OrderStatus <= 2 && item.OrderStatus >= 0) {
+                                                        Vue.http.get('/stock/GetStocksByIds?ids=' + detail.StockId).then(function(res) {
+                                                            if (res.data.data.length) {
+                                                                let arr = [];
+                                                                res.data.data.forEach(function(item) {
+                                                                    if (item.SlotCode && item.AreaCode && item.StoreCode) {
+                                                                        arr.push({
+                                                                            label: item.AreaCode + "-" + item.StoreCode + "-" + item.SlotCode + "库存数:" + (item.StockCount-item.LockCount),
+                                                                            value: item.Id.toString(),
+                                                                            count: (item.StockCount-item.LockCount)
+                                                                        })
+                                                                    }
+                                                                });
+                                                                detail.selects = arr;
+                                                            }
+                                                            if(res.data.data2){
+                                                                detail.slot=res.data.data2;
+                                                            }
+                                                        })
+                                                    }
+
+                                                })
+                                              }
+                                            })
+                                        _this.orderlist = res.data.data;
+                                        _this.count = Math.ceil(res.data.count / _this.pagesize);
+                                        // _this.tips=res.data.data2;
+                                    } else {
+                                        //layer.alert(res.data.mes);
+                                    }
+                                },
+                                function() {
+                                    //error
+                                    console.log('查询订单信息错误');
+                                    layer.close(loading);
+                                })
+                    },
+                    showdetail(index) {
+                        this.model = this.orderlist[index];
+                        this.detailshow = true;
+                    },
+                    delivery(index) {
+                        this.model = this.orderlist[index];
+                        this.deshow = true;
+                    }
+                },
+                ready() {
+                    let tab = QueryString('tab');
+                    //根据参数默认tab
+                    if (tab) {
+                        this.state = parseInt(tab);
+                    }
+                    this.query();
+                    //获取订单数
+                    let _this = this;
+                    Vue.http.get('/order/GetTips').then(function(res) {
+                            if (res.ok) {
+                                _this.tips = res.data;
+                            }
+                        })
+                        //获取第三方平台(来源)
+                    Vue.http.get('/order/GetSource').then(function(res) {
+                        _this.third = res.data;
+                        let arr = [{
+                            label: "全部",
+                            value: "0"
+                        }];
+                        res.data.forEach(function(item) {
+                            arr.push({
+                                label: item.CompanyName,
+                                value: item.Id.toString()
+                            })
+                        })
+                        _this.sourcelist = arr;
                     })
-                    _this.orderlist = res.data.data;
-                    _this.count = Math.ceil(res.data.count / _this.pagesize);
-                    // _this.tips=res.data.data2;
-                } else {
-                    //layer.alert(res.data.mes);
+                },
+                events: {
+                    'page': function(index) {
+                        this.pageindex = index;
+                        this.query();
+                        $('.container-fluid').animate({
+                            scrollTop: '0px'
+                        });
+                    },
+                    'tab': function(val) {
+                        this.pageindex = 1;
+                        this.query();
+                    }
                 }
-            }, function() {
-                //error
-                console.log('查询订单信息错误');
-                layer.close(loading);
-            })
-        },
-        showdetail(index){
-          this.model=this.orderlist[index];
-          this.detailshow=true;
-        },
-        delivery(index){
-          this.model=this.orderlist[index];
-          this.deshow=true;
         }
-    },
-    ready(){
-      let tab=QueryString('tab');
-      //根据参数默认tab
-      if(tab){
-        this.state=parseInt(tab);
-      }
-      this.query();
-      //获取订单数
-      let _this=this;
-      Vue.http.get('/order/GetTips').then(function(res){
-        if(res.ok){
-          _this.tips=res.data;
-        }
-      })
-      //获取第三方平台(来源)
-      Vue.http.get('/order/GetSource').then(function(res){
-        _this.third=res.data;
-        let arr=[{label:"全部",value:"0"}];
-        res.data.forEach(function(item){
-          arr.push({
-            label: item.CompanyName,
-            value:item.Id.toString()
-          })
-        })
-        _this.sourcelist=arr;
-      })
-    },
-    events: {
-      'page': function(index){
-        this.pageindex=index;
-        this.query();
-        $('.container-fluid').animate({scrollTop: '0px'});
-      },
-      'tab': function(val){
-        this.pageindex=1;
-        this.query();
-      }
-    }
-}
 
 </script>

@@ -133,14 +133,17 @@ export default {
                 if (!this.valid) {
                     return false;
                 }
+                let _this=this;
                 this.model.ProvinceId = this.province[0];
                 this.model.CityId = this.city[0];
                 this.model.ParentId=this.area[0];
-                let _this=this;
+                let temp= _this.areas.filter(function(item){
+                  return item.value==_this.area[0];
+                });
+                this.model.HouseStatus=temp[0].HouseStatus
                 Vue.http.post('/stock/SaveHouse',  this.model).then(function(res){
                   if(!_this.model.Id){
                     _this.model.Id=res.data;
-                    _this.model.HouseStatus=0;
                     _this.$dispatch('addhouse', _this.model)
                   }
                   _this.show=false;

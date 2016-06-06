@@ -276,7 +276,6 @@ export default {
                     } else {
                         _this.list = [];
                         _this.count = 1;
-                        //layer.alert(res.data.mes);
                     }
                 })
             },

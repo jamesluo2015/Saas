@@ -3,12 +3,12 @@ var path = require('path')
 
 module.exports = {
   entry: {
-    'partsyear': './app/js/components/partsyear.js',
+    'VueBm': './app/js/components/VueBm.js',
   },
   output: {
     path: './build/components/',
     filename: '[name].js',
-    library: 'VueStrap2',
+    library: 'VueBm',
     libraryTarget: 'umd'
   },
   resolve: {

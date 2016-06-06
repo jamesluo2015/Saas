@@ -45,7 +45,7 @@
                         </td>
                         <td v-if="item.HouseStatus==0">
                           <span class="col_5ca50a">已启动</span>
-                          <a href="javascript:void(0)" class="saas_add mg_l10"@click="enable(item.Id,false,item)">停用</a>
+                          <a href="javascript:void(0)" class="saas_add mg_l10"@click="enable(item.Id,false,item,index)">停用</a>
                         </td>
                         <td>{{item.Manager}}</td>
                         <td>{{item.Phone}}</td>
@@ -204,7 +204,13 @@ export default {
           this.addarea=true;
         }
       },
-      enable(id,isenable,item){
+      enable(id,isenable,item,index){
+        if(index>=0){
+          if(this.list[index].StockHouses&&this.list[index].StockHouses.length){
+            layer.alert('当前库区下存在库房信息，不允许停用');
+            return false;
+          }
+        }
         let _this=this;
         let state=isenable?0:2;
         Vue.http.post(`/stock/EnableHouse?id=${id}&houseStatus=${state}`).then(function(res){
@@ -236,7 +242,8 @@ export default {
         let arr=[{label:"全部",value: "0"}];
         res.data.map(x=>arr.push({
           label: x.HouseName,
-          value: x.Id.toString()
+          value: x.Id.toString(),
+          HouseStatus: x.HouseStatus
         }));
         _this.areas=arr;
       })
