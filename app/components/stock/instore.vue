@@ -27,7 +27,7 @@
         </div>
         <div class="col-md-12 pd_l0 clearfix select_dropdown mg_t15">
             <label class="control-label pull-left f12 lineH20">入库数量：</label>
-            <input placeholder="" v-model="quantity" class="add_input w170 pull-left form-control" type="text">
+            <input placeholder="" v-model="quantity" class="add_input w160 pull-left form-control" type="text">
         </div>
         <div class="col-md-12 pd_l0 clearfix select_dropdown mg_t15">
             <label class="control-label pull-left f12 lineH20">品相：</label>

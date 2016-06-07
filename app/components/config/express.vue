@@ -11,8 +11,8 @@
         </div>
 
         <div class="row col-md-12 pd_l0 pd_r0 mg_l0 mg_r0 mg_b20">
-            <div class="shop_info pd_5">
-                <table class="table table2 mg_t15 table6 bd_tb5">
+            <div class="shop_info ">
+                <table class="table table2  table6 ">
                     <thead>
                         <tr>
                             <th width="33%"><span class="mg_l30"></span>快递公司名称</th>
@@ -52,7 +52,9 @@
                     <div class="col-md-12 pd_l0 clearfix select_dropdown mg_t15 ">
                         <div class="pull-left ">
                             <label class="control-label pull-left f12 lineH20 " for="input01 ">联系方式：</label>
-                            <input :disabled="disabled" placeholder=" " v-model="model.Tel" class="w170 dropdown-toggle dropdown_toggle form-control " type="text ">
+                            <div class="select_dropdown pull-left">
+                              <input :disabled="disabled" placeholder=" " v-model="model.Tel" class="w170 dropdown-toggle dropdown_toggle form-control " type="text ">
+                          </div>
                         </div>
                     </div>
                     <div class="col-md-12 mg_t10 mg_b20 clearfix ">

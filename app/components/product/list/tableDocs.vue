@@ -92,7 +92,7 @@ export default {
             showthird:false,
             showyear: false,
             showyears: false,
-            pindex: 0
+            pindex: -1
         }
     },
     ready() {
@@ -100,15 +100,15 @@ export default {
     },
     computed:{
           model() {
-              if (!this.list.length) {
+              if ((!this.list.length) || this.pindex==-1) {
                   return {};
               }
               return this.list[this.pindex];
           },
           exists() {
               let arr = [];
-              let model = this.list[this.pindex];
-              if (!this.list.length || !model.SuitCarList) {
+              let model = this.model;
+              if (!this.list.length || !model.SuitCarList || this.pindex==-1) {
                   return [];
               }
 

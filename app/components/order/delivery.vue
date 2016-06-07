@@ -202,7 +202,8 @@ export default {
             Vue.http.post('/order/SaveOrderShip', {
                 model: model
             }).then(function(res) {
-                this.show = false;
+                _this.show = false;
+                _this.model.OrderStatus=3;
             })
         }
     }

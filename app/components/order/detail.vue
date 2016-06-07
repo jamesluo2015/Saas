@@ -18,7 +18,7 @@
                         <ul class="saas_step_tip clearfix">
                             <li>生成订单</li>
                             <li>商品出库</li>
-                            <li>等待发货</li>
+                            <li>等待收货</li>
                             <li>订单完成</li>
                         </ul>
                         <div class="saas_step " :class="'saas_step'+step"></div>
@@ -132,15 +132,28 @@ export default {
     },
     computed:{
       step(){
-        switch (this.model.OrderStatus) {
-          case 2:
-            return 3;
-            break;
-          case 9:
-            return 4;
-          default:
-            return 1;
+        let state=this.model.OrderStatus;
+        if(state<=2){
+          return 1;
+        }else if(state<4){
+          return 2;
+        }else if(state>=4){
+          return 4;
+        }else{
+          return 1;
         }
+        // switch (this.model.OrderStatus) {
+        //   case 2:
+        //     return 3;
+        //       break;
+        //   case 3:
+        //     return 4;
+        //       break;
+        //   case 9:
+        //     return 4;
+        //   default:
+        //     return 1;
+        // }
       }
     }
 }

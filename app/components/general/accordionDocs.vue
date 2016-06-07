@@ -42,7 +42,7 @@ export default {
   methods: {
     supple(car){
       let _this=this;
-      layer.prompt({title: '请输入补充年款备注('+car.text+')', formType: 2}, function(text){
+      layer.prompt({title: '请输入补充年款备注', formType: 2}, function(text){
         layer.msg("提交成功",{icon:1,time:800});
         let param = {
                   BmNo: _this.bmno,

@@ -40,10 +40,10 @@
             </v-select>
             <v-select :value.sync="city" :search="true" :options="citys" :close-on-select="true" placeholder="区域 ">
             </v-select>
-            <input placeholder="请输入地址 " v-model="model.Address " class="add_input w170 pull-left form-control mg_t15 " type="text ">
+            <input placeholder="请输入地址 " v-model="model.Address" class="add_input w325 pull-left form-control mg_t15" type="text">
         </div>
         <div class="col-md-12 mg_t20 mg_b20 clearfix ">
-            <a href="# "class="btn_red bg8 mg_t20 auto w120 h26 " :class="{ 'disable':!valid} " @click="add " >{{model.Id?"保&nbsp;存":"添&nbsp;加"}}</a>
+            <a href="# "class="btn_red bg8 mg_t20 auto w120 h26" :class="{ 'disable':!valid}" @click="add" >{{model.Id?"保&nbsp;存":"添&nbsp;加"}}</a>
         </div>
     </div>
 </modal>

@@ -22,7 +22,7 @@
 
         <tab :data="tablist" :value="0"></tab>
 
-        <div class="col-md-12 pd_l0 pd_r0 mg_r0 bdT_d0d0d0">
+        <div class="col-md-12 pd_l0 pd_r0 mg_r0 ">
             <table class="table table2 table_bg mg_t2" ms-if="list.length">
                 <thead>
                     <tr>
@@ -41,24 +41,24 @@
                             <div class="table_detail">
                                 <div class="clearfix">
                                     <span class="pull-left col_010101 fB">{{item.ProdBrandName}} {{item.StandardName}}</span>
-                                    <span class="pull-left col_010101 f12 mg_l30">供应商编码：{{item.DealerNo}}</span>
+                                    <span class="pull-left col_010101 f12 mg_l30 h26">供应商编码：{{item.DealerNo}}</span>
                                 </div>
                                 <div class="col-md-12 pd_l0 mg_t10 clearfix select_dropdown poR">
                                     <label class="control-label pull-left f12 poA l_l0 w60">配件说明：</label>
-                                    <p class="pull-left mg_t2 f12 pd_l65 col_767676">{{item.ContentInfo}}{{item.SpecialNote}}</p>
+                                    <p class="pull-left mg_t2 f12 pd_l65 col_767676 ">{{item.ContentInfo}}{{item.SpecialNote}}</p>
                                 </div>
                                 <div class="col-md-12 pd_l0 clearfix mg_t5 select_dropdown">
                                     <label class="control-label pull-left f12 w60">零件编号：</label>
-                                    <a href="#" class="saas_add pull-left f12 mg_l0" @click="skushow(item.SkuList,item.BmNo)">查看</a>
+                                    <a href="#" class="saas_add pull-left f12 mg_l0" @click="skushow($index,1)">查看</a>
                                     <label class="control-label pull-left f12 w60 mg_l30">适用年款：</label>
-                                    <a href="#" class="saas_add pull-left f12 mg_l0" @click="getsuitcars(item.BmNo)">查看</a>
+                                    <a href="#" class="saas_add pull-left f12 mg_l0" @click="skushow($index,2)">查看</a>
                                 </div>
                             </div>
                         </td>
                         <td><a href="#" class="saas_add mYH14 mg_l0">查看</a></td>
                         <td>
                             <span v-if="item.ProdStatus==1" class="col_000">待审核</span>
-                          <span v-if="item.ProdStatus==2" class="col_ed5521">未通过</span>
+                            <span v-if="item.ProdStatus==2" class="col_ed5521">未通过</span>
                             <span v-if="item.ProdStatus==3" class="col_5ca50a">已通过</span>
                         </td>
                         <td><span class="f12 col_010101">{{item.AddTime}}</span></td>
@@ -77,7 +77,9 @@
 
 <modalcar-docs title="查看年款" :list="modalist" :showmodal.sync="modalshow"></modalcar-docs>
 
-<supplement-sku :show.sync="showsku" :list="skuList" :bmno="bmno"></supplement-sku>
+<supplement-sku :show.sync="showsku" :list="model.SkuList" :bmno="model.BmNo"></supplement-sku>
+<partsyearlist :show.sync="showyears" :list="model.SuitCarList" :bmno="model.BmNo" :showsupple="false"></partsyearlist>
+
 </template>
 
 <script>
@@ -100,12 +102,15 @@ import modalcarDocs from '../general/modalcarDocs.vue'
 import tab from '../general/tabDocs.vue'
 import nothing from '../general/nothing.vue'
 import DateFormat from '../utils/DateFormat.js'
-import convert from '../utils/convert.js'
-import { GetFormatDate } from '../utils/date'
+import {
+    GetFormatDate
+}
+from '../utils/date'
 import supplementSku from '../modal/supplementSku.vue';
+import partsyearlist from '../modal/partsyearlist.vue';
 export default {
     components: {
-        vSelect, vOption, datepicker, buttonDocs, pageDocs, modalcarDocs, tab,nothing,supplementSku
+        vSelect, vOption, datepicker, buttonDocs, pageDocs, modalcarDocs, tab, nothing, supplementSku,partsyearlist
     },
     data() {
         return {
@@ -144,12 +149,22 @@ export default {
             modalshow: false,
             modalist: [],
             showsku: false,
-            skuList:[],
-            bmno: ""
+            showyears: false,
+            // skuList:[],
+            // bmno: "",
+            pindex: -1
         }
     },
     ready() {
         this.query();
+    },
+    computed: {
+        model() {
+            if ((!this.list.length) || this.pindex == -1) {
+                return {};
+            }
+            return this.list[this.pindex];
+        },
     },
     methods: {
         query() {
@@ -167,12 +182,12 @@ export default {
                     let result = response.data;
                     result.data.forEach(function(item) {
                         item.AddTime = DateFormat(item.AddTime)
-                        //异步获取年款和sku
+                            //异步获取年款和sku
                         Vue.http.get('/product/GetSuitCarAndSku?bmno=' + item.BmNo).then(function(response) {
-                          if(response.data.ok){
-                              item.SuitCarList = response.data.data;
-                              item.SkuList = response.data.data2;
-                          }
+                            if (response.data.ok) {
+                                item.SuitCarList = response.data.data;
+                                item.SkuList = response.data.data2;
+                            }
                         }, function(err) {
                             console.log('获取适用性失败');
                         })
@@ -183,45 +198,45 @@ export default {
                     console.log('查询失败');
                 })
             },
-            getsuitcars(bmno) {
+            del(index) {
                 let _this = this;
-                Vue.http.get('/product/GetSuitByBmNo?bmno=' + bmno).then(function(response) {
-                    let suitcars = response.data;
-                    _this.modalist = convert(suitcars);
-                    _this.modalshow = true;
-                }, function(err) {
-                    console.log('获取适用性失败');
-                })
-            },
-            del(index){
-              let _this=this;
-              layer.confirm('确认删除吗',{btn: ['确认','取消'] //按钮
-                }, function(){
-                  Vue.http.post('/manage/Del?stockid='+_this.list[index].StockId).then(function(){
-                    _this.list.splice(index,1);
-                    layer.msg('删除成功', {
-                      icon: 1,
-                      time: 800
-                    });
-                  })
-                }, function(){
+                layer.confirm('确认删除吗', {
+                    btn: ['确认', '取消'] //按钮
+                }, function() {
+                    Vue.http.post('/manage/Del?stockid=' + _this.list[index].StockId).then(function() {
+                        _this.list.splice(index, 1);
+                        layer.msg('删除成功', {
+                            icon: 1,
+                            time: 800
+                        });
+                    })
+                }, function() {
 
                 });
             },
-            skushow(skulist,bmno){
-              this.showsku=true;
-              this.skuList=skulist;
-              this.bmno=bmno;
+            skushow(index, type) {
+                this.pindex = index;
+                switch (type) {
+                    case 1:
+                        this.showsku = true;
+                        break;
+                    case 2:
+                        this.showyears = true;
+                        break;
+                    default:
+                }
             }
     },
     events: {
         'page': function(index) {
             this.pageindex = index;
+            this.pindex=-1;
             this.query();
         },
         'tab': function(val) {
             this.tab = val;
             this.pageindex = 1;
+            this.pindex=-1;
             this.query();
         }
     }

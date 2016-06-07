@@ -99,10 +99,12 @@ export default {
         },
         //分页
         'page': function(index) {
+            this.$children[0].pindex=-1;
             this.pageindex = index;
             this.$children[0].query(index);
         },
         'tab': function(val) {
+            this.$children[0].pindex=-1;
             this.$children[0].state = val;
             this.$children[0].query(1);
         }

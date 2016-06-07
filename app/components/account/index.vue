@@ -22,32 +22,32 @@
                 </div>
                 <div class="col-md-12 mg_t20 clearfix select_dropdown">
                     <label class="control-label pull-left">企业地址：</label>
-                    <p class="pull-left pd_l0 mg_t2" v-if="!isupdate">{{model.Address}}</p>
+                    <p class="pull-left pd_l0 mg_t2 h20" v-if="!isupdate">{{model.Address}}</p>
                     <input placeholder="" v-else v-model="model.Address" type="text" class="add_input w160 form-control pull-left pd_l0 mg_t2 mg_l95">
                 </div>
                 <div class="col-md-12 mg_t20 clearfix select_dropdown">
                     <label class="control-label pull-left">项目联系人：</label>
-                    <p class="pull-left pd_l0 mg_t2" v-if="!isupdate">{{model.Contact}}</p>
+                    <p class="pull-left pd_l0 mg_t2 h20" v-if="!isupdate">{{model.Contact}}</p>
                     <input placeholder="" v-else v-model="model.Contact" type="text" class="add_input w160 form-control pull-left pd_l0 mg_t2 mg_l95">
                 </div>
                 <div class="col-md-12 mg_t20 clearfix select_dropdown">
                     <label class="control-label pull-left">联系方式：</label>
-                    <p class="pull-left pd_l0 mg_t2" v-if="!isupdate">{{model.Phone}}</p>
+                    <p class="pull-left pd_l0 mg_t2 h20" v-if="!isupdate">{{model.Phone}}</p>
                     <input placeholder="" v-else v-model="model.Phone" type="text" class="add_input w160 form-control pull-left pd_l0 mg_t2 mg_l95">
                 </div>
                 <div class="col-md-12 mg_t20 clearfix select_dropdown">
                     <label class="control-label pull-left">开户名称：</label>
-                    <p class="pull-left pd_l0 mg_t2" v-if="!isupdate">{{model.AccountName}}</p>
+                    <p class="pull-left pd_l0 mg_t2 h20" v-if="!isupdate">{{model.AccountName}}</p>
                     <input placeholder="" v-else v-model="model.AccountName" type="text" class="add_input w160 form-control pull-left pd_l0 mg_t2 mg_l95">
                 </div>
                 <div class="col-md-12 mg_t20 clearfix select_dropdown">
-                    <label class="control-label pull-left">开户行：</label>
-                    <p class="pull-left pd_l0 mg_t2" v-if="!isupdate">{{model.BankAccount||"无"}}</p>
+                    <label class="control-label pull-left ">开户行：</label>
+                    <p class="pull-left pd_l0 mg_t2 h20" v-if="!isupdate">{{model.BankAccount}}</p>
                     <input placeholder="" v-else v-model="model.BankAccount" type="text" class="add_input w160 form-control pull-left pd_l0 mg_t2 mg_l95">
                 </div>
                 <div class="col-md-12 mg_t20 clearfix select_dropdown">
-                    <label class="control-label pull-left">账号：</label>
-                    <p class="pull-left pd_l0 mg_t2" v-if="!isupdate">{{model.AccountNumber||"无"}}</p>
+                    <label class="control-label pull-left ">账号：</label>
+                    <p class="pull-left pd_l0 mg_t2 h20" v-if="!isupdate">{{model.AccountNumber}}</p>
                     <input placeholder="" v-else v-model="model.AccountNumber" type="text" class="add_input w160 form-control pull-left pd_l0 mg_t2 mg_l95">
                 </div>
                 <div class="col-md-12">

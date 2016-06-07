@@ -381,7 +381,6 @@ export default {
                         scrollTop: $('.row').height()
                     });
                 })
-
             },
             delimg(item, img, index) {
                 layer.confirm('确认删除吗', {

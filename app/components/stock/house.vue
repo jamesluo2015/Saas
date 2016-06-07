@@ -62,7 +62,7 @@
                         <td>{{house.Address}}</td>
                         <td v-if="house.HouseStatus==2">
                           <span class="col_d50707">已停用</span>
-                          <a href="javascript:void(0)" class="saas_add mg_l10" @click="enable(house.Id,true,house)">开启</a>
+                          <a href="javascript:void(0)" v-if="item.HouseStatus==0" class="saas_add mg_l10" @click="enable(house.Id,true,house)">开启</a>
                         </td>
                         <td v-if="house.HouseStatus==0">
                           <span class="col_5ca50a">已启用</span>
@@ -188,7 +188,7 @@ export default {
                   time: 800
               });
             }else{
-              layer.alert(res.data.mes);
+              layer.msg(res.data.mes,{icon:5,time:3000});
             }
           })
         },function(){
@@ -205,13 +205,17 @@ export default {
         }
       },
       enable(id,isenable,item,index){
+        let _this=this;
         if(index>=0){
           if(this.list[index].StockHouses&&this.list[index].StockHouses.length){
-            layer.alert('当前库区下存在库房信息，不允许停用');
-            return false;
+            this.list[index].StockHouses.forEach(function(item){
+              _this.enable(item.Id,false,item);
+            })
+            //layer.alert('当前库区下存在库房信息，不允许停用');
+            //return false;
           }
         }
-        let _this=this;
+
         let state=isenable?0:2;
         Vue.http.post(`/stock/EnableHouse?id=${id}&houseStatus=${state}`).then(function(res){
             item.HouseStatus=state;

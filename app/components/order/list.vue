@@ -51,12 +51,12 @@
                         </td>
                         <!--状态-->
                         <td width="15%" v-if="(item.OrderStatus>2)&&!dindex" :rowspan="item.OrderDetails.length*2">
-                            <em class="right pull-left"></em>
-                            <span class="col_77b530 pull-left">已发货</span>
+                            <em class="right pull-left mg_l30"></em>
+                            <span class="col_77b530 pull-left ">已发货</span>
                         </td>
                         <td width="15%" v-if="item.OrderStatus<=2&&item.OrderStatus>=0&&!dindex" :rowspan="item.OrderDetails.length*2">
-                            <em class="waiting pull-left" :rowspan="item.OrderDetails.length*2"></em>
-                            <span class="col_f8a504 pull-left">待发货</span>
+                            <em class="waiting pull-left mg_l30" :rowspan="item.OrderDetails.length*2"></em>
+                            <span class="col_f8a504 pull-left ">待发货</span>
                         </td>
                         <td width="15%" v-if="item.OrderStatus==-1&&!dindex" :rowspan="item.OrderDetails.length*2">
                             <em class="cancel pull-left mg_l30"></em>
