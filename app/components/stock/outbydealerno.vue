@@ -111,6 +111,7 @@
                 </tbody>
 
             </table>
+            <nothing :show="!products.length"></nothing>
         </template>
 
     </div>
@@ -159,9 +160,10 @@ from 'vue-strap';
 import buttonDocs from '../general/buttonDocs.vue'
 import tabDocs from '../general/tabDocs.vue'
 import textinfo from '../general/textinfo.vue'
+import nothing from '../general/nothing.vue'
 export default {
     components: {
-        tabDocs, buttonDocs, textinfo, vSelect
+        tabDocs, buttonDocs, textinfo, vSelect,nothing
     },
     data() {
         return {

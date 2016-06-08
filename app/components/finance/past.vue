@@ -22,8 +22,8 @@
                     <v-select :value.sync="state" :options="states" :close-on-select="true" class='' placeholder="选择状态"></v-select>
                 </div>
                 <button-docs text="查&nbsp;询" @click='query' class='pull-left mg_l30'></button-docs>
-                <a href="#" class="red_btn f14 w100 h26 pull-left mg_l30">导出订单明细</a>
-                <a href="#" class="btn_green f14 w70 h26 pull-left mg_l30">打&nbsp;印</a>
+                <a href="#" class="red_btn f14 w100 h26 pull-left mg_l30" @click="exportExcel">导出账单</a>
+                <a href="#" class="btn_green f14 w70 h26 pull-left mg_l30" @click="print">打&nbsp;印</a>
             </div>
             <table class="table table2 table_bg mg_t2" >
                 <thead>
@@ -166,6 +166,12 @@ export default {
             showbill(item){
               this.model = item;
               this.showcurrent=true;
+            },
+            exportExcel(){
+              window.location.href=`/finance/ExportFinance?sdate=${this.sdate}&edate=${this.edate}&state=${this.state.length > 0 ? this.state[0] : 0}`;
+            },
+            print(){
+              $('table').printArea()
             }
     },
     events: {

@@ -16,10 +16,10 @@
                     </div>
                     <div class="poR w620 mg_t20 h150 auto">
                         <ul class="saas_step_tip clearfix">
-                            <li>生成订单</li>
-                            <li>商品出库</li>
-                            <li>等待收货</li>
-                            <li>订单完成</li>
+                            <li>新生成</li>
+                            <li>待发货</li>
+                            <li>待收货</li>
+                            <li>已收货</li>
                         </ul>
                         <div class="saas_step " :class="'saas_step'+step"></div>
                         <ul class="saas_step_time clearfix">
@@ -46,6 +46,11 @@
                                     <span>{{model.Address}}</span>
                                 </p>
                             </div>
+                            <div class="mg_t20 clearfix select_dropdown" v-if="model.ExpressName">
+                                <label class="control-label pull-left col_010101 mg_l15">快递信息：</label>
+                                <p class="pull-left pd_l0 mg_t2">{{model.ExpressName}}  {{model.ExpressNo}} </p>
+
+                            </div>
                             <div class="col-md-12 mg_t10 clearfix select_dropdown" v-if="model.Memo">
                                 <label class="control-label pull-left col_010101">订单备注：</label>
                                 <p class="pull-left pd_l0 mg_t2">{{model.Memo}}</p>
@@ -69,7 +74,7 @@
                             <th width="55%">产品信息</th>
                             <th width="15%">京东价</th>
                             <th width="15%">数量</th>
-                            <th width="15%">库位</th>
+                            <!-- <th width="15%">库位</th> -->
                         </tr>
                     </thead>
                     <tbody v-for="detail in model.OrderDetails">
@@ -87,16 +92,18 @@
                                         <p class="pull-left mg_t2 f12 pd_l65 col_767676">结构：通风式；通用性：左右用；结构：通风式；结构：通风式；结构：通风式；</p>
                                     </div>
                                     <div class="col-md-12 pd_l0 clearfix mg_t5 select_dropdown">
-                                        <label class="control-label pull-left f12 w60">零件编号：</label>
-                                        <a href="#" class="saas_add pull-left f12 mg_l0">查看</a>
-                                        <label class="control-label pull-left f12 w60 mg_l30">适用年款：</label>
-                                        <a href="#" class="saas_add pull-left f12 mg_l0">查看</a>
+                                        <label class="control-label pull-left f12 w80">零件编号</label>
+                                        <span class="saas_add pull-left f12 mg_l0 mg_t2">
+                                          <a href="#" class="saas_add pull-left f12 mg_l0">查看</a>
+                                        </span>
+                                        <label class="control-label pull-left f12 w60 mg_l30">年款：</label>
+                                        <span class="saas_add pull-left f12 mg_l0 mg_t2">{{detail.FactoryName}} {{detail.CarModelName}} {{detail.CarYearName}}</span>
                                     </div>
                                 </div>
                             </td>
                             <td><span class="col_ed5521">￥</span><em class="fB fS col_ed5521 f18">{{detail.SalePrice}}</em> </td>
                             <td>{{detail.Quantity}}</td>
-                            <td>01-01-01</td>
+                            <!-- <td>01-01-01</td> -->
                         </tr>
                     </tbody>
                 </table>
@@ -106,11 +113,9 @@
                 </div>
                 <a href="#" class="btn_red bg8 f14 w120 h30 auto mg_t20 mg_b20" @click="show=false">返回</a>
 </template>
-
 </template>
 
 <script>
-
 export default {
     components: {},
     props: {
@@ -133,14 +138,14 @@ export default {
     computed:{
       step(){
         let state=this.model.OrderStatus;
-        if(state<=2){
+        if(state<=2&&state>=0){
           return 1;
-        }else if(state<4){
+        }else if(state==3){
           return 2;
         }else if(state>=4){
           return 4;
         }else{
-          return 1;
+          return 0;
         }
         // switch (this.model.OrderStatus) {
         //   case 2:

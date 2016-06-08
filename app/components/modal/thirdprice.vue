@@ -37,10 +37,10 @@
             </div>
         </div>
         <div class="t-c h370 lineH320" v-if="!tabs.length">
-            <p class="f12">该商品已在所有平台上架</p>
+            <p class="f12">该商品还没有上架到任何平台</p>
         </div>
         <div v-if="tabs.length" class="col-md-12 pd_b10 clearfix bdT_d0d0d0" style="*position:absolute;*bottom:0;*left:0;*background:#fff;">
-            <a href="javascript:void(0)" class="btn_red bg8 mg_t10 auto w120 h26" :class="{ 'disable':!price }" @click="commit">确&nbsp;定</a>
+            <a href="javascript:void(0)" class="btn_red bg8 mg_t10 auto w120 h26" :class="{ 'disable':!valid }" @click="commit">确&nbsp;定</a>
         </div>
     </div>
 </modal>
@@ -74,12 +74,7 @@ export default {
         stockid: {
             require: true
         },
-        inprice: {
-            type: Number
-        },
-        suitcars: {
-            type: Array
-        }
+
     },
     ready() {
         let _this = this;
@@ -113,60 +108,61 @@ export default {
             price: "",
             index: 0,
             list: [],
-            carlevel: {}
+            carlevel: {},
+            suitcars: []
         }
     },
     computed: {
-
+      valid(val){
+        for (var i = 0; i < this.list.length; i++) {
+          for (var j = 0; j < this.list[i].carlist.length; j++) {
+            if(!this.list[i].carlist[j].Price){
+              return false;
+            }
+          }
+        }
+        return true;
+      }
     },
     methods: {
         commit() {
-                if (!this.price) {
-                    return false;
-                }
+                // if (!this.price) {
+                //     return false;
+                // }
                 let _this = this;
-                let model = {
-                    StockId: this.stockid
-                };
+                // let model = {
+                //     StockId: this.stockid
+                // };
                 let pricelist = [];
-                let third = this.thirds[this.index];
-                let ThirdId = third.id;
-                let ThirdName = third.name;
+                // let third = this.thirds[this.index];
+                // let ThirdId = third.id;
+                // let ThirdName = third.name;
                 this.list.forEach(function(item) {
                     item.carlist.forEach(function(car) {
-                        let obj = {
-                            ThirdId: ThirdId,
-                            ThirdName: ThirdName,
-                            FactoryId: item.FactoryId,
-                            FactoryName: item.FactoryName,
-                            CarModelId: car.CarmodelId,
-                            CarModelName: car.Carmodel,
-                            SalePrice: car.Price || _this.price,
-                            InPrice: _this.inprice,
-                            StockId: _this.stockid
-                        }
-                        pricelist.push(obj);
+                      let temp=_this.suitcars.filter(function(suit){
+                        return suit.Id=car.id;
+                      })
+                      temp[0].SalePrice=car.Price || _this.price;
+
+                      pricelist.push(temp[0]);
                     })
                 });
-                Vue.http.post('/product/SaveThirdInfo', {
-                    model: model,
-                    pricelist: pricelist,
-                    code: third.code
+                Vue.http.post('/product/UpdateThirdInfo', {
+                    pricelist: pricelist
                 }).then(function(res) {
-                    if (res.data.ok) {
+                    if (res.data) {
                         layer.msg('提交成功', {
                             icon: 1,
                             time: 800
                         });
-
-                        _this.tabs.splice(_this.index, 1);
-                        _this.thirds.splice(_this.index, 1);
-                        if (_this.tabs.length) {
-                            _this.index = 0;
-                            _this.price = _this.thirds[0].price;
-                        } else {
-                            _this.show = false;
-                        }
+                        // _this.tabs.splice(_this.index, 1);
+                        // _this.thirds.splice(_this.index, 1);
+                        // if (_this.tabs.length) {
+                        //     _this.index = 0;
+                        //     _this.price = _this.thirds[0].price;
+                        // } else {
+                        //     _this.show = false;
+                        // }
                     }
                 })
             },
@@ -174,17 +170,27 @@ export default {
                 let _this = this;
                 let arr = [];
                 let tab = [];
-                Vue.http.get('/product/GetThirdsByStockid?stockid=' + this.stockid).then(function(res) {
-                    if (res.data && res.data.length) {
-                        res.data.forEach(function(item) {
+                Vue.http.get('/product/GetThirdsPrice?stockid=' + this.stockid).then(function(res) {
+                    if (res.data.data && res.data.data.length) {
+                        res.data.data.forEach(function(item) {
                             arr.push({
                                 id: item.Id,
                                 name: item.CompanyName,
-                                price: 0,
+                                price: "",
                                 code: item.InnerCode
                             })
                             tab.push(item.CompanyName);
                         })
+                        _this.suitcars=res.data.data2;
+                        // let obj={};
+                        // res.data.data2.forEach(function(item){
+                        //   obj[item.CarModelId]=item.SalePrice;
+                        // })
+                        // _this.list.forEach(function(item){
+                        //   item.carlist.forEach(function(car){
+                        //     car.Price=obj[car.CarmodelId];
+                        //   })
+                        // })
                         _this.thirds = arr;
                         _this.tabs = tab;
                     } else {
@@ -212,10 +218,71 @@ export default {
                     })
                 }
                 this.thirds[this.index].price = val;
+            },
+            getlist(){
+              let _this = this;
+              let arr = [];
+              let cids = [];
+              let thirdid=_this.thirds[_this.index].id;
+
+              if (this.suitcars && this.suitcars.length) {
+                  this.suitcars.filter(function(item){
+                    return item.ThirdId==thirdid;
+                  }).forEach(function(car) {
+                      cids.push(car.CarModelId);
+
+                      let temp = arr.filter(function(item) {
+                          return item.FactoryId == car.FactoryId;
+                      });
+                      if (!temp.length) {
+                          arr.push({
+                              FactoryName: car.FactoryName,
+                              FactoryId: car.FactoryId,
+                              carlist: [{
+                                  Carmodel: car.CarModelName,
+                                  CarmodelId: car.CarModelId,
+                                  Level: 1,
+                                  Price: car.SalePrice,
+                                  ThirdId: car.ThirdId,
+                                  id: car.Id
+                              }]
+                          });
+                      } else {
+                          let isexists = temp[0].carlist.some(function(carmodel) {
+                              return carmodel.CarModelId == car.CarModelId;
+                          })
+                          if (!isexists) {
+                              temp[0].carlist.push({
+                                  Carmodel: car.CarModelName,
+                                  CarmodelId: car.CarModelId,
+                                  Level: 1,
+                                  Price: car.SalePrice,
+                                  ThirdId: car.ThirdId,
+                                  id: car.Id
+                              })
+                          }
+                      }
+                  })
+              }
+              _this.list = arr;
+              if (cids.length) {
+                  Vue.http.get('/product/GetCarLevelByIds?ids=' + cids.join(',')).then(function(res) {
+                      if (res.data && res.data.length) {
+                          let obj = {};
+                          res.data.forEach(function(item) {
+                              obj[item.ID] = item.PriceLevelId;
+                          })
+                          _this.list.forEach(function(item) {
+                              item.carlist.forEach(function(car) {
+                                  car.Level = obj[car.CarmodelId];
+                              })
+                          })
+                      }
+                  })
+              }
             }
     },
     watch: {
-
             price(val) {
                 this.change(val);
             },
@@ -231,59 +298,10 @@ export default {
                 }
             },
             suitcars() {
-                let _this = this;
-                let arr = [];
-                let cids = [];
-                if (this.suitcars && this.suitcars.length) {
-                    this.suitcars.forEach(function(car) {
-
-                        cids.push(car.CarmodelId);
-
-                        let temp = arr.filter(function(item) {
-                            return item.FactoryId == car.FactoryId;
-                        });
-                        if (!temp.length) {
-                            arr.push({
-                                FactoryName: car.FactoryName,
-                                FactoryId: car.FactoryId,
-                                carlist: [{
-                                    Carmodel: car.Carmodel,
-                                    CarmodelId: car.CarmodelId,
-                                    Level: 1,
-                                    Price: 0
-                                }]
-                            });
-                        } else {
-                            let isexists = temp[0].carlist.some(function(carmodel) {
-                                return carmodel.CarmodelId == car.CarmodelId;
-                            })
-                            if (!isexists) {
-                                temp[0].carlist.push({
-                                    Carmodel: car.Carmodel,
-                                    CarmodelId: car.CarmodelId,
-                                    Level: 1,
-                                    Price: 0
-                                })
-                            }
-                        }
-                    })
-                }
-                _this.list = arr;
-                if (cids.length) {
-                    Vue.http.get('/product/GetCarLevelByIds?ids=' + cids.join(',')).then(function(res) {
-                        if (res.data && res.data.length) {
-                            let obj = {};
-                            res.data.forEach(function(item) {
-                                obj[item.ID] = item.PriceLevelId;
-                            })
-                            _this.list.forEach(function(item) {
-                                item.carlist.forEach(function(car) {
-                                    car.Level = obj[car.CarmodelId];
-                                })
-                            })
-                        }
-                    })
-                }
+              this.getlist();
+            },
+            index(){
+              this.getlist();
             }
     }
 }

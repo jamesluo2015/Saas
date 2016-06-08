@@ -51,6 +51,7 @@
                             <div class=" pd_l0 mg_t20 clearfix select_dropdown pull-left w250">
                                 <label class="control-label pull-left f12 lineH20">选择库位：</label>
                                 <v-select :value.sync="detail.slot" width="w300" placeholder="请选择库存" multiple :options="detail.selects"></v-select>
+                                <!-- <span class="mg_l10">货位优先级{{detail.slot.join('>')}}</span> -->
                             </div>
                         </div>
                     </div>
@@ -110,8 +111,9 @@ export default {
             if (isslot) {
                 return false;
             }
+
             return true;
-        }
+        },
     },
     ready() {
         let _this = this;
@@ -149,6 +151,8 @@ export default {
                     break;
                 }
             };
+            _this.model.ExpressName= expreesname;
+            _this.model.ExpressNo= this.expressno;
             let model = {
                 OrderCode: this.model.OrderCode,
                 SoStatus: 1,
@@ -156,12 +160,17 @@ export default {
                 SourceOrderId: this.model.SourceOrderId,
                 ExpressId: this.express[0],
                 ExpressName: expreesname,
-                ExpressNo: this.expressno
+                ExpressNo: this.expressno,
+                SourceId: this.model.SourceId
             };
             let DetailList = [];
             let LockList = [];
 
-            this.model.OrderDetails.forEach(function(item) {
+
+
+            for (var i = 0; i < this.model.OrderDetails.length; i++) {
+              let item =  this.model.OrderDetails[i]
+
                 let temp = {
                     StockId: item.StockId,
                     ProdName: item.ProdName,
@@ -178,25 +187,43 @@ export default {
                 }
                 DetailList.push(temp);
                 //锁定列表
-                item.slot.forEach(function(s) {
-                    let count = item.selects.filter(function(sel) {
-                        return sel.value == s;
-                    })[0].count;
-                    //库存数
-                    let lockcount=0;
-                    if(count>=item.Quantity){
-                      lockcount=item.Quantity;
-                    }else{
-                      item.Quantity-=count;
-                      lockcount=count;
-                    }
-                    let lock = {
-                        MainId: s,
-                        LockCount: lockcount
-                    }
-                    LockList.push(lock);
+                let isok=true;
+                item.slot.sort(function(a,b){
+                  return parseInt(b)-parseInt(a);
                 })
-            })
+                let length=item.slot.length;
+                let prodcount=item.Quantity;
+                for (var i = 0; i < length; i++) {
+                  let s=item.slot[i]
+                  let count = item.selects.filter(function(sel) {
+                      return sel.value == s;
+                  })[0].count;
+                  //库存数
+                  let lockcount=0;
+                  if(count>=prodcount){
+                    lockcount=prodcount;
+                    prodcount=0;
+
+                    if(length>(i+1)){
+                      layer.alert('您选择货位库存数与商品数量不符，请重新选择');
+                      return false;
+                    }
+                  }else{
+                    prodcount-=count;
+                    lockcount=count;
+                  }
+                  let lock = {
+                      MainId: s,
+                      LockCount: lockcount
+                  }
+                  LockList.push(lock);
+
+                  if(length==(i+1) && prodcount){
+                    layer.alert('您选择的货位总库存数小于商品数量');
+                    return false;
+                  }
+                }
+            }
             model.DetailList = DetailList;
             model.LockList = LockList;
             Vue.http.post('/order/SaveOrderShip', {
@@ -205,6 +232,9 @@ export default {
                 _this.show = false;
                 _this.model.OrderStatus=3;
             })
+        },
+        getlabel(){
+
         }
     }
 }

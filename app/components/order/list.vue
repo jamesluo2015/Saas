@@ -49,28 +49,9 @@
                             <img src="../../images/saas15.png" height="30">
                             <span class="lineH30">车型：{{(detail.FactoryName || "") +" "+(detail.CarModelName || "") +" "+(detail.CarYearName || "")}}</span>
                         </td>
+                        <td></td>
+                        <td></td>
                         <!--状态-->
-                        <td width="15%" v-if="(item.OrderStatus>2)&&!dindex" :rowspan="item.OrderDetails.length*2">
-                            <em class="right pull-left mg_l30"></em>
-                            <span class="col_77b530 pull-left ">已发货</span>
-                        </td>
-                        <td width="15%" v-if="item.OrderStatus<=2&&item.OrderStatus>=0&&!dindex" :rowspan="item.OrderDetails.length*2">
-                            <em class="waiting pull-left mg_l30" :rowspan="item.OrderDetails.length*2"></em>
-                            <span class="col_f8a504 pull-left ">待发货</span>
-                        </td>
-                        <td width="15%" v-if="item.OrderStatus==-1&&!dindex" :rowspan="item.OrderDetails.length*2">
-                            <em class="cancel pull-left mg_l30"></em>
-                            <span class="col_b5 pull-left">已取消</span>
-                        </td>
-                        <!--操作-->
-                        <td width="15%" v-if="(item.OrderStatus>2||item.OrderStatus==-1)&&!dindex" class="t-c" :rowspan="item.OrderDetails.length*2">
-                            <a href="#" class="saas_add mg_l0" @click="showdetail(index)">查看详情</a>
-                        </td>
-                        <td width="15%" class="t-c" v-if="item.OrderStatus<=2&&item.OrderStatus>=0&&!dindex" :rowspan="item.OrderDetails.length*2">
-                            <span class="f12 col_999999">还剩{{item.Remaintime}}</span>
-                            <a href="#" class="btn_red bg8 f14 w100 h26 auto mg_b10" @click="delivery(index)">去发货</a>
-                            <a href="#" class="saas_add mg_l0" @click="showdetail(index)">查看详情</a>
-                        </td>
                     </tr>
                     <tr>
                         <td class="poR" width="40%">
@@ -88,6 +69,32 @@
                         </td>
                         <td width="15%">x{{detail.Quantity}}</td>
                         <td width="15%">单价：{{detail.SalePrice}}</td>
+
+                        <td width="15%" v-if="(item.OrderStatus==3)&&!dindex" :rowspan="item.OrderDetails.length*2">
+                            <em class="waiting_t pull-left mg_l30"></em>
+                            <span class="col_f8a504 pull-left">待收货</span>
+                        </td>
+                        <td width="15%" v-if="(item.OrderStatus>=4)&&!dindex" :rowspan="item.OrderDetails.length*2">
+                            <em class="already pull-left mg_l30"></em>
+                            <span class="col_11c3a4 pull-left">已收货</span>
+                        </td>
+                        <td width="15%" v-if="item.OrderStatus<=2&&item.OrderStatus>=0&&!dindex" :rowspan="item.OrderDetails.length*2">
+                            <em class="waiting_s pull-left mg_l30" :rowspan="item.OrderDetails.length*2"></em>
+                            <span class="col_ec7642 pull-left">待发货</span>
+                        </td>
+                        <td width="15%" v-if="item.OrderStatus==-1&&!dindex" :rowspan="item.OrderDetails.length*2">
+                            <em class="cancel pull-left mg_l30"></em>
+                            <span class="col_b5 pull-left">已取消</span>
+                        </td>
+                        <!--操作-->
+                        <td width="15%" v-if="(item.OrderStatus>2||item.OrderStatus==-1)&&!dindex" class="t-c" :rowspan="item.OrderDetails.length*2">
+                            <a href="#" class="saas_add mg_l0" @click="showdetail(index)">查看详情</a>
+                        </td>
+                        <td width="15%" class="t-c" v-if="item.OrderStatus<=2&&item.OrderStatus>=0&&!dindex" :rowspan="item.OrderDetails.length*2">
+                            <span class="f12 col_999999">还剩{{item.Remaintime}}</span>
+                            <a href="#" class="btn_red bg8 f14 w100 h26 auto mg_b10" @click="delivery(index)">去发货</a>
+                            <a href="#" class="saas_add mg_l0" @click="showdetail(index)">查看详情</a>
+                        </td>
                     </tr>
                 </template>
             </tbody>
@@ -184,125 +191,140 @@ export default {
     },
     methods: {
         query() {
-            let _this = this;
-            let param = {
-                pagesize: _this.pagesize,
-                pageindex: _this.pageindex,
-                sdate: _this.sdate,
-                edate: _this.edate,
-                state: _this.state,
-                type: _this.type.length ? _this.type[0] : 0,
-                key: _this.key,
-                source: _this.source.length ? _this.source[0] : 0
-            };
-            var loading = layer.load();
-            Vue.http.get('/order/GetOrders', param).then(function(res) {
+                let _this = this;
+                let param = {
+                    pagesize: _this.pagesize,
+                    pageindex: _this.pageindex,
+                    sdate: _this.sdate,
+                    edate: _this.edate,
+                    state: _this.state,
+                    type: _this.type.length ? _this.type[0] : 0,
+                    key: _this.key,
+                    source: _this.source.length ? _this.source[0] : 0
+                };
+                var loading = layer.load();
+                Vue.http.get('/order/GetOrders', param).then(function(res) {
                         _this.orderlist = [];
                         // _this.tips=[];
                         _this.count = 1;
                         layer.close(loading);
                         if (res.data.ok) {
                             res.data.data.forEach(function(item) {
-                                        //时间转换
-                                        item.AddTime = DateFormat(item.AddTime);
-                                        if (item.OrderStatus <= 2) {
-                                            //发货库区
-                                            let ids = [];
-                                            item.OrderDetails.forEach(function(detail) {
-                                                    detail.slot = [];
-                                                    detail.selects = [];
-                                                    ids.push(detail.StockId);
+                                //时间转换
+                                item.AddTime = DateFormat(item.AddTime);
 
-                                                    //获取对应库存
-                                                    if (item.OrderStatus <= 2 && item.OrderStatus >= 0) {
-                                                        Vue.http.get('/stock/GetStocksByIds?ids=' + detail.StockId).then(function(res) {
-                                                            if (res.data.data.length) {
-                                                                let arr = [];
-                                                                res.data.data.forEach(function(item) {
-                                                                    if (item.SlotCode && item.AreaCode && item.StoreCode) {
-                                                                        arr.push({
-                                                                            label: item.AreaCode + "-" + item.StoreCode + "-" + item.SlotCode + "库存数:" + (item.StockCount-item.LockCount),
-                                                                            value: item.Id.toString(),
-                                                                            count: (item.StockCount-item.LockCount)
-                                                                        })
-                                                                    }
-                                                                });
-                                                                detail.selects = arr;
+                                //获取发货单信息
+                                if(item.OrderStatus>2){
+                                  Vue.http.get('/order/GetOrderShip?ordercode='+item.OrderCode).then(function(res){
+                                     if(res.data){
+                                       item.ExpressName=res.data.ExpressName;
+                                       item.ExpressNo=res.data.ExpressNo;
+                                     }
+                                  })
+                                }else{
+                                  item.ExpressName="";
+                                  item.ExpressNo="";
+                                }
+                                if (item.OrderStatus <= 2) {
+                                    //发货库区
+                                    let ids = [];
+                                    item.OrderDetails.forEach(function(detail) {
+                                        detail.slot = [];
+                                        detail.selects = [];
+                                        ids.push(detail.StockId);
+                                        //获取对应库存
+                                        if (item.OrderStatus <= 2 && item.OrderStatus >= 0) {
+                                            Vue.http.get('/stock/GetStocksByIds?ids=' + detail.StockId).then(function(res) {
+                                                if (res.data.data.length) {
+                                                    let arr = [];
+                                                    res.data.data.forEach(function(item) {
+                                                        if (item.SlotCode && item.AreaCode && item.StoreCode) {
+                                                            let count = item.StockCount - item.LockCount;
+                                                            if (count) {
+                                                                arr.push({
+                                                                    label: item.AreaCode + "-" + item.StoreCode + "-" + item.SlotCode + "  库存数:" + count,
+                                                                    value: item.Id.toString(),
+                                                                    count: count
+                                                                })
                                                             }
-                                                            if(res.data.data2){
-                                                                detail.slot=res.data.data2;
-                                                            }
-                                                        })
-                                                    }
-
-                                                })
-                                              }
+                                                        }
+                                                    });
+                                                    detail.selects = arr;
+                                                }
+                                                if (res.data.data2) {
+                                                    detail.slot = res.data.data2;
+                                                }
                                             })
-                                        _this.orderlist = res.data.data;
-                                        _this.count = Math.ceil(res.data.count / _this.pagesize);
-                                        // _this.tips=res.data.data2;
-                                    } else {
-                                        //layer.alert(res.data.mes);
-                                    }
-                                },
-                                function() {
-                                    //error
-                                    console.log('查询订单信息错误');
-                                    layer.close(loading);
-                                })
-                    },
-                    showdetail(index) {
-                        this.model = this.orderlist[index];
-                        this.detailshow = true;
-                    },
-                    delivery(index) {
-                        this.model = this.orderlist[index];
-                        this.deshow = true;
-                    }
-                },
-                ready() {
-                    let tab = QueryString('tab');
-                    //根据参数默认tab
-                    if (tab) {
-                        this.state = parseInt(tab);
-                    }
-                    this.query();
-                    //获取订单数
-                    let _this = this;
-                    Vue.http.get('/order/GetTips').then(function(res) {
-                            if (res.ok) {
-                                _this.tips = res.data;
-                            }
-                        })
-                        //获取第三方平台(来源)
-                    Vue.http.get('/order/GetSource').then(function(res) {
-                        _this.third = res.data;
-                        let arr = [{
-                            label: "全部",
-                            value: "0"
-                        }];
-                        res.data.forEach(function(item) {
-                            arr.push({
-                                label: item.CompanyName,
-                                value: item.Id.toString()
+                                        }
+
+                                    })
+                                }
                             })
-                        })
-                        _this.sourcelist = arr;
-                    })
-                },
-                events: {
-                    'page': function(index) {
-                        this.pageindex = index;
-                        this.query();
-                        $('.container-fluid').animate({
-                            scrollTop: '0px'
-                        });
+                            _this.orderlist = res.data.data;
+                            _this.count = Math.ceil(res.data.count / _this.pagesize);
+                            // _this.tips=res.data.data2;
+                        } else {
+                            //layer.alert(res.data.mes);
+                        }
                     },
-                    'tab': function(val) {
-                        this.pageindex = 1;
-                        this.query();
-                    }
-                }
+                    function() {
+                        //error
+                        console.log('查询订单信息错误');
+                        layer.close(loading);
+                    })
+            },
+            showdetail(index) {
+                this.model = this.orderlist[index];
+                this.detailshow = true;
+            },
+            delivery(index) {
+                this.model = this.orderlist[index];
+                this.deshow = true;
+            }
+    },
+    ready() {
+        let tab = QueryString('tab');
+        //根据参数默认tab
+        if (tab) {
+            this.state = parseInt(tab);
         }
+        this.query();
+        //获取订单数
+        let _this = this;
+        Vue.http.get('/order/GetTips').then(function(res) {
+                if (res.ok) {
+                    _this.tips = res.data;
+                }
+            })
+            //获取第三方平台(来源)
+        Vue.http.get('/order/GetSource').then(function(res) {
+            _this.third = res.data;
+            let arr = [{
+                label: "全部",
+                value: "0"
+            }];
+            res.data.forEach(function(item) {
+                arr.push({
+                    label: item.CompanyName,
+                    value: item.Id.toString()
+                })
+            })
+            _this.sourcelist = arr;
+        })
+    },
+    events: {
+        'page': function(index) {
+            this.pageindex = index;
+            this.query();
+            $('.container-fluid').animate({
+                scrollTop: '0px'
+            });
+        },
+        'tab': function(val) {
+            this.pageindex = 1;
+            this.query();
+        }
+    }
+}
 
 </script>

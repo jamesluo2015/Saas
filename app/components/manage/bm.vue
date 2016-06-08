@@ -55,7 +55,7 @@
                                 </div>
                             </div>
                         </td>
-                        <td><a href="#" class="saas_add mYH14 mg_l0">查看</a></td>
+                        <td><a href="#" class="saas_add mYH14 mg_l0" @click="skushow($index,3)">查看</a></td>
                         <td>
                             <span v-if="item.ProdStatus==1" class="col_000">待审核</span>
                             <span v-if="item.ProdStatus==2" class="col_ed5521">未通过</span>
@@ -79,7 +79,7 @@
 
 <supplement-sku :show.sync="showsku" :list="model.SkuList" :bmno="model.BmNo"></supplement-sku>
 <partsyearlist :show.sync="showyears" :list="model.SuitCarList" :bmno="model.BmNo" :showsupple="false"></partsyearlist>
-
+<thirdpriceshow :show.sync="showthirdprices" :stockid="model.StockId" :thirdid="1001"></thirdpriceshow>
 </template>
 
 <script>
@@ -108,9 +108,10 @@ import {
 from '../utils/date'
 import supplementSku from '../modal/supplementSku.vue';
 import partsyearlist from '../modal/partsyearlist.vue';
+import thirdpriceshow from '../modal/thirdpriceshow.vue';
 export default {
     components: {
-        vSelect, vOption, datepicker, buttonDocs, pageDocs, modalcarDocs, tab, nothing, supplementSku,partsyearlist
+        vSelect, vOption, datepicker, buttonDocs, pageDocs, modalcarDocs, tab, nothing, supplementSku,partsyearlist,thirdpriceshow
     },
     data() {
         return {
@@ -150,6 +151,7 @@ export default {
             modalist: [],
             showsku: false,
             showyears: false,
+            showthirdprices: false,
             // skuList:[],
             // bmno: "",
             pindex: -1
@@ -180,20 +182,25 @@ export default {
                 };
                 Vue.http.get('/manage/GetProducts', param).then(function(response) {
                     let result = response.data;
-                    result.data.forEach(function(item) {
-                        item.AddTime = DateFormat(item.AddTime)
-                            //异步获取年款和sku
-                        Vue.http.get('/product/GetSuitCarAndSku?bmno=' + item.BmNo).then(function(response) {
-                            if (response.data.ok) {
-                                item.SuitCarList = response.data.data;
-                                item.SkuList = response.data.data2;
-                            }
-                        }, function(err) {
-                            console.log('获取适用性失败');
-                        })
-                    });
-                    _this.list = result.data;
-                    _this.count = Math.ceil(result.count / _this.pagesize);
+                    if(result.ok){
+                      result.data.forEach(function(item) {
+                          item.AddTime = DateFormat(item.AddTime)
+                              //异步获取年款和sku
+                          Vue.http.get('/product/GetSuitCarAndSku?bmno=' + item.BmNo).then(function(response) {
+                              if (response.data.ok) {
+                                  item.SuitCarList = response.data.data;
+                                  item.SkuList = response.data.data2;
+                              }
+                          }, function(err) {
+                              console.log('获取适用性失败');
+                          })
+                      });
+                      _this.list = result.data;
+                      _this.count = Math.ceil(result.count / _this.pagesize);
+                    }else{
+                      _this.list=[];
+                      _this.count=0;
+                    }
                 }, function(err) {
                     console.log('查询失败');
                 })
@@ -222,6 +229,9 @@ export default {
                         break;
                     case 2:
                         this.showyears = true;
+                        break;
+                    case 3:
+                        this.showthirdprices=true;
                         break;
                     default:
                 }

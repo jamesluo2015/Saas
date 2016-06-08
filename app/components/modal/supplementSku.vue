@@ -65,7 +65,9 @@ export default {
         let _this=this;
         //判断
         let isexists= this.list.some(function(item){
-          return _this.skus.indexOf(item)>-1;
+          return _this.skus.split(',').some(function(sku){
+             return sku== item;
+          })
         })
         if(isexists){
           layer.alert('不允许与现有零件编号重复');

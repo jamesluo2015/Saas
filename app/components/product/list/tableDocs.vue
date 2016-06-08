@@ -38,7 +38,7 @@
                     </div>
                 </td>
                 <td><span class="col_ed5521">￥</span><em class="fB fS col_ed5521 f18">{{item.SalePrice}}</em> </td>
-                <td><a href="#" class="saas_add mYH14 mg_l0">查看</a></td>
+                <td><a href="#" class="saas_add mYH14 mg_l0" @click="showModal(index,5)">查看</a></td>
                 <td>
                   <span v-if="item.ProdStatus<=1" class="col_000">待审核</span>
                   <span v-if="item.ProdStatus==2" class="col_ed5521">未通过</span>
@@ -58,6 +58,7 @@
     <nothing v-if="!list.length"></nothing>
 </div>
 <third :show.sync="showthird" :suitcars="model.SuitCarList" :stockid="model.StockId" :inprice="model.InPrice"></third>
+<thirdprice :show.sync="showthirdprice" :stockid="model.StockId"></thirdprice>
 <supplement-sku :show.sync="showsku" :list="model.SkuList" :bmno="model.BmNo"></supplement-sku>
 
 <supplement-year v-ref:year :show.sync="showyear" :bmno="model.BmNo" :exists="exists"></supplement-year>
@@ -72,11 +73,12 @@ import nothing from '../../general/nothing.vue'
 import convert from '../../utils/convert.js'
 import supplementSku from '../../modal/supplementSku.vue';
 import third from '../../modal/third.vue';
+import thirdprice from '../../modal/thirdprice.vue';
 import supplementYear from '../../modal/supplementYear.vue';
 import partsyearlist from '../../modal/partsyearlist.vue';
 export default {
     components: {
-        modalcarDocs,tab,nothing,supplementSku,third, supplementYear, partsyearlist
+        modalcarDocs,tab,nothing,supplementSku,third, thirdprice,supplementYear, partsyearlist
     },
     props: {
         list: {
@@ -92,6 +94,7 @@ export default {
             showthird:false,
             showyear: false,
             showyears: false,
+            showthirdprice: false,
             pindex: -1
         }
     },
@@ -140,6 +143,9 @@ export default {
                       break;
                   case 4:
                       this.showyeas = true;
+                      break;
+                  case 5:
+                      this.showthirdprice=true;
                       break;
               }
           },

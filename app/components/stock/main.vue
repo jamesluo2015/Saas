@@ -47,6 +47,7 @@
                         <th width="15%">商品名称</th>
                         <th width="15%">供应商编码</th>
                         <th width="12%">实物ID</th>
+                        <th width="12%">货位编码</th>
                         <th width="11%">品相</th>
                         <th width="11%">数量</th>
                         <th width="11%">操作</th>
@@ -57,6 +58,7 @@
                         <td>{{item.ProdName}}</td>
                         <td>{{item.DealerNo}}</td>
                         <td>{{item.StockId}}</td>
+                        <td>{{item.AreaCode}}-{{item.StoreCode}}-{{item.SlotCode}}</td>
                         <td>{{item.ProdType?"残品":"正品"}}</td>
                         <td>{{item.StockCount}}</td>
                         <td><a href="#" class="saas_add mg_l0" @click="slotmanage($index)">货位管理</a></td>
@@ -124,7 +126,7 @@ import {
 from 'vue-strap'
 import pageDocs from '../general/pageDocs.vue'
 import buttonDocs from '../general/buttonDocs.vue'
-import instore from './instore.vue'
+import instore from '../modal/instore.vue'
 export default {
     components: {
         vSelect, buttonDocs, pageDocs, modal,instore
@@ -329,6 +331,7 @@ export default {
                   model.Id=_this.model.Id;
                   _this.model=model;
                 }
+                _this.query();
               })
               this.showslot=false;
             }

@@ -1,4 +1,6 @@
+<style media="print">
 
+</style>
 
 <template id="">
 
@@ -114,7 +116,7 @@ export default {
         })
       },
       print(){
-        $('#printsingle').printArea();
+        $('#printsingle').parent().printArea();
       }
     },
     ready(){

@@ -16,7 +16,7 @@
       <span class="pull-left mg_l10 f12 lineH26 mg_l30">订单号：</span>
       <input placeholder="" v-model="key" class="add_input w160 pull-left form-control" type="text">
       <button-docs text="查&nbsp;询" @click='query' class='pull-left mg_l30'></button-docs>
-      <a href="#" class="red_btn f14 w100 h26 pull-left mg_l30">导出订单明细</a>
+      <a href="#" class="red_btn f14 w100 h26 pull-left mg_l30" @click="exportExcel">导出订单明细</a>
   </div>
   <!-- <table class="table table2 table_bg mg_t2">
       <thead>
@@ -46,7 +46,7 @@
   <table class="table table2 table_bg mg_t2" v-if="orderlist.length" v-for="(index,item) in orderlist">
       <thead>
           <tr>
-              <th colspan="5" class="lineH30">
+              <th colspan="6" class="lineH30">
                   <span class="pull-left col_999999">{{item.AddTime}}</span>
                   <span class="mg_l40 col_010101 pull-left">来源单号：{{item.SourceOrderId}}</span>
                   <span class="mg_l40 col_010101 pull-left">订单号：{{item.OrderCode}}</span>
@@ -143,6 +143,9 @@ export default{
           console.log('查询订单信息错误');
           layer.close(loading);
       })
+    },
+    exportExcel(){
+      window.location.href=`/finance/ExportOrders?isreturn=false&sdate=${this.sdate}&edate=${this.edate}&order=${this.key}`;
     }
   },
   events:{
