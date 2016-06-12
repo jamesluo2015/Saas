@@ -2,7 +2,7 @@
 
 <template id="">
 
-<modal :show.sync="show" effect="fade" width="520px" title="选择销售平台">
+<modal :show.sync="show" effect="fade" width="520px" title="编辑销售平台">
     <div slot="modal-body" class="modal-body pd_0 clearfix" style="overflow-y:hidden">
         <!-- <ul class="modal_sell clearfix">
             <li v-for="item in thirds" :class="{'checked':item.ischeck}" @click="check($index)"><a href="#">{{item.name}}</a></li>
@@ -195,7 +195,7 @@ export default {
                         _this.tabs = tab;
                     } else {
                         //layer.alert('该商品已在所有平台上架');
-                        _this.show = false;
+                        //_this.show = false;
                         _this.tabs = [];
                         _this.thirds = [];
                     }
@@ -225,7 +225,7 @@ export default {
               let cids = [];
               let thirdid=_this.thirds[_this.index].id;
 
-              if (this.suitcars && this.suitcars.length) {
+              if (this.suitcars && this.suitcars.length && this.show) {
                   this.suitcars.filter(function(item){
                     return item.ThirdId==thirdid;
                   }).forEach(function(car) {
@@ -293,16 +293,17 @@ export default {
                 this.price = this.thirds[val].price;
             },
             stockid(val) {
-                if (val) {
+                if (val && this.show) {
                     this.getthirds();
                 }
             },
-            suitcars() {
+            show(val) {
+              if(val)
               this.getlist();
             },
-            index(){
-              this.getlist();
-            }
+            // index(){
+            //   this.getlist();
+            // }
     }
 }
 

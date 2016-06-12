@@ -133,7 +133,7 @@ export default {
     ready() {
         let _this = this;
         //获取地区信息
-        Vue.http.get('/account/GetAreaInfo?headId=1').then(function(res) {
+        Vue.http.get('/account/GetAreaInfo?headId=0').then(function(res) {
             _this.provinces = _this.convert(res.data);
         })
     }

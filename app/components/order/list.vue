@@ -227,34 +227,14 @@ export default {
                                 }
                                 if (item.OrderStatus <= 2) {
                                     //发货库区
-                                    let ids = [];
+                                    //let ids = [];
                                     item.OrderDetails.forEach(function(detail) {
                                         detail.slot = [];
                                         detail.selects = [];
-                                        ids.push(detail.StockId);
+                                        //ids.push(detail.StockId);
                                         //获取对应库存
                                         if (item.OrderStatus <= 2 && item.OrderStatus >= 0) {
-                                            Vue.http.get('/stock/GetStocksByIds?ids=' + detail.StockId).then(function(res) {
-                                                if (res.data.data.length) {
-                                                    let arr = [];
-                                                    res.data.data.forEach(function(item) {
-                                                        if (item.SlotCode && item.AreaCode && item.StoreCode) {
-                                                            let count = item.StockCount - item.LockCount;
-                                                            if (count) {
-                                                                arr.push({
-                                                                    label: item.AreaCode + "-" + item.StoreCode + "-" + item.SlotCode + "  库存数:" + count,
-                                                                    value: item.Id.toString(),
-                                                                    count: count
-                                                                })
-                                                            }
-                                                        }
-                                                    });
-                                                    detail.selects = arr;
-                                                }
-                                                if (res.data.data2) {
-                                                    detail.slot = res.data.data2;
-                                                }
-                                            })
+
                                         }
 
                                     })
@@ -278,7 +258,33 @@ export default {
                 this.detailshow = true;
             },
             delivery(index) {
-                this.model = this.orderlist[index];
+                let model = this.orderlist[index];
+                let _this=this;
+                model.OrderDetails.forEach(function(detail) {
+                  Vue.http.get('/stock/GetStocksByIds?ids=' + detail.StockId+"&ordercode="+detail.OrderCode).then(function(res) {
+                      if (res.data.data.length) {
+                          let arr = [];
+                          res.data.data.forEach(function(item) {
+                              if (item.SlotCode && item.AreaCode && item.StoreCode) {
+                                  let count = item.StockCount - item.LockCount;
+                                  if (count) {
+                                      arr.push({
+                                          label: item.AreaCode + "-" + item.StoreCode + "-" + item.SlotCode + "  库存数:" + count,
+                                          value: item.Id.toString(),
+                                          count: count
+                                      })
+                                  }
+                              }
+                          });
+                          detail.selects = arr;
+                      }
+                      if (res.data.data2) {
+                          detail.slot = res.data.data2;
+                      }
+                      _this.model=model;
+                  })
+                })
+
                 this.deshow = true;
             }
     },

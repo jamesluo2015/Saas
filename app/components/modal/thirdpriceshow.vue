@@ -46,8 +46,7 @@ export default {
     },
     props: {
         show: {
-            type: Boolean,
-            default: false
+            type: Boolean
         },
         stockid: {
             require: true

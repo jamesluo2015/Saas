@@ -66,15 +66,6 @@ export default {
 
                 result.data.forEach(function(item) {
                     item.AddTime = DateFormat(item.AddTime)
-                        //异步获取年款和sku
-                    // Vue.http.get('/product/GetSuitCarAndSku?bmno=' + item.BmNo).then(function(response) {
-                    //         if (response.data.ok) {
-                    //             item.SuitCarList = response.data.data;
-                    //             item.SkuList = response.data.data2;
-                    //         }
-                    //     }, function(err) {
-                    //         console.log('获取适用性失败');
-                    //     })
                     //改为通过数据库查询
                      Vue.http.get('/product/GetSuitCar?bmno=' + item.BmNo).then(function(response) {
                        item.SuitCarList = response.data;
@@ -83,11 +74,12 @@ export default {
                        item.SkuList=item.Sku.split(',');
                      }
                         //获取已补充年款
-                    Vue.http.get('/product/GetSuit?bmno=' + item.BmNo).then(function(res) {
-                        if (res.data && res.data.length) {
-                            item.SupplementSuitcar = res.data;
-                        }
-                    });
+                        item.SupplementSuitcar=[];
+                    // Vue.http.get('/product/GetSuit?bmno=' + item.BmNo).then(function(res) {
+                    //     if (res.data && res.data.length) {
+                    //         item.SupplementSuitcar = res.data;
+                    //     }
+                    // });
                 })
                 this.list = result.data;
                 this.count = Math.ceil(result.count / this.pagesize);

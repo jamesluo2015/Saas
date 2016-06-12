@@ -198,6 +198,11 @@ export default {
                   let count = item.selects.filter(function(sel) {
                       return sel.value == s;
                   })[0].count;
+
+                  if(count>item.Quantity && length>1){
+                    layer.alert('您选择货位库存数与商品数量不符，请重新选择');
+                    return false;
+                  }
                   //库存数
                   let lockcount=0;
                   if(count>=prodcount){
@@ -222,6 +227,7 @@ export default {
                     layer.alert('您选择的货位总库存数小于商品数量');
                     return false;
                   }
+
                 }
             }
             model.DetailList = DetailList;

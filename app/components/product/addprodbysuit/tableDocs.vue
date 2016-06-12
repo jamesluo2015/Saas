@@ -79,7 +79,7 @@
         </div>
         <div class="col-md-12 mg_t30">
             <a href="#" v-if="item.isupdate" class="btn_red bg8 auto f16 w200 h40"
-            :class="{'disable':!item.DealerNo||(stype==1?!item.SalePrice:!item.InPrice)||!item.StockCount || isNaN(parseInt(item.StockCount)) ||isNaN(parseInt(item.SalePrice)) ||!model.Sku}"
+            :class="{'disable':!item.DealerNo || !item.SuitCarList.length ||(stype==1?!item.SalePrice:!item.InPrice)||!item.StockCount || isNaN(parseInt(item.StockCount)) ||isNaN(parseInt(item.SalePrice)) ||!model.Sku}"
             @click='save(index)'>保&nbsp;存</a>
             <a href="#" v-else class="btn_red bg8 auto f16 w200 h40" @click='item.isupdate=1'>修&nbsp;改</a>
         </div>
@@ -320,7 +320,7 @@ export default {
                 let _this = this;
                 let model = this.products[index];
                 //valid
-                if (!model.DealerNo || (this.stype == 1 ? !model.SalePrice : !model.InPrice) ||
+                if (!model.DealerNo || !model.SuitCarList.length || (this.stype == 1 ? !model.SalePrice : !model.InPrice) ||
                  !model.StockCount ||!model.Sku || isNaN(parseInt(model.StockCount)) ||isNaN(parseInt(model.SalePrice)) ) {
                     return false;
                 }

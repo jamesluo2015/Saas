@@ -215,7 +215,6 @@ export default {
             }
     },
     watch: {
-
             price(val) {
                 this.change(val);
             },
@@ -226,15 +225,15 @@ export default {
                 this.price = this.thirds[val].price;
             },
             stockid(val) {
-                if (val) {
+                if (val && this.show) {
                     this.getthirds();
                 }
             },
-            suitcars() {
+            show(val) {
                 let _this = this;
                 let arr = [];
                 let cids = [];
-                if (this.suitcars && this.suitcars.length) {
+                if (this.suitcars && this.suitcars.length && val) {
                     this.suitcars.forEach(function(car) {
 
                         cids.push(car.CarmodelId);

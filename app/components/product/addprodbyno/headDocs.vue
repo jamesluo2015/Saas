@@ -5,7 +5,7 @@
 <div class="col-md-12 pd_l0 mg_t20 clearfix pd_b20 select_dropdown bd_bD_d9">
     <label class="control-label pull-left f16 col_000 w140" for="input01">输入零件编号：</label>
     <textinfo width="160px !important;" :list="skulist" :value.sync="txtsku" placeholder=""></textinfo>
-    <button-docs :text="isquery?'查询中':'查&nbsp;询'" @click='query' class="mg_l30" :class="{'disable':!txtsku }"></button-docs>
+    <button-docs :text="isquery?'查询中':'查&nbsp;询'" @click='query' class="mg_l30" :state="!txtsku"></button-docs>
 </div>
 
 <div class="col-md-12 pd_l0 mg_t20 clearfix select_dropdown bd_bD_d9 pd_b20" v-if="isnosku">

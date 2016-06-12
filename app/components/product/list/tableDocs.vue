@@ -139,6 +139,13 @@ export default {
                       this.showthird = true;
                       break;
                   case 3:
+                      //获取已补充年款
+                      let item=this.list[index];
+                      Vue.http.get('/product/GetSuit?bmno=' + item.BmNo).then(function(res) {
+                          if (res.data && res.data.length) {
+                              item.SupplementSuitcar = res.data;
+                          }
+                      });
                       this.showyears = true;
                       break;
                   case 4:
