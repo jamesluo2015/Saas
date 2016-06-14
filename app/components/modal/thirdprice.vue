@@ -199,6 +199,7 @@ export default {
                         _this.tabs = [];
                         _this.thirds = [];
                     }
+                    _this.getlist();
                 })
             },
             change(price) {
@@ -298,8 +299,8 @@ export default {
                 }
             },
             show(val) {
-              if(val)
-              this.getlist();
+              // if(val)
+              //this.getlist();
             },
             // index(){
             //   this.getlist();

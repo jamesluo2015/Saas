@@ -38,7 +38,7 @@
                             <span class="pull-left">{{item.HouseName}}</span>
                         </td>
                         <td>{{item.HouseCode}}</td>
-                        <td>{{item.Address}}</td>
+                        <td>{{item.ProvinceName}}{{item.CityName}}{{item.AreaName}}{{item.Address}}</td>
                         <td v-if="item.HouseStatus==2">
                           <span class="col_d50707">已停用</span>
                           <a href="javascript:void(0)" class="saas_add mg_l10" @click="enable(item.Id,true,item)">开启</a>

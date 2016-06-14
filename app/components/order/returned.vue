@@ -21,7 +21,7 @@
             </div>
             <input placeholder="请输入关键字" class="add_input w160 pull-left form-control mg_l30" type="text" v-model='key'>
             <button-docs text="查&nbsp;询" @click='query' class='pull-left mg_l30'></button-docs>
-            <a href="/stock/main" class="btn_red bg8 f14 w100 h26 auto mg_b10 pull-left mg_l30">去入库</a>
+            <!-- <a href="/stock/main" class="btn_red bg8 f14 w100 h26 auto mg_b10 pull-left mg_l30">去入库</a> -->
         </div>
 
         <tab :data="tablist" :value.sync="state"></tab>

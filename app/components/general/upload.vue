@@ -35,19 +35,6 @@ export default {
             let upLoadurl = "http://filecloud.beimai.com/upload/pic"; //"/upsinglefile.ashx?";
 
             let jFile = $('#customfilename');
-            let folder = '/saas/';
-            // let param = {
-            //     ext: "jpg,gif,jpeg,png",
-            //     sz: 102400,
-            //     folder: encodeURIComponent(uploadParam.SaveFolder),
-            //     objname: "objAspNetUpload",
-            //     issmallimg: 1,
-            //     valstr: uploadParam.ValStr,
-            //     simg: uploadParam.SmallImgSizes
-            // }
-            // for (var item in param) {
-            //     upLoadurl += `${item}=${param[item]}&`;
-            // }
             var data = new FormData();
             data.append('fileName', jFile[0].files[0]);
             data.append('p', uploadParam.p);

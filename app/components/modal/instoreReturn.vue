@@ -2,7 +2,7 @@
 
 <template id="">
 
-<modal :show.sync="show" effect="fade" width="750px" title="退货单申请">
+<modal :show.sync="show" effect="fade" width="750px" title="退货单入库">
     <div slot="modal-body" class="modal-body ">
         <table class="table table2 table_bg mg_t10 pd_b20">
             <thead>

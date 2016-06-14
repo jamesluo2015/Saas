@@ -54,6 +54,7 @@ import {
     select as vSelect
 }
 from 'vue-strap'
+import getlabel from '../utils/getlabel.js'
 export default {
     components: {
         vSelect, modal
@@ -118,6 +119,9 @@ export default {
             }
             this.model.ProvinceId=this.province[0];
             this.model.CityId=this.city[0];
+            this.model.ProvinceName = getlabel(this.province[0],this.provinces);
+            this.model.CityName = getlabel(this.city[0],this.citys);
+            
             let _this=this;
             Vue.http.post('/stock/SaveHouse',  this.model).then(function(res){
               if(!_this.model.Id){

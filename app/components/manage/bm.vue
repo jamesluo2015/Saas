@@ -65,6 +65,7 @@
                         <td>
                             <!-- <a href="#" class="saas_edi mg_t10">编辑</a> -->
                             <a href="#" class="saas_del mg_t10" @click="del($index)">删除</a>
+                            <a href="#" class="saas_res mg_t10"  v-if="item.ProdStatus==2" @click="skushow($index,4)">查看原因</a>
                         </td>
                     </tr>
                 </tbody>
@@ -74,12 +75,12 @@
         <page-docs :count='count'></page-docs>
     </div>
 </div>
-
 <modalcar-docs title="查看年款" :list="modalist" :showmodal.sync="modalshow"></modalcar-docs>
 
 <supplement-sku :show.sync="showsku" :list="model.SkuList" :bmno="model.BmNo"></supplement-sku>
 <partsyearlist :show.sync="showyears" :list="model.SuitCarList" :bmno="model.BmNo" :showsupple="false"></partsyearlist>
 <thirdpriceshow :show.sync="showthirdprices" :stockid="model.StockId" :thirdid="1001"></thirdpriceshow>
+<content :show.sync="showcontent" title="审核未通过原因" :text="model.Remark"></content>
 </template>
 
 <script>
@@ -109,9 +110,11 @@ from '../utils/date'
 import supplementSku from '../modal/supplementSku.vue';
 import partsyearlist from '../modal/partsyearlist.vue';
 import thirdpriceshow from '../modal/thirdpriceshow.vue';
+
+import content from '../modal/content.vue'
 export default {
     components: {
-        vSelect, vOption, datepicker, buttonDocs, pageDocs, modalcarDocs, tab, nothing, supplementSku,partsyearlist,thirdpriceshow
+        vSelect, vOption, datepicker, buttonDocs, pageDocs, modalcarDocs, tab, nothing, supplementSku,partsyearlist,thirdpriceshow,content
     },
     data() {
         return {
@@ -152,6 +155,7 @@ export default {
             showsku: false,
             showyears: false,
             showthirdprices: false,
+            showcontent: false,
             // skuList:[],
             // bmno: "",
             pindex: -1
@@ -233,9 +237,13 @@ export default {
                     case 3:
                         this.showthirdprices=true;
                         break;
+                    case 4:
+                        this.showcontent=true;
+                        break;
                     default:
+                        break;
                 }
-            }
+            },
     },
     events: {
         'page': function(index) {

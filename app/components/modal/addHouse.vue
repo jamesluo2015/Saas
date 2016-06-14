@@ -60,6 +60,8 @@ import {
     select as vSelect
 }
 from 'vue-strap'
+import getlabel from '../utils/getlabel.js'
+
 export default {
     components: {
         vSelect, modal
@@ -136,7 +138,10 @@ export default {
                 let _this=this;
                 this.model.ProvinceId = this.province[0];
                 this.model.CityId = this.city[0];
-                this.model.ParentId=this.area[0];
+                this.model.ParentId = this.area[0];
+                this.model.ProvinceName = getlabel(this.province[0],this.provinces);
+                this.model.CityName = getlabel(this.city[0],this.citys);
+
                 let temp= _this.areas.filter(function(item){
                   return item.value==_this.area[0];
                 });

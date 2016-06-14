@@ -23,7 +23,7 @@
 
 import textinfo from '../../general/textinfo.vue'
 import buttonDocs from '../../general/buttonDocs.vue'
-import store from 'store'
+// import store from 'store'
 
 export default {
     components: {
@@ -55,7 +55,7 @@ export default {
                 }
 
                 _this.isnosku = false;
-                store.set('sku', _this.txtsku);
+                // store.set('sku', _this.txtsku);
                 Vue.http.get('/product/GetProdBySku?sku=' + _this.txtsku).then(function(res) {
                     if (res.data && res.data.BmNo > 0) {
                         //_this.model=res.data;

@@ -34,6 +34,8 @@
                             <a href="#" class="saas_add pull-left f12 mg_l0" @click="showModal(index,1)">查看</a>
                             <label class="control-label pull-left f12 w60 mg_l30" >适用年款：</label>
                             <a href="#" class="saas_add pull-left f12 mg_l0" @click="showModal(index,3)">查看</a>
+                            <label class="control-label pull-left f12 w60 mg_l30" v-if="item.SpecialNote">特殊说明：</label>
+                            <a href="#" class="saas_add pull-left f12 mg_l0" v-if="item.SpecialNote" @click="showModal(index,6)">查看</a>
                         </div>
                     </div>
                 </td>
@@ -50,7 +52,7 @@
                     <a href="#" class="saas_edi mg_t10" @click='update(item)'>编辑</a>
                     <a href="#" class="saas_del mg_t10" @click='remove($index)'>删除</a>
                     <a href="#" class="saas_cho mg_t10" v-if="item.ProdStatus==3" @click="showModal(index,2)">选择销售平台</a>
-                    <a href="#" class="saas_res mg_t10" v-if="item.ProdStatus==2" >查看原因</a>
+                    <a href="#" class="saas_res mg_t10" v-if="item.ProdStatus==2" @click="showModal(index,7)">查看原因</a>
                 </td>
             </tr>
         </tbody>
@@ -64,6 +66,8 @@
 <supplement-year v-ref:year :show.sync="showyear" :bmno="model.BmNo" :exists="exists"></supplement-year>
 
 <partsyearlist :show.sync="showyears" :list="model.SuitCarList" :bmno="model.BmNo"></partsyearlist>
+
+<content :show.sync="showcontent" :title="title" :text="content"></content>
 </template>
 
 <script>
@@ -76,9 +80,10 @@ import third from '../../modal/third.vue';
 import thirdprice from '../../modal/thirdprice.vue';
 import supplementYear from '../../modal/supplementYear.vue';
 import partsyearlist from '../../modal/partsyearlist.vue';
+import content from '../../modal/content.vue'
 export default {
     components: {
-        modalcarDocs,tab,nothing,supplementSku,third, thirdprice,supplementYear, partsyearlist
+        modalcarDocs,tab,nothing,supplementSku,third, thirdprice,supplementYear, partsyearlist,content
     },
     props: {
         list: {
@@ -95,6 +100,9 @@ export default {
             showyear: false,
             showyears: false,
             showthirdprice: false,
+            showcontent:false,
+            title: "",
+            content:"",
             pindex: -1
         }
     },
@@ -121,7 +129,6 @@ export default {
               }
 
               return arr;
-
             }
     },
     methods: {
@@ -153,6 +160,16 @@ export default {
                       break;
                   case 5:
                       this.showthirdprice=true;
+                      break;
+                  case 6:
+                      this.showcontent=true;
+                      this.title="商品特殊说明";
+                      this.content=this.list[index].SpecialNote;
+                      break;
+                  case 7:
+                      this.showcontent=true;
+                      this.title="审核未通过原因";
+                      this.content=this.list[index].Comment;
                       break;
               }
           },

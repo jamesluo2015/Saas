@@ -65,13 +65,14 @@
         <page-docs :count="count"></page-docs>
         <nothing v-if="!list.length"></nothing>
 
-        <modal :show.sync="showmodal" effect="fade" width="400px" title="开单备注">
+        <!-- <modal :show.sync="showmodal" effect="fade" width="400px" title="开单备注">
           <div slot="modal-body" class="modal-body">
             <p class="content">
-              {{content}}
+              {{content || '无'}}
             </p>
           </div>
-        </modal>
+        </modal> -->
+        <content :show.sync="showmodal" title="开单备注" :text="content"></content>
     </div>
 </div>
 
@@ -97,8 +98,9 @@ import pageDocs from '../general/pageDocs.vue'
 import nothing from '../general/nothing.vue'
 import {modal} from 'vue-strap'
 import outbydealerno from './outbydealerno.vue'
+import content from '../modal/content.vue'
 export default {
-    components: {vSelect,vOption,datepicker,buttonDocs,pageDocs,modal,outbydealerno,nothing},
+    components: {vSelect,vOption,datepicker,buttonDocs,pageDocs,modal,outbydealerno,nothing,content},
     data() {
         return {
           sdate: GetFormatDate(1),

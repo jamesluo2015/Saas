@@ -61,7 +61,7 @@
                         <li v-for="(imgindex,img) in model.Imglist">
                             <a href="javascript:void(0)">
                                 <img :src="img.ImgUrl" >
-                                <em @click="model.Imglist.splice(imgindex,1)"></em>
+                                <em @click="delimg(img,imgindex)"></em>
                             </a>
                         </li>
                         <li v-if="!model.Imglist||model.Imglist.length<5">
@@ -84,6 +84,7 @@
 <supplement-year v-ref:year :show.sync="showyear" :bmno="model.BmNo" :exists="exists"></supplement-year>
 <partsyearlist :show.sync="showyears" :list="model.SuitCarList" :bmno="model.BmNo"></partsyearlist>
 </template>
+
 <script>
 import {select as vSelect} from 'vue-strap';
 import upload from '../../general/upload.vue';
@@ -167,7 +168,23 @@ export default {
     },
     cancel(){
       this.$dispatch('cancel');
-    }
+    },
+    delimg(img, index) {
+        let _this=this;
+        layer.confirm('确认删除吗', {
+            btn: ['删除', '取消'] //按钮
+        }, function() {
+            Vue.http.post('/product/DeleteImg?id=' + img.Id).then(function(response) {
+                if (response.data) {
+                  _this.model.Imglist.splice(index,1)
+                  layer.msg('删除成功', {
+                      icon: 1,
+                      time: 800
+                  });
+                }
+            });
+        });
+    },
   }
 }
 </script>
