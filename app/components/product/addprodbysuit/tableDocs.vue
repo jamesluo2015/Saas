@@ -6,7 +6,7 @@
     <div class="pull-left mg_l30">
         <a href="#" class="saas_up_big">
             <img v-if="item.showimg" :src="item.showimg">
-            <img v-else src="../../../images/addimg.png">
+            <img v-else src="../../../images/addimg.png" class="imgs" :index="index">
         </a>
 
         <ul class="goods_img1 clearfix mg_t10">

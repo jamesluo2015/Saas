@@ -51,7 +51,7 @@
                             </div>
                         </div>
                     </td>
-                    <td width="20%">来源单号：{{detail.RoCode}}</td>
+                    <td width="20%">订单号：{{detail.SubOrderCode?detail.OrderCode+"-"+detail.SubOrderCode:detail.OrderCode}}</td>
                     <td width="10%">x{{detail.ReturnQuantity}}</td>
                     <td width="15%">单价：{{detail.SalePrice}}</td>
 
@@ -123,17 +123,20 @@ export default {
                 label: '制造商退货单号'
             }, {
                 value: '2',
-                label: '来源单号'
+                label: '订单号'
             }],
             type: [],
             tablist: [{
                 val: 0,
                 text: "全部退货单"
+            },{
+                val: 1,
+                text: "待收货"
             }, {
                 val: 2,
                 text: "待入库"
             }, {
-                val: 1,
+                val: 3,
                 text: "已入库"
             }],
             key: "",
@@ -190,7 +193,7 @@ export default {
                         item.Details.forEach(function(d){
                           d.SlotCode=[];
                           d.ProdType= 0;
-                          d.Quantity= d.ReturnQuantity;
+                          d.Quantity= 0;
                         })
                     })
                     _this.orderlist = res.data.data;

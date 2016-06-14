@@ -2,24 +2,28 @@
 
 <template id="">
 
-<modal :show.sync="show" effect="fade" width="750px" title="退货单入库">
+<modal :show.sync="show" effect="fade" width="800px" title="退货单入库">
     <div slot="modal-body" class="modal-body ">
         <table class="table table2 table_bg mg_t10 pd_b20">
             <thead>
                 <tr>
-                    <th width="16%">配件名称</th>
-                    <th width="16%">供应商编码</th>
-                    <th width="16%">订单号</th>
-                    <th width="11%">数量</th>
-                    <th width="20%">品相</th>
+                    <th width="15%">配件名称</th>
+                    <th width="8%">供应商编码</th>
+                    <th width="13%">订单号</th>
+                    <th width="12%">退货数量</th>
+                    <th width="8%">入库数量</th>
+                    <th width="19%">品相</th>
                     <th width="21%">货位</th>
                 </tr>
             </thead>
-            <tbody v-for="item in model.Details" v-if="model && model.Details.length">
+            <tbody v-for="item in model.Details" v-if="model && model.Details.length && item.InCount < item.ReturnQuantity">
                 <tr>
                     <td>{{item.ProdName}}</td>
                     <td>{{item.DealerProdNo}}</td>
                     <td>{{item.RoCode}}</td>
+                    <td>
+                        {{item.ReturnQuantity}}(已入库{{item.InCount}})
+                    </td>
                     <td>
                         <input type="text" v-model="item.Quantity" class="add_input w40 pull-left form-control" />
                     </td>
@@ -37,7 +41,7 @@
                 </tr>
             </tbody>
         </table>
-        <a href="#" class="btn_red bg8 mg_t50 mg_b30 auto w120 h26" @click="commit">确定入库</a>
+        <a href="#" class="btn_red bg8 mg_t50 mg_b30 auto w120 h26" :class='{disable: valid}' @click="commit">确定入库</a>
     </div>
 </modal>
 
@@ -81,24 +85,33 @@ export default {
     },
     methods: {
         commit() {
+          if(this.valid){
+            return false;
+          }
             let _this = this;
             let arr = [];
+            let details=[];
             for (var n = 0; n < this.model.Details.length; n++) {
                 let item = this.model.Details[n];
                 if (!item.Quantity || !item.SlotCode.length) {
-                    layer.alert('请正确添加数量和货位信息', {
-                        icon: 5
-                    });
-                    return false;
+                    // layer.alert('请正确添加数量和货位信息', {
+                    //     icon: 5
+                    // });
+                    // return false;
+                    continue;
                 }
+                item.InCount+=parseInt(item.Quantity);
+                _this.model.InCount+=parseInt(item.Quantity);
+                details.push(item);
                 let model = {
                         StockCount: item.Quantity,
                         StockId: item.StockId,
                         ProdType: item.ProdType,
                         ProdBrandId: item.ProdBrandId || 0,
-
+                        InCount: item.Quantity
                         //SlotCode: this.slot[0]
                     }
+
                     //获取库区名称和code
                 let slot = item.SlotCode[0];
                 for (var i = 0; i < this.selectlist.length; i++) {
@@ -135,21 +148,26 @@ export default {
             }).then(function(res) {
                 // _this.$dispatch('instoreReturn', res.data)
                 _this.show = false;
-                if (res.data.length) {
-                    layer.alert("入库失败,以下实物ID的商品不存在:<br/>" + res.data.join(','));
-                } else {
-                    Vue.http.post('/order/Receiving', {
-                        model: _this.model
-                    }).then(function(res) {
-                        if (res.data.length) {
-                            _this.model.RoStatus = 3;
-                            layer.msg('入库完成', {
-                                icon: 1,
-                                time: 800
-                            });
-                        }
-                    })
-                }
+                // if (res.data.length) {
+                //     layer.alert("入库失败,以下实物ID的商品不存在:<br/>" + res.data.join(','));
+                // } else {
+                  if(_this.model.InCount==_this.model.Quantity){
+                    _this.model.RoStatus = 3;
+                  }
+                  Vue.http.post('/order/SaveReturnDetails',{list:details}).then(function(res){
+
+                  })
+                  Vue.http.post('/order/Receiving', {
+                      model: _this.model
+                  }).then(function(res) {
+                      if (res.data.length) {
+                          layer.msg('入库成功', {
+                              icon: 1,
+                              time: 800
+                          });
+                      }
+                  })
+                // }
             })
         }
     },
@@ -160,6 +178,11 @@ export default {
         })
     },
     computed: {
+      valid(){
+        return this.model.Details.every(function(item){
+          return item.Quantity>(item.ReturnQuantity-item.InCount) || isNaN(parseInt(item.Quantity)) || !item.SlotCode.length;
+        })
+      },
         slotcodelist() {
             let arr = [];
             let _this = this;

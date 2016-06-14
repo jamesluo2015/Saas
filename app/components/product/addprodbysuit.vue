@@ -79,30 +79,35 @@ export default {
             }))
             _this.standardlist = arr;
             _this.$children[6].standardlist = arr;
+
+            //读取store
+            let param = store.get('param');
+            if (param && param.length) {
+                _this.standardname = [param[0]];
+                _this.factory = [param[1]];
+
+                setTimeout(function() {
+                    _this.carmodel = [param[2]];
+
+                    if (param[3] != "0") {
+                        setTimeout(function() {
+                            _this.partsyear = [param[3]];
+                            //用来判断是否默认加载完成
+                            _this.isstore=true;
+                        }, 500)
+                    }else{
+                      _this.isstore=true;
+                    }
+                }, 500)
+            }else if(_this.standardlist.length==1){
+              //当授权只有一种品类时，当前品类选择框默认显示授权品类
+              _this.standardname=[_this.standardlist[0].value];
+            }
         }, function(response) {
             console.log('没有标准名称');
         });
 
-        //读取store
-        let param = store.get('param');
-        if (param.length) {
-            _this.standardname = [param[0]];
-            _this.factory = [param[1]];
 
-            setTimeout(function() {
-                _this.carmodel = [param[2]];
-
-                if (param[3] != "0") {
-                    setTimeout(function() {
-                        _this.partsyear = [param[3]];
-                        //用来判断是否默认加载完成
-                        _this.isstore=true;
-                    }, 500)
-                }else{
-                  _this.isstore=true;
-                }
-            }, 500)
-        }
     },
     computed: {
         valid: function() {

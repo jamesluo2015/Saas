@@ -59,7 +59,7 @@
                     <tr>
                         <td>{{house.HouseName}}</td>
                         <td>{{house.HouseCode}}</td>
-                        <td>{{house.Address}}</td>
+                        <td>{{house.ProvinceName}}{{house.CityName}}{{house.AreaName}}{{house.Address}}</td>
                         <td v-if="house.HouseStatus==2">
                           <span class="col_d50707">已停用</span>
                           <a href="javascript:void(0)" v-if="item.HouseStatus==0" class="saas_add mg_l10" @click="enable(house.Id,true,house)">开启</a>

@@ -24,7 +24,7 @@
         <div class="col-md-12 pd_l0 mg_t20 clearfix select_dropdown">
             <label class="control-label pull-left">适用年款：</label>
             <a href="#" class="mg_l10" @click="showyears=true">查看年款</a>
-            <a href="#" class="saas_add" @click="showyear=true">+补充年款</a>
+            <!-- <a href="#" class="saas_add" @click="showyear=true">+补充年款</a> -->
         </div>
 
         <div class="col-md-12 pd_l0 mg_t20 clearfix select_dropdown">

@@ -18,7 +18,7 @@
       <button-docs text="查&nbsp;询" @click='query' class='pull-left mg_l30'></button-docs>
       <a href="#" class="red_btn f14 w100 h26 pull-left mg_l30" @click="exportExcel">导出退货单明细</a>
   </div>
-  <table class="table table2 table_bg mg_t2" v-if="orderlist.length">
+  <!-- <table class="table table2 table_bg mg_t2" v-if="orderlist.length">
       <thead>
           <tr>
               <th width="12%">订单号</th>
@@ -28,7 +28,6 @@
               <th width="10%">商品数量</th>
               <th width="10%">商品金额</th>
               <th width="8%" v-if="stype==1">佣金</th>
-              <!-- <th width="10%">付款方式</th> -->
               <th width="11%">下单时间</th>
           </tr>
       </thead>
@@ -42,8 +41,48 @@
               <td>{{item.ReturnQuantity}}</td>
               <td><em class="fS col_ee4145 f16">{{item.SalePrice}}</em> </td>
               <td v-if="stype==1"><span class="col_5ca50a">{{(item.DealerRatio||0.1)*100}}%<br>{{item.DealerRebate}}</span></td>
-              <!-- <td>{{item.Memo}}</td> -->
               <td><span class="col_767676">{{item.AddTime}}</span></td>
+          </tr>
+      </tbody>
+  </table> -->
+
+  <table class="table table2 table_bg mg_t2 table3" v-for="item in orderlist">
+      <thead>
+          <tr>
+              <th colspan="6" class="lineH30">
+                  <span class="pull-left">{{item.AddTime}}</span>
+                  <span class="mg_l40 col_010101 pull-left">制造商退货单号：{{item.DealerRoCode}}</span>
+              </th>
+          </tr>
+          <tr>
+              <td width="30%">配件信息</td>
+              <td width="20%">订单号</td>
+              <td width="11%">数量</td>
+              <td width="13%">销售单价</td>
+              <td width="13%"  v-if="stype==1">佣金</td>
+          </tr>
+      </thead>
+      <tbody>
+          <tr v-for="(index,detail) in item.Details">
+              <td class="poR" width="30%">
+                  <img v-if="detail.SmallPic" :src="detail.SmallPic" class="saas_table_img">
+                  <img v-else src="../../images/noimg.png" class="saas_table_img">
+
+                  <div class="table_detail">
+                      <div class="clearfix">
+                          <span class="pull-left col_010101">{{detail.ProdBrandName}} {{detail.ProdName}}</span>
+                      </div>
+                      <div class="col-md-12 pd_l0 mg_t10 clearfix select_dropdown poR">
+                          <p class="col_767676 mg_b0">实物ID：{{detail.StockId}}</p>
+                          <p class="col_767676">供应商编码：{{detail.DealerProdNo}}</p>
+                      </div>
+                  </div>
+              </td>
+              <td width="20%">{{detail.SubOrderCode?detail.OrderCode+"-"+detail.SubOrderCode:detail.OrderCode}}</td>
+              <td width="10%">{{detail.ReturnQuantity}}</td>
+              <td width="15%" >{{detail.SalePrice}}</td>
+
+              <td v-if="stype==1"><span class="col_5ca50a">{{detail.DealerRatio}}<br>{{detail.DealerRebate}}</span></td>
           </tr>
       </tbody>
   </table>
@@ -91,10 +130,13 @@ export default{
           pageindex: _this.pageindex,
           sdate: _this.sdate,
           edate:_this.edate,
-          order: _this.key,
+          state: 0,
+          type: 2,
+          key: _this.key,
       };
+
       var loading=layer.load();
-      Vue.http.get('/finance/GetPastOrders', param).then(function(res) {
+      Vue.http.get('/order/GetReturnOrders', param).then(function(res) {
         _this.orderlist=[];
         _this.count=1;
         layer.close(loading);

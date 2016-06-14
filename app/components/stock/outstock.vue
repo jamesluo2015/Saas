@@ -161,6 +161,9 @@ export default {
       'page':function(index){
         this.pageindex=index;
         this.query();
+        $('.container-fluid').animate({
+            scrollTop: '0px'
+        });
       },
     }
 }
