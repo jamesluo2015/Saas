@@ -190,6 +190,7 @@ export default {
                     res.data.data.forEach(function(item) {
                         //时间转换
                         item.AddTime = DateFormat(item.AddTime,1);
+                        item.SendTime = DateFormat(item.SendTime,1);
                         item.Details.forEach(function(d){
                           d.SlotCode=[];
                           d.ProdType= 0;

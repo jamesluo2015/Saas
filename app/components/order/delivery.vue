@@ -48,6 +48,8 @@
                             <span class="pull-left mg_t20 mg_l10">{{detail.ProdName}}</span>
                             <span class="pull-left mg_t20 mg_l40">x{{detail.Quantity}}</span>
                             <em class="pull-left mg_t20 col_b5 fS mg_l40">|</em>
+                            <span class="pull-left mg_t20 mg_l40">供应商编码：{{detail.DealerProdNo}}</span>
+                            <em class="pull-left mg_t20 col_b5 fS mg_l40">|</em>
                             <div class=" pd_l0 mg_t20 clearfix select_dropdown pull-left w250">
                                 <label class="control-label pull-left f12 lineH20">选择库位：</label>
                                 <v-select :value.sync="detail.slot" width="w300" placeholder="请选择库存" multiple :options="detail.selects"></v-select>
@@ -166,10 +168,8 @@ export default {
             let DetailList = [];
             let LockList = [];
 
-
-
-            for (var i = 0; i < this.model.OrderDetails.length; i++) {
-              let item =  this.model.OrderDetails[i]
+            for (var j = 0; j < this.model.OrderDetails.length; j++) {
+              let item =  this.model.OrderDetails[j]
 
                 let temp = {
                     StockId: item.StockId,
@@ -193,8 +193,8 @@ export default {
                 })
                 let length=item.slot.length;
                 let prodcount=item.Quantity;
-                for (var i = 0; i < length; i++) {
-                  let s=item.slot[i]
+                for (var k = 0; k < length; k++) {
+                  let s=item.slot[k]
                   let count = item.selects.filter(function(sel) {
                       return sel.value == s;
                   })[0].count;
@@ -209,7 +209,7 @@ export default {
                     lockcount=prodcount;
                     prodcount=0;
 
-                    if(length>(i+1)){
+                    if(length>(k+1)){
                       layer.alert('您选择货位库存数与商品数量不符，请重新选择');
                       return false;
                     }
@@ -223,7 +223,7 @@ export default {
                   }
                   LockList.push(lock);
 
-                  if(length==(i+1) && prodcount){
+                  if(length==(k+1) && prodcount){
                     layer.alert('您选择的货位总库存数小于商品数量');
                     return false;
                   }

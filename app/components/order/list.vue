@@ -91,7 +91,7 @@
                             <a href="#" class="saas_add mg_l0" @click="showdetail(index)">查看详情</a>
                         </td>
                         <td width="15%" class="t-c" v-if="item.OrderStatus<=2&&item.OrderStatus>=0&&!dindex" :rowspan="item.OrderDetails.length*2">
-                            <span class="f12 col_999999">还剩{{item.Remaintime}}</span>
+                            <span class="f12 col_999999">{{item.Remaintime}}</span>
                             <a href="#" class="btn_red bg8 f14 w100 h26 auto mg_b10" @click="delivery(index)">去发货</a>
                             <a href="#" class="saas_add mg_l0" @click="showdetail(index)">查看详情</a>
                         </td>
