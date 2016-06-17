@@ -18,33 +18,6 @@
       <button-docs text="查&nbsp;询" @click='query' class='pull-left mg_l30'></button-docs>
       <a href="#" class="red_btn f14 w100 h26 pull-left mg_l30" @click="exportExcel">导出退货单明细</a>
   </div>
-  <!-- <table class="table table2 table_bg mg_t2" v-if="orderlist.length">
-      <thead>
-          <tr>
-              <th width="12%">订单号</th>
-              <th width="12%">退货单号</th>
-              <th width="12%">供应商编码</th>
-              <th width="15%">配件名称</th>
-              <th width="10%">商品数量</th>
-              <th width="10%">商品金额</th>
-              <th width="8%" v-if="stype==1">佣金</th>
-              <th width="11%">下单时间</th>
-          </tr>
-      </thead>
-
-      <tbody v-for="item in orderlist">
-          <tr>
-              <td>{{item.OrderCode}}</td>
-              <td>{{item.RoCode}}</td>
-              <td>{{item.DealerNo}}</td>
-              <td>{{(item.FactoryName||"")+" "+(item.CarModelName||"")+" "+(CarYearName||"")}} {{item.ProdName}}</td>
-              <td>{{item.ReturnQuantity}}</td>
-              <td><em class="fS col_ee4145 f16">{{item.SalePrice}}</em> </td>
-              <td v-if="stype==1"><span class="col_5ca50a">{{(item.DealerRatio||0.1)*100}}%<br>{{item.DealerRebate}}</span></td>
-              <td><span class="col_767676">{{item.AddTime}}</span></td>
-          </tr>
-      </tbody>
-  </table> -->
 
   <table class="table table2 table_bg mg_t2 table3" v-for="item in orderlist">
       <thead>
@@ -59,7 +32,7 @@
               <td width="20%">订单号</td>
               <td width="11%">数量</td>
               <td width="13%">销售单价</td>
-              <td width="13%"  v-if="stype==1">佣金</td>
+              <td width="13%" v-if="item.Details[0].SettleType==2">进价</td>
           </tr>
       </thead>
       <tbody>
@@ -80,9 +53,9 @@
               </td>
               <td width="20%">{{detail.SubOrderCode?detail.OrderCode+"-"+detail.SubOrderCode:detail.OrderCode}}</td>
               <td width="10%">{{detail.ReturnQuantity}}</td>
-              <td width="15%" >{{detail.SalePrice}}</td>
-
-              <td v-if="stype==1"><span class="col_5ca50a">{{detail.DealerRatio}}<br>{{detail.DealerRebate}}</span></td>
+              <td width="15%" >{{detail.SalePrice}}<span class="col_5ca50a" v-if="detail.SettleType==1">(佣金比:{{(detail.DealerRatio||0.1)*100}}%)</span></td>
+              <td v-if="detail.SettleType==2">{{detail.InPrice}}</td>
+              <!-- <td v-if="stype==1"><span class="col_5ca50a">{{detail.DealerRatio}}<br>{{detail.DealerRebate}}</span></td> -->
           </tr>
       </tbody>
   </table>
@@ -157,7 +130,7 @@ export default{
       })
     },
     exportExcel(){
-      window.location.href=`/finance/ExportOrders?isreturn=false&sdate=${this.sdate}&edate=${this.edate}&order=${this.key}`;
+      window.location.href=`/finance/ExportPast?sdate=${this.sdate}&edate=${this.edate}&state=0&type=2&key=${this.key}`;
     }
   },
   events:{

@@ -111,7 +111,11 @@
                     <span>商品总金额：</span>
                     <span class="col_ed5521">￥</span><em class="fB fS col_ed5521 f18 mg_r50">{{model.ProductAmount}}</em>
                 </div>
-                <a href="#" class="btn_red bg8 f14 w120 h30 auto mg_t20 mg_b20" @click="show=false">返回</a>
+                <div class="text-center">
+                  <a href="#" class="btn_red bg8 f14 w120 h30  mg_t20 mg_b20 in-block" @click="delivery">去发货</a>
+                  <a href="#" class="btn_green bg8 f14 w120 h30  mg_l20 mg_t20 mg_b20 in-block" @click="show=false">返回</a>
+                </div>
+
 </template>
 </template>
 
@@ -133,7 +137,10 @@ export default {
         }
     },
     methods: {
-
+      delivery(){
+        this.show=false;
+        this.$dispatch('todelivery', 0)
+      }
     },
     computed:{
       step(){

@@ -109,6 +109,7 @@ export default {
                         ProdType: item.ProdType,
                         ProdBrandId: item.ProdBrandId || 0,
                         InCount: item.Quantity
+
                         //SlotCode: this.slot[0]
                     }
 
@@ -118,6 +119,7 @@ export default {
                     let item = this.selectlist[i]
                     if (item.value == slot && item.level == 3) {
                         model.SlotCode = item.label;
+                        model.SlotId=item.value;
                         model.StoreId = item.pid;
 
                         for (var i = 0; i < this.selectlist.length; i++) {
@@ -151,7 +153,7 @@ export default {
                 // if (res.data.length) {
                 //     layer.alert("入库失败,以下实物ID的商品不存在:<br/>" + res.data.join(','));
                 // } else {
-                  if(_this.model.InCount==_this.model.Quantity){
+                  if(_this.model.InCount>=_this.model.Quantity){
                     _this.model.RoStatus = 3;
                   }
                   Vue.http.post('/order/SaveReturnDetails',{list:details}).then(function(res){
@@ -179,9 +181,22 @@ export default {
     },
     computed: {
       valid(){
-        return this.model.Details.every(function(item){
-          return item.Quantity>(item.ReturnQuantity-item.InCount) || isNaN(parseInt(item.Quantity)) || !item.SlotCode.length;
+        let result=false;
+        let count=0;
+         this.model.Details.forEach(function(item){
+           if(item.ReturnQuantity>item.InCount){
+             if(item.Quantity>0){
+               count+=item.Quantity;
+               if(item.Quantity>(item.ReturnQuantity-item.InCount) || isNaN(parseInt(item.Quantity)) || !item.SlotCode.length){
+                 result=true;
+               }
+             }
+           }
         })
+        if(!count){
+          result=true;
+        }
+        return result;
       },
         slotcodelist() {
             let arr = [];

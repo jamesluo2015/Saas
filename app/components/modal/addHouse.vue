@@ -141,6 +141,7 @@ export default {
                 this.model.ParentId = this.area[0];
                 this.model.ProvinceName = getlabel(this.province[0],this.provinces);
                 this.model.CityName = getlabel(this.city[0],this.citys);
+                
 
                 let temp= _this.areas.filter(function(item){
                   return item.value==_this.area[0];

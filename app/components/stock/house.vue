@@ -254,7 +254,8 @@ export default {
     },
     events:{
       'addarea':function(model){
-        this.list.splice(0,0,model);
+        model.StockHouses=[];
+        this.list.splice(0,0,JSON.parse(JSON.stringify(model)));
         this.areas.push({
           label: model.HouseName,
           value: model.Id.toString()
@@ -267,7 +268,7 @@ export default {
         for (var i = 0; i < _this.list.length; i++) {
           let item=_this.list[i];
           if(item.Id==id){
-            item.StockHouses.push(model);
+            item.StockHouses.push(JSON.parse(JSON.stringify(model)));
             break;
           }
         }

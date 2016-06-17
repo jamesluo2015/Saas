@@ -90,20 +90,8 @@ export default {
     },
     data() {
         return {
-            tabs: ["北迈", "京东", "天猫"],
-            thirds: [{
-                id: "1001",
-                name: "北迈",
-                price: 0,
-            }, {
-                id: "1002",
-                name: "京东",
-                price: 0,
-            }, {
-                id: "1003",
-                name: "天猫",
-                price: 0,
-            }],
+            tabs: [],
+            thirds: [],
             pricetype: 1,
             price: "",
             index: 0,
@@ -224,7 +212,7 @@ export default {
               let _this = this;
               let arr = [];
               let cids = [];
-              let thirdid=_this.thirds[_this.index].id;
+              let thirdid=_this.thirds.length?_this.thirds[_this.index].id:0;
 
               if (this.suitcars && this.suitcars.length && this.show) {
                   this.suitcars.filter(function(item){
@@ -293,12 +281,15 @@ export default {
             index(val) {
                 this.price = this.thirds[val].price;
             },
-            stockid(val) {
-                if (val && this.show) {
-                    this.getthirds();
-                }
-            },
+            // stockid(val) {
+            //     if (val && this.show) {
+            //         this.getthirds();
+            //     }
+            // },
             show(val) {
+              if (this.stockid && this.show) {
+                  this.getthirds();
+              }
               // if(val)
               //this.getlist();
             },

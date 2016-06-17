@@ -34,20 +34,19 @@
               <td width="20%">供应商编码</td>
               <td width="11%">数量</td>
               <td width="13%">销售单价</td>
-              <td width="13%"  v-if="stype==1">佣金</td>
+              <td width="13%" v-if="item.SettleType==2">进价</td>
               <td width="13%" class="t-c">运费</td>
           </tr>
       </thead>
       <tbody >
         <template v-for="(dindex,detail) in item.OrderDetails">
-
           <tr v-if="!dindex">
             <tr>
                 <td>{{(detail.FactoryName||"")+" "+(detail.CarModelName||"")+" "+(detail.CarYearName||"")}} {{detail.ProdName}}</td>
                 <td>{{detail.DealerNo}}</td>
                 <td>{{detail.Quantity}}</td>
-                <td><em class="fS col_ee4145 f16">{{detail.SalePrice}}</em></td>
-                <td v-if="stype==1"><span class="col_5ca50a" >{{(detail.DealerRatio||0.1)*100}}%<br>{{detail.DealerRebate}}</span></td>
+                <td><em class="fS col_ee4145 f16">{{detail.SalePrice}}<span class="col_5ca50a" v-if="item.SettleType==1">(佣金比:{{(detail.DealerRatio||0.1)*100}}%)</span></em></td>
+                <td v-if="item.SettleType==2">{{detail.InPrice}}</span></td>
                 <td v-if="!dindex" rowspan="2" class="t-c">{{item.Freight}}</td>
             </tr>
           </tr>

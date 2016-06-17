@@ -30,7 +30,7 @@
                 <tbody v-for="(index,item) in list">
                     <tr>
                         <td>{{item.SlotCode}}</td>
-                        <td>2</td>
+                        <td>{{countlist[index]}}</td>
                         <td>{{item.AreaCode}}-{{item.StoreCode}}-{{item.SlotCode}}号货位</td>
                         <td>
                             <a href="javascript:void(0)" class="bianji mg_r30" @click="edit(index)">编辑</a>
@@ -103,6 +103,7 @@ export default {
             // slots: [],
             // slot: [],
             list: [],
+            countlist: [],
             model: {},
             ModalShow: false,
             pageindex: 1,
@@ -236,9 +237,11 @@ export default {
                 Vue.http.get('/stock/GetSlot', param).then(function(res) {
                     if (res.data.ok) {
                         _this.list = res.data.data;
+                        _this.countlist= res.data.data2;
                         _this.count = Math.ceil(res.data.count / _this.pagesize);
                     } else {
                         _this.list = [];
+                        _this.countlist=[];
                         _this.count = 0;
                     }
                 })

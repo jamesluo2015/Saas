@@ -95,20 +95,8 @@ export default {
     },
     data() {
         return {
-            tabs: ["北迈", "京东", "天猫"],
-            thirds: [{
-                id: "1001",
-                name: "北迈",
-                price: 0,
-            }, {
-                id: "1002",
-                name: "京东",
-                price: 0,
-            }, {
-                id: "1003",
-                name: "天猫",
-                price: 0,
-            }],
+            tabs: [],
+            thirds: [],
             pricetype: 1,
             price: "",
             index: 0,
@@ -224,12 +212,13 @@ export default {
             index(val) {
                 this.price = this.thirds[val].price;
             },
-            stockid(val) {
-                if (val && this.show) {
-                    this.getthirds();
-                }
-            },
+            // stockid(val) {
+            //     if (val && this.show) {
+            //
+            //     }
+            // },
             show(val) {
+              this.getthirds();
                 let _this = this;
                 let arr = [];
                 let cids = [];

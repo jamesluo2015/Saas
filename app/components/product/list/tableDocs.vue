@@ -2,18 +2,19 @@
 
 <template>
 
-<div class="col-md-12 pd_l0 pd_r0 mg_r0" >
+<div class="col-md-12 pd_l0 pd_r0 mg_r0" v-show="!isupdate">
     <tab :data="tablist" :value="0" ></tab>
     <table class="table table2 table_bg mg_t2" v-if="list.length">
         <thead>
-            <tr>
-                <th width="45%">产品信息</th>
-                <th width="10%">{{stype==1?"销售价":"进货价"}}</th>
-                <th width="12%">电商销售价格</th>
-                <th width="10%">状态</th>
-                <th width="10%">添加时间</th>
-                <th width="13%">操作</th>
-            </tr>
+                <tr>
+                    <th width="37%">产品信息</th>
+                    <th width="10%">进货价</th>
+                    <th width="10%" v-if="stype==1">销售价</th>
+                    <th width="10%">电商销售价格</th>
+                    <th width="10%">状态</th>
+                    <th width="10%">添加时间</th>
+                    <th width="13%">操作</th>
+                </tr>
         </thead>
         <tbody v-for="(index,item) in list">
             <tr>
@@ -39,7 +40,8 @@
                         </div>
                     </div>
                 </td>
-                <td><span class="col_ed5521">￥</span><em class="fB fS col_ed5521 f18">{{item.SalePrice}}</em> </td>
+                <td><span class="col_ed5521">￥</span><em class="fB fS col_ed5521 f18">{{item.InPrice}}</em> </td>
+                <td v-if="stype==1"><span class="col_ed5521">￥</span><em class="fB fS col_ed5521 f18">{{item.SalePrice}}</em> </td>
                 <td><a href="#" class="saas_add mYH14 mg_l0" @click="showModal(index,5)">查看</a></td>
                 <td>
                   <span v-if="item.ProdStatus<=1" class="col_000">待审核</span>
@@ -49,8 +51,8 @@
                 </td>
                 <td><span class="f12 col_010101">{{item.AddTime}}</span></td>
                 <td>
-                    <a href="#" class="saas_edi mg_t10" @click='update(item)'>编辑</a>
-                    <a href="#" class="saas_del mg_t10" @click='remove($index)'>删除</a>
+                    <a href="#" class="saas_edi mg_t10" @click='update(index)'>编辑</a>
+                    <a href="#" class="saas_del mg_t10" @click='remove(index)'>删除</a>
                     <a href="#" class="saas_cho mg_t10" v-if="item.ProdStatus==3" @click="showModal(index,2)">选择销售平台</a>
                     <a href="#" class="saas_res mg_t10" v-if="item.ProdStatus==2" @click="showModal(index,7)">查看原因</a>
                 </td>
@@ -59,6 +61,7 @@
 
     <nothing v-if="!list.length"></nothing>
 </div>
+
 <third :show.sync="showthird" :suitcars="model.SuitCarList" :stockid="model.StockId" :inprice="model.InPrice"></third>
 <thirdprice :show.sync="showthirdprice" :stockid="model.StockId"></thirdprice>
 <supplement-sku :show.sync="showsku" :list="model.SkuList" :bmno="model.BmNo"></supplement-sku>
@@ -132,9 +135,10 @@ export default {
             }
     },
     methods: {
-          update(model) {
+          update(index) {
               //派发事件
-              this.$dispatch('update', model)
+              this.pindex = index;
+              this.$dispatch('update', index)
           },
           showModal(index, type) {
               this.pindex = index;

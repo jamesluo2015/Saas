@@ -109,7 +109,7 @@ export default {
                     ProdType: this.type,
                     AreaId: this.area[0],
                     StoreId: this.house[0],
-                    //SlotCode: this.slot[0]
+                    SlotId: this.slot[0]
                 }
                 //获取库区名称和code
                 let slotid=this.slot[0];

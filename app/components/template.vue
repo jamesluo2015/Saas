@@ -1,19 +1,20 @@
-<template>
+<template lang="html">
 
 </template>
-<script>
-import headDocs from './app2/headDocs.vue'
-export default {
-  components: { headDocs },
-  data(){
-     return {
-       param:{}
-     }
-  },
-  methods: {
-    query(){
 
+<script>
+export default {
+  data: function () {
+    return {
     }
-  }
+  },
+  computed: {},
+  ready: function () {},
+  attached: function () {},
+  methods: {},
+  components: {}
 }
 </script>
+
+<style lang="css">
+</style>

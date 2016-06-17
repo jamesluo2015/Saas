@@ -27,13 +27,13 @@
     <div class="col-md-8">
         <div class="bd_bd9 h40 lineH40 clearfix">
             <span class="f16 col_77b530 pull-left mg_l30">{{item.StandardName}}</span>
-            <span class="col_767676 pull-left mg-l40">零件编号：
-              <a v-if="item.BmNo" href="javascript:void(0)" class="saas_add mg_l0" @click="showModal(index,1)">查看</a>
-              <input v-else placeholder="" v-model="item.Sku" type="text" class="add_input w160 ">
-            </span>
-            <span class="col_767676 pull-right mg_r70">适用年款：
+            <span class="col_767676 pull-right">适用年款：
               <a v-if="item.BmNo" href="javascript:void(0)" class="saas_add mg_l0" @click="showModal(index,3)" >查看</a>
               <a v-else href="javascript:void(0)" class="saas_add mg_l0" @click="showModal(index,4)" >+添加</a>
+            </span>
+            <span class="col_767676 pull-right mg_r70">零件编号：
+              <a v-if="item.BmNo" href="javascript:void(0)" class="saas_add mg_l0" @click="showModal(index,1)">查看</a>
+              <input v-else placeholder="" v-model="item.Sku" type="text" class="add_input w160 ">
             </span>
         </div>
         <div class="row">
@@ -57,17 +57,26 @@
                 <input v-if="item.isupdate" placeholder="" v-model="item.DealerNo" type="text" class="add_input w160 form-control pull-left">
                 <span v-else class="pull-left fN mg_t2 mg_l5">{{item.DealerNo}}</span>
             </div>
+            <div class="pd_l0 mg_t20 clearfix select_dropdown pull-left w300 poR" v-if='stype==1'>
+                <label class="control-label pull-left"><em v-if="item.isupdate" class="col_fb2727 mg_r5">*</em>进货价：</label>
+                <input v-if="item.isupdate" placeholder="" @focus="showtips(index,0)" type="text" v-model="item.InPrice" :class="'inprice'+index" class="add_input w160 pull-left form-control">
+                <label v-if="item.isupdate" class="pull-left fN mg_t2 mg_l5">元</label>
+                <label v-else class="pull-left fN mg_t2 mg_l5">{{item.InPrice}}元</label>
+                <!-- <div class="price_tip">
+                    此价格是给北迈网批量采购的价格
+                </div> -->
+            </div>
             <div class="cl"></div>
             <!--1、返利  2、差价-->
             <div class="pd_l0 mg_t10 clearfix select_dropdown pull-left w300" v-if='stype==1'>
                 <label class="control-label pull-left"><em v-if="item.isupdate" class="col_fb2727 mg_r5">*</em>销售价：</label>
-                <input v-if="item.isupdate" placeholder="" type="text" v-model="item.SalePrice" number class="add_input w160 pull-left form-control">
+                <input v-if="item.isupdate" @focus="showtips(index,1)" :class="'saleprice'+index" placeholder="" type="text" v-model="item.SalePrice" number class="add_input w160 pull-left form-control">
                 <label v-if="item.isupdate" class="pull-left fN mg_t2 mg_l5">元</label>
                 <label v-else class="pull-left fN mg_t2 mg_l5">{{item.SalePrice}}元</label>
             </div>
             <div class="pd_l0 mg_t10 clearfix select_dropdown pull-left w300" v-else>
                 <label class="control-label pull-left"><em v-if="item.isupdate" class="col_fb2727 mg_r5">*</em>进货价：</label>
-                <input v-if="item.isupdate" placeholder="" type="text" v-model="item.InPrice" number class="add_input w160 pull-left form-control">
+                <input v-if="item.isupdate" placeholder="" @focus="showtips(index,0)" type="text" v-model="item.InPrice" number  :class="'inprice'+index"  class="add_input w160 pull-left form-control">
                 <label v-if="item.isupdate" class="pull-left fN mg_t2 mg_l5">元</label>
                 <label v-else class="pull-left fN mg_t2 mg_l5">{{item.InPrice}}元</label>
             </div>
@@ -79,7 +88,7 @@
         </div>
         <div class="col-md-12 mg_t30">
             <a href="#" v-if="item.isupdate" class="btn_red bg8 auto f16 w200 h40"
-            :class="{'disable':!item.DealerNo || !item.SuitCarList.length ||(stype==1?!item.SalePrice:!item.InPrice)||!item.StockCount || isNaN(parseInt(item.StockCount)) ||isNaN(parseInt(item.SalePrice)) ||!model.Sku}"
+            :class="{'disable':valid(item)}"
             @click='save(index)'>保&nbsp;存</a>
             <a href="#" v-else class="btn_red bg8 auto f16 w200 h40" @click='item.isupdate=1'>修&nbsp;改</a>
         </div>
@@ -205,7 +214,7 @@ export default {
                     })
                 }
                 return count;
-            },
+            }
     },
     events: {
         'upload': function(data) {
@@ -306,6 +315,7 @@ export default {
                         if (!item.Id) {
                             item.StockCount = "";
                             item.SalePrice = "";
+                            item.InPrice = "";
                         }
                         //0待修改 1 待保存 2待添加
                         item.isupdate = item.Id ? 0 : 1;
@@ -316,12 +326,14 @@ export default {
                     console.log('查询无数据');
                 });
             },
+            valid(item){
+              return  !item.DealerNo || !item.SuitCarList.length ||(this.stype==1?!item.SalePrice:!item.InPrice)||!item.StockCount || isNaN(parseInt(item.StockCount)) ||(this.stype==1&&isNaN(parseInt(item.SalePrice))) || isNaN(parseInt(item.InPrice)) ||!item.Sku;
+            },
             save(index) {
                 let _this = this;
                 let model = this.products[index];
                 //valid
-                if (!model.DealerNo || !model.SuitCarList.length || (this.stype == 1 ? !model.SalePrice : !model.InPrice) ||
-                 !model.StockCount ||!model.Sku || isNaN(parseInt(model.StockCount)) ||isNaN(parseInt(model.SalePrice)) ) {
+                if (this.valid(model)) {
                     return false;
                 }
                 if(!model.Id && !model.SuitCarList){
@@ -354,9 +366,11 @@ export default {
                       })
                         //_this.products[index]=response.data.data;
                     }else{
+                      model.isupdate = 1;
                       layer.alert(response.data.mes);
                     }
                 }, function(response) {
+                    model.isupdate = 1;
                     console.log('保存失败');
                 });
             },
@@ -431,6 +445,17 @@ export default {
                         this.showyear = true;
                         break;
                 }
+            },
+            showtips(index,type){
+              let arr=[{class:'.inprice',info:'此价格是给北迈网批量采购的价格'},{class:'.saleprice',info:'此价格是在销售平台上显示的销售价格'}];
+              let dom= arr[type].class+index;
+              let tips = layer.tips(arr[type].info,dom , {
+                tips: [1, '#3595CC'],
+                time: 3000
+              });
+              $(dom).blur(function(){
+                layer.close(tips);
+              })
             }
     }
 }

@@ -4,8 +4,8 @@
 
 <div class="right_contain">
     <div class="row">
-        <head-docs v-if="!isupdate" :pagesize="pagesize"></head-docs>
-        <table-docs :list='list' v-if="!isupdate"></table-docs>
+        <head-docs v-show="!isupdate" :pagesize="pagesize"></head-docs>
+        <table-docs v-ref:table :list='list' v-if="!isupdate"></table-docs>
         <update-docs v-if="isupdate" :model="model"></update-docs>
         <page-docs v-if="!isupdate" :count='count'></page-docs>
     </div>
@@ -29,11 +29,12 @@ export default {
         return {
             list: [],
             isupdate: false,
-            model: {},
+            //model: {},
             count: 0,
             pagesize: 10,
             pageindex: 1,
-            model: {}
+            model: {},
+            index:0
         }
     },
     methods: {
@@ -41,18 +42,21 @@ export default {
     },
     events: {
         //编辑
-        'update': function(model) {
-            this.model = model;
+        'update': function(index) {
+            this.model = this.list[index];
+            this.index = index;
             this.isupdate = true;
         },
         //修改模版保存事件
         'save': function(model) {
-            this.isupdate = false;
+            let _this=this;
             //保存到数据库
-            Vue.http.post('/product/SaveProduct', JSON.stringify(model)).then(function(response) {
+            Vue.http.post('/product/SaveProduct', {model:model}).then(function(response) {
                 if (!response.data.ok) {
                     layer.alert(response.data.mes);
                 }
+                layer.msg('保存成功',{icon:1,time:800});
+                _this.isupdate = false;
             }, function(response) {
                 console.log('保存失败');
             });

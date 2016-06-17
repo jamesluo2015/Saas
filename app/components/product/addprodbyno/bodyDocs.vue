@@ -35,17 +35,17 @@
             <label class="control-label pull-left" for="input01"><em class="col_fb2727 mg_r5">*</em>供应商编码：</label>
             <input placeholder="" v-model='model.DealerNo' type="text" class="add_input w160 form-control">
         </div>
+        <div class="col-md-12 pd_l0 clearfix pd_b20 select_dropdown" >
+            <div class="pull-left">
+                <label class="control-label pull-left"><em class="col_fb2727 mg_r5">*</em>进货价</label>
+                <input placeholder="" type="text" v-model='model.InPrice' class="add_input w160 pull-left form-control">
+                <label class="pull-left fN mg_t2 mg_l5">元</label>
+            </div>
+        </div>
         <div class="col-md-12 pd_l0 clearfix pd_b20 select_dropdown" v-if="stype==1">
             <div class="pull-left">
                 <label class="control-label pull-left"><em class="col_fb2727 mg_r5">*</em>销售价</label>
                 <input placeholder="" type="text" v-model='model.SalePrice' class="add_input w160 pull-left form-control">
-                <label class="pull-left fN mg_t2 mg_l5">元</label>
-            </div>
-        </div>
-        <div class="col-md-12 pd_l0 clearfix pd_b20 select_dropdown" v-else>
-            <div class="pull-left">
-                <label class="control-label pull-left"><em class="col_fb2727 mg_r5">*</em>进货价</label>
-                <input placeholder="" type="text" v-model='model.InPrice' class="add_input w160 pull-left form-control">
                 <label class="pull-left fN mg_t2 mg_l5">元</label>
             </div>
         </div>

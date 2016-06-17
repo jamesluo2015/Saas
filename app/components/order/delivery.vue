@@ -113,7 +113,9 @@ export default {
             if (isslot) {
                 return false;
             }
-
+            if(!this.express.length){
+              return false;
+            }
             return true;
         },
     },
@@ -175,7 +177,7 @@ export default {
                     StockId: item.StockId,
                     ProdName: item.ProdName,
                     SmallPic: item.SmallPic,
-                    SmallPic: item.SalePrice,
+                    SalePrice: item.SalePrice,
                     Quantity: item.Quantity,
                     DealerProdNo: item.DealerProdNo,
                     FactoryId: item.FactoryId,

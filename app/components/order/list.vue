@@ -184,9 +184,10 @@ export default {
             pageindex: 1,
             count: 0,
             detailshow: false,
-            model: {},
+            //model: {},
             deshow: false,
-            loading: false
+            loading: false,
+            pindex: -1,
         }
     },
     methods: {
@@ -254,10 +255,12 @@ export default {
                     })
             },
             showdetail(index) {
-                this.model = this.orderlist[index];
+              this.pindex=index;
+                //this.model = this.orderlist[index];
                 this.detailshow = true;
             },
             delivery(index) {
+                this.pindex=index;
                 let model = this.orderlist[index];
                 let _this=this;
                 model.OrderDetails.forEach(function(detail) {
@@ -281,7 +284,7 @@ export default {
                       if (res.data.data2) {
                           detail.slot = res.data.data2;
                       }
-                      _this.model=model;
+                      //_this.model=model;
                   })
                 })
 
@@ -329,7 +332,18 @@ export default {
         'tab': function(val) {
             this.pageindex = 1;
             this.query();
+        },
+        'todelivery': function(){
+          this.delivery(this.pindex);
         }
+    },
+    computed:{
+      model(){
+        if(this.pindex>=0){
+          return this.orderlist[this.pindex];
+        }
+        return [];
+      }
     }
 }
 
