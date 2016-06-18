@@ -447,7 +447,7 @@ export default {
                 }
             },
             showtips(index,type){
-              let arr=[{class:'.inprice',info:'此价格是给北迈网批量采购的价格'},{class:'.saleprice',info:'此价格是在销售平台上显示的销售价格'}];
+              let arr=[{class:'.inprice',info:'此价格是给北迈网采购的价格'},{class:'.saleprice',info:'此价格是在销售平台上显示的销售价格'}];
               let dom= arr[type].class+index;
               let tips = layer.tips(arr[type].info,dom , {
                 tips: [1, '#3595CC'],

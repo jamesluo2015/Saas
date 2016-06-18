@@ -33,6 +33,8 @@
 						<th width="11%">账单总金额</th>
 						<th width="11%">本期账单金额</th>
 						<th width="6%">上期结余金额</th>
+						<th width="6%">已结金额</th>
+						<th width="6%">结余金额</th>
 						<th width="8%" v-if="stype==1">佣金</th>
 						<th width="12%">结算状态</th>
 						<th width="8%">生成时间</th>
@@ -46,6 +48,8 @@
 						<td><em class="fS col_ee4145 f16">{{item.BillAmount}}</em> </td>
 						<td><em class="fS col_ee4145 f16">{{item.CurrBillAmount}}</em> </td>
 						<td><em class="fS col_ee4145 f16">{{item.PrevBillAmount}}</em> </td>
+						<td><em class="fS col_ee4145 f16">{{item.SettledAmount}}</em></td>
+						<td><em class="fS col_ee4145 f16">{{item.NoSettledAmount}}</em></td>
 						<td v-if="stype==1"><em class="fS col_77b530 f16">{{item.Rebate}}</em> </td>
 						<td>{{getstate(item.BillStatus)}}</td>
 						<td>{{item.AddTime}}</td>

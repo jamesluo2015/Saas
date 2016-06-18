@@ -13,17 +13,29 @@
             </div>
             <div class="col-md-12 pd_l0 mg_t30 mg_b20 clearfix pd_b20 h60 this_bill">
                 <span class="mg_l30">应收款项：</span>
-                <span class="f26 col_d50707">{{ model.BillAmount }}</span>
-                <template v-if="model.BillAmount">
-                  <span class="f20 fB fS col_767676 mg_l5 mg_r5">=</span>
-                  <span class="f26 col_d50707" v-if="model.ProductAmount"><em class="fS">{{ model.ProductAmount }}</em><em class="col_010101 fS fN f14">【货款】</em></span>
-                  <span class="f20 fB fS col_767676 mg_l5 mg_r5" v-if="model.Rebate">-</span>
-                  <span class="f26 col_77b530" v-if="model.Rebate"><em class="fS">{{ model.Rebate }}</em><em class="col_010101 fS fN f14">【佣金】</em></span>
-                  <span class="f20 fB fS col_767676 mg_l5 mg_r5" v-if="model.Freight">-</span>
-                  <span class="f26 col_77b530" v-if="model.Freight"><em class="fS">{{ model.Freight }}</em><em class="col_010101 fS fN f14">【代付运费】</em></span>
-                  <span class="f20 fB fS col_767676 mg_l5 mg_r5" v-if="model.AdjustmentAmount">-</span>
-                  <span class="f26 col_77b530" v-if="model.AdjustmentAmount"><em class="fS">{{ model.AdjustmentAmount }}</em><em class="col_010101 fS fN f14">【其它】</em></span>
+                <template v-if="model.Id">
+                  <span class="f26 col_d50707">{{ model.BillAmount }}</span>
+                    <span class="f20 fB fS col_767676 mg_l5 mg_r5">=</span>
+                    <span class="f26 col_d50707" ><em class="fS">{{ model.CurrBillAmount }}</em><em class="col_010101 fS fN f14">【本期金额】</em></span>
+                    <span class="f20 fB fS col_767676 mg_l5 mg_r5">+</span>
+                    <span class="f26 col_d50707" ><em class="fS">{{ model.PrevBillAmount }}</em><em class="col_010101 fS fN f14">【上期结余】</em></span>
                 </template>
+                <template v-else>
+                  <span class="f26 col_d50707">{{ model.BillAmount }}</span>
+                  <template v-if="model.BillAmount">
+                    <span class="f20 fB fS col_767676 mg_l5 mg_r5">=</span>
+                    <span class="f26 col_d50707" v-if="model.ProductAmount"><em class="fS">{{ model.ProductAmount }}</em><em class="col_010101 fS fN f14">【货款】</em></span>
+                    <span class="f20 fB fS col_767676 mg_l5 mg_r5" v-if="model.Rebate">-</span>
+                    <span class="f26 col_77b530" v-if="model.Rebate"><em class="fS">{{ model.Rebate }}</em><em class="col_010101 fS fN f14">【佣金】</em></span>
+                    <span class="f20 fB fS col_767676 mg_l5 mg_r5" v-if="model.Freight">-</span>
+                    <span class="f26 col_77b530" v-if="model.Freight"><em class="fS">{{ model.Freight }}</em><em class="col_010101 fS fN f14">【代付运费】</em></span>
+                    <span class="f20 fB fS col_767676 mg_l5 mg_r5" v-if="model.AdjustmentAmount">-</span>
+                    <span class="f26 col_77b530" v-if="model.AdjustmentAmount"><em class="fS">{{ model.AdjustmentAmount }}</em><em class="col_010101 fS fN f14">【退款】</em></span>
+                  </template>
+                </template>
+
+
+
             </div>
         </div>
     </div>

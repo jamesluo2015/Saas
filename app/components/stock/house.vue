@@ -57,7 +57,7 @@
                 </tbody>
                 <tbody v-for="(hindex,house) in item.StockHouses">
                     <tr>
-                        <td>{{house.HouseName}}</td>
+                        <td><span class="mg_l20">{{house.HouseName}}</span></td>
                         <td>{{house.HouseCode}}</td>
                         <td>{{house.ProvinceName}}{{house.CityName}}{{house.AreaName}}{{house.Address}}</td>
                         <td v-if="house.HouseStatus==2">

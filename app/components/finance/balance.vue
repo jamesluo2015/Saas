@@ -62,10 +62,22 @@
                     <div class="w200">
                         <h3 class="f14 text-right pd_r40">结算金额</h3>
                         <div class="jiesuan_list clearfix pd_b20 pd_t10">
-                            <span class="t-c col_ee4145">货款</span>
-                            <span class="col_ee4145">{{model.ProductAmount}}</span>
-                            <span class="t-c col_5ca50a">佣金</span>
-                            <span class="col_5ca50a">-{{model.Rebate}}</span>
+                            <template v-if="model.Id">
+                              <span class="t-c col_ee4145">本期金额</span>
+                              <span class="col_ee4145">{{model.CurrBillAmount}}</span>
+                              <span class="t-c col_5ca50a" >上期结余</span>
+                              <span class="col_5ca50a" >+{{model.PrevBillAmount}}</span>
+                            </template>
+                            <template v-else>
+                              <span class="t-c col_ee4145">货款</span>
+                              <span class="col_ee4145">{{model.ProductAmount}}</span>
+                              <span class="t-c col_5ca50a" v-if="model.Rebate">佣金</span>
+                              <span class="col_5ca50a" v-if="model.Rebate">-{{model.Rebate}}</span>
+                              <span class="t-c col_5ca50a" v-if="model.Freight">【代付运费】</span>
+                              <span class="col_5ca50a" v-if="model.Freight">-{{model.Freight}}</span>
+                              <span class="t-c col_5ca50a" v-if="model.AdjustmentAmount">退款</span>
+                              <span class="col_5ca50a" v-if="model.AdjustmentAmount">-{{model.AdjustmentAmount}}</span>
+                            </template>
                         </div>
                         <div class="bdT_d0d0d0 f20 lineH40 text-right pd_t10">
                             <span class="mg_r30">{{model.BillAmount}}</span>

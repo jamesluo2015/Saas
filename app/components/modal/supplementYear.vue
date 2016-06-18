@@ -20,7 +20,7 @@
                     </li>
                 </ul>
             </div>
-            <div class="alert_year w170 checked">
+            <div class="alert_year w170 " :class="clist.length?'checked':''">
                 <h3>选择车型</h3>
                 <ul class="alert_year_left pd_t5 pd_b10">
                     <li :class="{'checked': item.ID==cid}" v-for="item in clist" @click="cid=item.ID">
@@ -31,7 +31,7 @@
                     </li>
                 </ul>
             </div>
-            <div class="alert_year w430 checked">
+            <div class="alert_year w430 " :class="ylist.length?'checked':''">
                 <h3>选择年款</h3>
                 <ul class="modal_add pd_10 clearfix alert_year_right">
                     <li class="clearfix w_100" v-if="ylist.length" @click="allcheck">

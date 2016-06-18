@@ -214,7 +214,7 @@ export default {
                 layer.confirm('确认删除吗', {
                     btn: ['确认', '取消'] //按钮
                 }, function() {
-                    Vue.http.post('/manage/Del?stockid=' + _this.list[index].StockId).then(function() {
+                    Vue.http.post('/manage/Del?tid=1001&stockid=' + _this.list[index].StockId).then(function() {
                         _this.list.splice(index, 1);
                         layer.msg('删除成功', {
                             icon: 1,

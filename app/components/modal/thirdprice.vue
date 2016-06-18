@@ -276,7 +276,9 @@ export default {
                 this.change(val);
             },
             pricetype() {
+              if(this.price){
                 this.change();
+              }
             },
             index(val) {
                 this.price = this.thirds[val].price;

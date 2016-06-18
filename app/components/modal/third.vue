@@ -130,7 +130,7 @@ export default {
                             CarModelId: car.CarmodelId,
                             CarModelName: car.Carmodel,
                             SalePrice: car.Price || _this.price,
-                            InPrice: _this.inprice,
+                            //InPrice: _this.inprice,
                             StockId: _this.stockid
                         }
                         pricelist.push(obj);
@@ -207,7 +207,9 @@ export default {
                 this.change(val);
             },
             pricetype() {
-                this.change();
+              if(this.price){
+                  this.change();
+              }
             },
             index(val) {
                 this.price = this.thirds[val].price;
