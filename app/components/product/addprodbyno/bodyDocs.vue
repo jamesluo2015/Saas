@@ -38,21 +38,21 @@
         <div class="col-md-12 pd_l0 clearfix pd_b20 select_dropdown" >
             <div class="pull-left">
                 <label class="control-label pull-left"><em class="col_fb2727 mg_r5">*</em>进货价</label>
-                <input placeholder="" type="text" v-model='model.InPrice' class="add_input w160 pull-left form-control">
+                <input vlength=7 placeholder="" type="text" v-model='model.InPrice' class="add_input w160 pull-left form-control">
                 <label class="pull-left fN mg_t2 mg_l5">元</label>
             </div>
         </div>
         <div class="col-md-12 pd_l0 clearfix pd_b20 select_dropdown" v-if="stype==1">
             <div class="pull-left">
                 <label class="control-label pull-left"><em class="col_fb2727 mg_r5">*</em>销售价</label>
-                <input placeholder="" type="text" v-model='model.SalePrice' class="add_input w160 pull-left form-control">
+                <input vlength=7 placeholder="" type="text" v-model='model.SalePrice' class="add_input w160 pull-left form-control">
                 <label class="pull-left fN mg_t2 mg_l5">元</label>
             </div>
         </div>
         <div class="col-md-12 pd_l0 clearfix pd_b20 select_dropdown">
             <div class="pull-left">
                 <label class="control-label pull-left" for="input01"><em class="col_fb2727 mg_r5">*</em>库存数：</label>
-                <input placeholder="" type="text" v-model='model.StockCount' class="add_input w160 pull-left form-control">
+                <input vlength=7 placeholder="" type="text" v-model='model.StockCount' class="add_input w160 pull-left form-control">
             </div>
         </div>
 
@@ -89,7 +89,7 @@
 <supplement-demo :show.sync="showdemo" :bmno="model.BmNo"></supplement-demo>
 <supplement-year v-ref:year :show.sync="showyear" :bmno="model.BmNo" :exists="exists"></supplement-year>
 <partsyearlist :show.sync="showyears" :list="model.SuitCarList" :bmno="model.BmNo"></partsyearlist>
-
+<validate></validate>
 </template>
 
 <script>
@@ -107,9 +107,10 @@ import supplementSku from '../../modal/supplementSku.vue';
 import supplementDemo from '../../modal/supplementDemo.vue';
 import supplementYear from '../../modal/supplementYear.vue';
 import partsyearlist from '../../modal/partsyearlist.vue';
+import validate from '../../general/validate.vue'
 export default {
     components: {
-        vSelect, vOption, upload, supplementSku, supplementDemo, partsyearlist, supplementYear
+        vSelect, vOption, upload, supplementSku, supplementDemo, partsyearlist, supplementYear,validate
     },
     props: {
         model: {

@@ -28,15 +28,15 @@
 			<table class="table table2 table_bg mg_t2" >
 				<thead>
 					<tr>
-						<th width="15%">结算单编号</th>
+						<th width="10%">结算单编号</th>
 						<th width="12%">账单时间</th>
-						<th width="11%">账单总金额</th>
-						<th width="11%">本期账单金额</th>
+						<th width="8%">账单总金额</th>
+						<th width="8%">本期账单金额</th>
 						<th width="6%">上期结余金额</th>
 						<th width="6%">已结金额</th>
 						<th width="6%">结余金额</th>
 						<th width="8%" v-if="stype==1">佣金</th>
-						<th width="12%">结算状态</th>
+						<th width="8%">结算状态</th>
 						<th width="8%">生成时间</th>
 						<th width="17%">操作</th>
 					</tr>

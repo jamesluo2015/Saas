@@ -54,7 +54,7 @@
                     </tr>
                 </thead>
                 <tbody v-for="item in list">
-                    <tr>
+                    <tr :class="{'red_bg':warns.indexOf(item.StockId)>-1}">
                         <td>{{item.ProdName}}</td>
                         <td>{{item.DealerNo}}</td>
                         <td>{{item.StockId}}</td>
@@ -150,6 +150,7 @@ export default {
             key: "",
             selectlist: [],
             list: [],
+            warns: [],
             countlist: [0, 0, 0],
             pagesize: 5,
             pageindex: 1,
@@ -272,11 +273,13 @@ export default {
                 Vue.http.get('/stock/GetStockMain', param).then(function(res) {
                     if (res.data.ok) {
                         _this.list = res.data.data;
+                        _this.warns=res.data.data2;
                         setTimeout(function() {
                             _this.count = Math.ceil(res.data.count / _this.pagesize);
                         }, 0)
                     } else {
                         _this.list = [];
+                        _this.warns=[];
                         _this.count = 1;
                     }
                 })

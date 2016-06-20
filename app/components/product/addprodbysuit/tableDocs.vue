@@ -59,7 +59,7 @@
             </div>
             <div class="pd_l0 mg_t20 clearfix select_dropdown pull-left w300 poR" v-if='stype==1'>
                 <label class="control-label pull-left"><em v-if="item.isupdate" class="col_fb2727 mg_r5">*</em>进货价：</label>
-                <input v-if="item.isupdate" placeholder="" @focus="showtips(index,0)" type="text" v-model="item.InPrice" :class="'inprice'+index" class="add_input w160 pull-left form-control">
+                <input vlength=7 v-if="item.isupdate" placeholder="" @focus="showtips(index,0)" type="text" v-model="item.InPrice" :class="'inprice'+index" class="add_input w160 pull-left form-control">
                 <label v-if="item.isupdate" class="pull-left fN mg_t2 mg_l5">元</label>
                 <label v-else class="pull-left fN mg_t2 mg_l5">{{item.InPrice}}元</label>
                 <!-- <div class="price_tip">
@@ -70,19 +70,19 @@
             <!--1、返利  2、差价-->
             <div class="pd_l0 mg_t10 clearfix select_dropdown pull-left w300" v-if='stype==1'>
                 <label class="control-label pull-left"><em v-if="item.isupdate" class="col_fb2727 mg_r5">*</em>销售价：</label>
-                <input v-if="item.isupdate" @focus="showtips(index,1)" :class="'saleprice'+index" placeholder="" type="text" v-model="item.SalePrice" number class="add_input w160 pull-left form-control">
+                <input vlength=7 v-if="item.isupdate" @focus="showtips(index,1)" :class="'saleprice'+index" placeholder="" type="text" v-model="item.SalePrice" class="add_input w160 pull-left form-control">
                 <label v-if="item.isupdate" class="pull-left fN mg_t2 mg_l5">元</label>
                 <label v-else class="pull-left fN mg_t2 mg_l5">{{item.SalePrice}}元</label>
             </div>
             <div class="pd_l0 mg_t10 clearfix select_dropdown pull-left w300" v-else>
                 <label class="control-label pull-left"><em v-if="item.isupdate" class="col_fb2727 mg_r5">*</em>进货价：</label>
-                <input v-if="item.isupdate" placeholder="" @focus="showtips(index,0)" type="text" v-model="item.InPrice" number  :class="'inprice'+index"  class="add_input w160 pull-left form-control">
+                <input vlength=7 v-if="item.isupdate" placeholder="" @focus="showtips(index,0)" type="text" v-model="item.InPrice"  :class="'inprice'+index"  class="add_input w160 pull-left form-control">
                 <label v-if="item.isupdate" class="pull-left fN mg_t2 mg_l5">元</label>
                 <label v-else class="pull-left fN mg_t2 mg_l5">{{item.InPrice}}元</label>
             </div>
             <div class="pd_l0 mg_t10 clearfix select_dropdown pull-left w300">
                 <label class="control-label pull-left" for="input01"><em v-if="item.isupdate" class="col_fb2727 mg_r5">*</em>库存数：</label>
-                <input v-if="item.isupdate" placeholder="" type="text" v-model='item.StockCount' number class="add_input w160 pull-left form-control pull-left">
+                <input vlength=7 v-if="item.isupdate" placeholder="" type="text" v-model='item.StockCount' class="add_input w160 pull-left form-control pull-left">
                 <span v-else class="pull-left fN mg_t2 mg_l5">{{item.StockCount}}</span>
             </div>
         </div>
@@ -115,7 +115,7 @@
 <supplement-demo :show.sync="showdemo" :bmno="model.BmNo" :stockid="model.StockId"></supplement-demo>
 <supplement-year v-ref:year :isadd="isadd" :show.sync="showyear" :bmno="model.BmNo" :exists="exists"></supplement-year>
 <partsyearlist :show.sync="showyears" :list="model.SuitCarList" :bmno="model.BmNo"></partsyearlist>
-
+<validate></validate>
 </template>
 
 <script>
@@ -136,9 +136,10 @@ import supplementSku from '../../modal/supplementSku.vue';
 import supplementDemo from '../../modal/supplementDemo.vue';
 import supplementYear from '../../modal/supplementYear.vue';
 import partsyearlist from '../../modal/partsyearlist.vue';
+import validate from '../../general/validate.vue'
 export default {
     components: {
-        vSelect, vOption, upload, nothing, supplementSku, supplementDemo, supplementYear, partsyearlist
+        vSelect, vOption, upload, nothing, supplementSku, supplementDemo, supplementYear, partsyearlist,validate
     },
     data() {
         return {
@@ -327,7 +328,9 @@ export default {
                 });
             },
             valid(item){
-              return  !item.DealerNo || !item.SuitCarList.length ||(this.stype==1?!item.SalePrice:!item.InPrice)||!item.StockCount || isNaN(parseInt(item.StockCount)) ||(this.stype==1&&isNaN(parseInt(item.SalePrice))) || isNaN(parseInt(item.InPrice)) ||!item.Sku;
+              return  !item.DealerNo || !item.SuitCarList.length ||(this.stype==1?!item.SalePrice:!item.InPrice)||!item.StockCount
+              || isNaN(parseInt(item.StockCount)) ||(this.stype==1&&isNaN(parseInt(item.SalePrice))) || isNaN(parseInt(item.InPrice)) ||!item.Sku
+              || item.SalePrice.length>7 || item.InPrice.length>7 || item.StockCount.length>7;
             },
             save(index) {
                 let _this = this;

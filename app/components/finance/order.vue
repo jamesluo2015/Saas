@@ -43,7 +43,7 @@
           <tr v-if="!dindex">
             <tr>
                 <td>{{(detail.FactoryName||"")+" "+(detail.CarModelName||"")+" "+(detail.CarYearName||"")}} {{detail.ProdName}}</td>
-                <td>{{detail.DealerNo}}</td>
+                <td>{{detail.DealerProdNo}}</td>
                 <td>{{detail.Quantity}}</td>
                 <td><em class="fS col_ee4145 f16">{{detail.SalePrice}}<span class="col_5ca50a" v-if="item.SettleType==1">(佣金比:{{(detail.DealerRatio||0.1)*100}}%)</span></em></td>
                 <td v-if="item.SettleType==2">{{detail.InPrice}}</span></td>

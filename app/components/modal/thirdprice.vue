@@ -2,7 +2,7 @@
 
 <template id="">
 
-<modal :show.sync="show" effect="fade" width="520px" title="编辑销售平台">
+<modal :show.sync="show" effect="fade" :backdrop="false" width="520px" title="编辑销售平台">
     <div slot="modal-body" class="modal-body pd_0 clearfix" style="overflow-y:hidden">
         <!-- <ul class="modal_sell clearfix">
             <li v-for="item in thirds" :class="{'checked':item.ischeck}" @click="check($index)"><a href="#">{{item.name}}</a></li>

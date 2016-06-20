@@ -111,7 +111,7 @@
                 </tbody>
 
             </table>
-            <nothing :show="!products.length"></nothing>
+            <nothing v-if="!products.length"></nothing>
         </template>
 
     </div>
@@ -281,7 +281,7 @@ export default {
                     return false;
                 }
                 let isexists = this.list.some(function(item) {
-                    return item.StockId == model.StockId;
+                    return item.StockId == model.StockId && item.SlotCode == model.SlotCode;
                 })
                 if (isexists) {
                     layer.alert('当前商品已在选择列表中');
@@ -387,7 +387,7 @@ export default {
             factory(val) {
                 if (val.length) {
                     //document.querySelector('#carmodel button').click()
-                    this.selectshow = true;
+                    //this.selectshow = true;
                 }
                 return false;
             }

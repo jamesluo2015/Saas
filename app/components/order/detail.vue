@@ -89,14 +89,14 @@
                                     </div>
                                     <div class="col-md-12 pd_l0 mg_t10 clearfix select_dropdown poR">
                                         <label class="control-label pull-left f12 poA l_l0 w60">配件说明：</label>
-                                        <p class="pull-left mg_t2 f12 pd_l65 col_767676">结构：通风式；通用性：左右用；结构：通风式；结构：通风式；结构：通风式；</p>
+                                        <p class="pull-left mg_t2 f12 pd_l65 col_767676">{{detail.ContentInfo}}</p>
                                     </div>
                                     <div class="col-md-12 pd_l0 clearfix mg_t5 select_dropdown">
-                                        <label class="control-label pull-left f12 w80">零件编号</label>
+                                        <!-- <label class="control-label pull-left f12 w80">零件编号</label>
                                         <span class="saas_add pull-left f12 mg_l0 mg_t2">
                                           <a href="#" class="saas_add pull-left f12 mg_l0">查看</a>
-                                        </span>
-                                        <label class="control-label pull-left f12 w60 mg_l30">年款：</label>
+                                        </span> -->
+                                        <label class="control-label pull-left f12 w60 ">商品年款：</label>
                                         <span class="saas_add pull-left f12 mg_l0 mg_t2">{{detail.FactoryName}} {{detail.CarModelName}} {{detail.CarYearName}}</span>
                                     </div>
                                 </div>
