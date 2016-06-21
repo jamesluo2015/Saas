@@ -277,7 +277,7 @@ export default {
             },
             add(model) {
                 if (!model.SalePrice || isNaN(model.SalePrice) || !model.Quantity || isNaN(model.Quantity) || model.StockCount < model.Quantity) {
-                    layer.alert('请正确输入开单数和销售价');
+                    //layer.alert('请正确输入开单数和销售价');
                     return false;
                 }
                 let isexists = this.list.some(function(item) {
