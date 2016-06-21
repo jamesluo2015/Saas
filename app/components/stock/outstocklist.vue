@@ -60,6 +60,7 @@ export default {
   methods: {
     add(model){
       let isexists = this.list.some(function(item) {
+          return item.StockId == model.StockId;
       })
       if (isexists) {
           layer.alert('当前商品已在选择列表中');

@@ -2,6 +2,7 @@
 
 <template id="">
 
+<modal :show.sync="show" effect="fade" width="500px" :backdrop="false"  title="开单货位选择">
     <div slot="modal-body" class="modal-body ">
         <table class="table table2 table4 table_bg mg_t10">
             <thead>
