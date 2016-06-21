@@ -2,9 +2,9 @@
 
 <template id="">
 
-<modal :show.sync="show" effect="fade" width="800px" :title="isadd?'添加年款':'补充适用年款'">
+<modal :show.sync="show" effect="fade" width="800px" :backdrop="false" :title="isadd?'添加年款':'补充适用年款'">
     <div slot="modal-body" class="modal-body " style="padding:0px">
-        <ul class="saas_letter clearfix">
+        <ul class="saas_letter clearfix bg11">
             <li :class="{'checked':$index==index}" v-for="letter in letters" @click="index=$index"><a href="#">{{ letter }}</a></li>
             <li :class="{'checked':index==-1}"><a href="#" class="all" @click="index=-1">全部</a></li>
         </ul>
@@ -47,7 +47,7 @@
             </div>
         </div>
         <div class="col-md-12 pd_b10 clearfix bdT_d0d0d0" style="*position:absolute;*bottom:0;*left:0;*background:#fff;">
-            <a href="#" class="btn_red bg8 mg_t10 auto w120 h26" @click='save'>保存</a>
+            <a href="#" class="btn_red bg8 mg_t10 auto w120 h26" :class="{'disable':!yids.length}" @click='save'>保存</a>
         </div>
     </div>
 </modal>

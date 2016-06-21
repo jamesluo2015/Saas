@@ -3,7 +3,7 @@
 <template id="">
 
 <!--入库-->
-<modal :show.sync="showin" effect="fade" width="360px" title="商品入库">
+<modal :show.sync="showin" effect="fade" :backdrop="false" width="360px" title="商品入库">
     <div slot="modal-body" class="modal-body">
         <div class="col-md-12 pd_l0 clearfix select_dropdown mg_t15">
             <label class="control-label pull-left f12 lineH20">标准名称：</label>

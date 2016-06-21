@@ -16,7 +16,7 @@
               <textarea placeholder="" v-model="skus" class="form-control w300"></textarea>
           </div>
           <div class="col-md-12 mg_t10 mg_b20 clearfix pull-left">
-              <a href="#" class="btn_red bg8 mg_t20 mg_l40 w80 h26 pull-left" @class="{'disable':!skus}" @click="commit">确&nbsp;定</a>
+              <a href="#" class="btn_red bg8 mg_t20 mg_l40 w80 h26 pull-left" :class="{'disable':!skus}" @click="commit">确&nbsp;定</a>
               <a href="#" class="gray mg_t20 mg_l30 w80 h26 pull-left" @click="show=false">取&nbsp;消</a>
           </div>
       </div>

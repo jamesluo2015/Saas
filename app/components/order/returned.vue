@@ -31,7 +31,7 @@
                 <tr>
                     <th colspan="6" class="lineH30">
                         <span class="pull-left">{{item.AddTime}}</span>
-                        <span class="mg_l40 col_010101 pull-left">制造商退货单号：{{item.DealerRoCode}}</span>
+                        <span class="mg_l40 col_010101 pull-left">供应商退货单号：{{item.DealerRoCode}}</span>
                     </th>
                 </tr>
             </thead>
@@ -120,7 +120,7 @@ export default {
             state: 0,
             typelist: [{
                 value: '1',
-                label: '制造商退货单号'
+                label: '供应商退货单号'
             }, {
                 value: '2',
                 label: '订单号'

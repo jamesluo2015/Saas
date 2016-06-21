@@ -1,6 +1,6 @@
 <template>
   <accordion :one-at-atime="one">
-        <panel v-for="(index,item) in list | orderBy 'text'" :header="item.title" :is-open="false">
+        <panel v-for="(index,item) in list | orderBy 'text'" :header="item.title" :is-open="!index">
             <ul class="alert_year_list clearfix pd_10 mg_b0" >
                 <li v-for="car in item.carlist" class="clearfix mg_t5 mg_b5">
                     <span href="javascript:void(0)" class="pull-left f12 mg_l10">{{car.text}}</span>

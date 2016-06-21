@@ -10,7 +10,7 @@
         <button-tab :list="tabs" :index.sync="index" v-if="tabs.length"></button-tab>
         <div class="clearfix t-c h370 mg_b20 ovsc-x ovsc-y poR" style="*padding-bottom:50px;" v-if="tabs.length">
             <div class="clearfix mg_t15">
-                <span class="pull-left lineH30 mg_l20 mg_b10 f12 mg_t4">快速设置价格</span>
+                 <span class="pull-left lineH30 mg_l20 mg_b10 f12 mg_t4">快速设置价格</span>
                 <div class="pull-left clearfix mg_t5 mg_l30">
                     <label class="control-label pull-left f12 lineH26 fN col_767676">销售价：</label>
                     <input placeholder="" v-model="price" class="add_input w70 pull-left form-control" type="text">
@@ -23,7 +23,7 @@
             <p class="text-left col_ed5521 mg_l20">适用车型：</p>
             <div class="col-md-12  mg_t5 mg_b5 clearfix select_dropdown">
                 <accordion :one-at-atime="false">
-                    <panel v-for="(index,item) in list | orderBy 'fac'" :header="item.FactoryName" :is-open="false">
+                    <panel v-for="(index,item) in list | orderBy 'fac'" :header="item.FactoryName" :is-open="!index">
                         <ul class="mg_b0" style="*width: 408px;">
                             <li class="clearfix mg_t5 mg_b5" v-for="car in item.carlist" class="clearfix mg_t5 mg_b5">
                                 <span class="pull-left lineH26 f12 mg_l10 mg_b10 w40">{{car.Carmodel}}</span>

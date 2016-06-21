@@ -124,8 +124,9 @@ export default {
                 label: x.StandardName
             }))
             _this.standardlist = arr;
-            _this.$parent.$refs.table.standardlist = arr;
-            //_this.$children[6].standardlist = arr;
+            if(_this.$parent.$refs.table){
+              _this.$parent.$refs.table.standardlist = arr;
+            }
         })
 
         //读取store

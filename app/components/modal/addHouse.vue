@@ -2,7 +2,7 @@
 
 <template id="addhouse">
 
-<modal :show.sync="show" effect="fade" width="560px" :title="model.Id?'编辑库房':'添加库房'">
+<modal :show.sync="show" effect="fade" :backdrop="false" width="560px" :title="model.Id?'编辑库房':'添加库房'">
     <div slot="modal-body" class="modal-body ">
         <div class="col-md-12 pd_l0 clearfix select_dropdown mg_t15">
             <div class="pull-left">
@@ -141,7 +141,7 @@ export default {
                 this.model.ParentId = this.area[0];
                 this.model.ProvinceName = getlabel(this.province[0],this.provinces);
                 this.model.CityName = getlabel(this.city[0],this.citys);
-                
+
 
                 let temp= _this.areas.filter(function(item){
                   return item.value==_this.area[0];

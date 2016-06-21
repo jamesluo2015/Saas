@@ -1,5 +1,5 @@
 <template>
-  <ul class="modal_sell clearfix ">
+  <ul class="modal_sell clearfix bg11">
       <li v-for="item in list" :class="{'checked':index==$index}" @click="index=$index">
         <a href="javascript:void(0)">{{item.text||item}}</a>
       </li>

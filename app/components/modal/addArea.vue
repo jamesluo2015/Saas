@@ -2,7 +2,7 @@
 
 <template id="">
 
-<modal :show.sync="show" effect="fade" width="540px" :title="model.Id?'编辑库区':'添加库区'">
+<modal :show.sync="show" effect="fade" :backdrop="false" width="540px" :title="model.Id?'编辑库区':'添加库区'">
     <div slot="modal-body" class="modal-body ">
         <div class="col-md-12 pd_l0 clearfix select_dropdown mg_t15">
             <div class="pull-left">
@@ -121,7 +121,7 @@ export default {
             this.model.CityId=this.city[0];
             this.model.ProvinceName = getlabel(this.province[0],this.provinces);
             this.model.CityName = getlabel(this.city[0],this.citys);
-            
+
             let _this=this;
             Vue.http.post('/stock/SaveHouse',  this.model).then(function(res){
               if(!_this.model.Id){
