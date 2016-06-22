@@ -21,12 +21,18 @@ import updateDocs from './list/updateDocs.vue'
 import pageDocs from '../general/pageDocs.vue'
 import DateFormat from '../utils/DateFormat.js'
 import store from '../../../app/vuex/product/list/store.js'
+import { pindex } from '../../../app/vuex/product/list/getters.js'
 
 export default {
     components: {
         headDocs, tableDocs, updateDocs, pageDocs
     },
     store: store,
+    vuex: {
+      getters: {
+        pindex: pindex
+      }
+    },
     data() {
         return {
             list: [],
