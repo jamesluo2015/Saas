@@ -65,6 +65,7 @@ export default {
           if (res.data.length) {
             res.data.forEach(function(item){
               item.Memo=param[5]+" "+param[6];
+              item.SalePrice="";
             })
               _this.products = res.data;
           } else {
