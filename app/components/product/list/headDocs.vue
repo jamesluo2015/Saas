@@ -22,15 +22,7 @@
 <script>
 
 import {
-    select as vSelect
-}
-from 'vue-strap'
-import {
-    option as vOption
-}
-from 'vue-strap'
-import {
-    datepicker
+    select as vSelect, option as vOption, datepicker
 }
 from 'vue-strap'
 import PulseLoader from 'vue-spinner/src/PulseLoader.vue'
