@@ -267,13 +267,15 @@ export default {
                 this.model.StoreId=this.house2[0];
                 this.model.AreaId=this.area2[0];
                 Vue.http.post('/stock/SaveSlot', _this.model).then(function(res) {
-                    if (res.data) {
+                    if (res.data.ok) {
                       if(!_this.model.Id){
-                        _this.model.Id = res.data;
+                        _this.model.Id = res.data.data;
                         _this.list.splice(0,0,_this.model);
                       }
                         _this.ModalShow = false;
                         _this.model = {};
+                    }else{
+                        layer.alert(res.data.mes)
                     }
                 })
             },

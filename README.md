@@ -1,6 +1,6 @@
 技术栈
 
-vuejs webpack babel npm es6 vue-strap vue-resourc vue-spinner
+vuejs webpack babel es6 vue-strap vue-resource vue-spinner
 
 ### 模版
 

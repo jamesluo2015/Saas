@@ -39,21 +39,25 @@ export default {
             data.append('fileName', jFile[0].files[0]);
             data.append('p', uploadParam.p);
 
-            $.ajax({
-                url: upLoadurl,
-                type: 'POST',
-                data: data,
-                crossdomain: true,
-                processData: false, // 告诉jQuery不要去处理发送的数据
-                contentType: false // 告诉jQuery不要去设置Content-Type请求头
-            }).done(function(res) {
-                res.url=res.path;
-                res.CurrentBtn = upload;
-                _this.$dispatch('upload', res)
-                if(res.status!="SUCCESS"){
-                  console.error(res);
-                }
-            });
+            Vue.http.post(upLoadurl,data).then(function(res){
+              res=res.data;
+              res.url=res.path;
+              res.CurrentBtn = upload;
+              _this.$dispatch('upload', res)
+              if(res.status!="SUCCESS"){
+                console.error(res);
+              }
+            })
+            // $.ajax({
+            //     url: upLoadurl,
+            //     type: 'POST',
+            //     data: data,
+            //     crossdomain: true,
+            //     processData: false, // 告诉jQuery不要去处理发送的数据
+            //     contentType: false // 告诉jQuery不要去设置Content-Type请求头
+            // }).done(function(res) {
+            //
+            // });
         })
     },
     watch: {

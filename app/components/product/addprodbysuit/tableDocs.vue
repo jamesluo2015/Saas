@@ -137,6 +137,7 @@ import supplementDemo from '../../modal/supplementDemo.vue';
 import supplementYear from '../../modal/supplementYear.vue';
 import partsyearlist from '../../modal/partsyearlist.vue';
 import validate from '../../general/validate.vue'
+import DateFormat from '../../utils/DateFormat.js'
 export default {
     components: {
         vSelect, vOption, upload, nothing, supplementSku, supplementDemo, supplementYear, partsyearlist,validate
@@ -264,6 +265,7 @@ export default {
 
                     let data = response.data;
                     data.forEach(function(item) {
+                      item.AddTime=DateFormat(item.AddTime,1);
                         //获取商品图片
                         let temp = item;
                         if (item.StockId) {
@@ -359,7 +361,7 @@ export default {
                   model.SkuList=model.Sku.split(',');
                 }
 
-                Vue.http.post('/product/SaveProduct', JSON.stringify(model)).then(function(response) {
+                Vue.http.post('/product/SaveProduct', {model: model}).then(function(response) {
                     if (response.data.ok) {
                       let data=response.data.data;
                       model.Id = data.Id;

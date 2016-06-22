@@ -173,6 +173,9 @@ export default {
                 param.push(val.toString());
             }
             param.push(_this.$children[0].selectedItems);
+            param.push(_this.$children[1].selectedItems);
+            param.push(_this.$children[2].selectedItems);
+            param.push(_this.$children[3].selectedItems);
             //加入store
             store.set(_this.storename, param);
             //querying

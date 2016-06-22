@@ -4,8 +4,8 @@
 
 <div class="right_contain">
     <div class="row">
-        <head-docs v-show="!isupdate" :pagesize="pagesize"></head-docs>
-        <table-docs v-ref:table :list='list' v-if="!isupdate"></table-docs>
+        <head-docs v-ref:head v-show="!isupdate" :pagesize="pagesize"></head-docs>
+        <table-docs v-ref:table v-ref:table :list='list' v-if="!isupdate"></table-docs>
         <update-docs v-if="isupdate" :model="model"></update-docs>
         <page-docs v-if="!isupdate" :count='count'></page-docs>
     </div>
@@ -95,14 +95,14 @@ export default {
         },
         //分页
         'page': function(index) {
-            this.$children[0].pindex=-1;
+            // this.$refs.head.pindex=-1;
             this.pageindex = index;
-            this.$children[0].query(index);
+            this.$refs.head.query(index);
         },
         'tab': function(val) {
-            this.$children[0].pindex=-1;
-            this.$children[0].state = val;
-            this.$children[0].query(1);
+            // this.$refs.head.pindex=-1;
+            this.$refs.head.state = val;
+            this.$refs.head.query(1);
         }
     },
     computed: {

@@ -59,7 +59,7 @@ export default {
                 value: '3',
                 label: '配件名称'
             }],
-            state:0,
+            state: -1,
             type: [],
             key: "",
             loading: false
@@ -73,13 +73,13 @@ export default {
                 pagesize: this.pagesize,
                 sdate: _this.sdate,
                 edate: _this.edate,
-                state: this.state || 0,
+                state: this.state,
                 type: _this.type.length ? _this.type[0] : 0,
                 key: _this.key,
             };
             _this.loading = true;
             Vue.http.get('/product/GetProducts', param).then(function(response) {
-                  
+
                   _this.$dispatch('GetProducts', response.data)
 
                 _this.loading = false;

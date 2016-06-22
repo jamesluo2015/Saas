@@ -184,7 +184,7 @@ export default {
             pageindex: 1,
             count: 0,
             detailshow: false,
-            //model: {},
+            // model: {},
             deshow: false,
             loading: false,
             pindex: -1,
@@ -342,7 +342,7 @@ export default {
         if(this.pindex>=0){
           return this.orderlist[this.pindex];
         }
-        return [];
+        return {};
       }
     }
 }

@@ -40,7 +40,7 @@
             <p class="f12">该商品已在所有平台上架</p>
         </div>
         <div v-if="tabs.length" class="col-md-12 pd_b10 clearfix bdT_d0d0d0" style="*position:absolute;*bottom:0;*left:0;*background:#fff;">
-            <a href="javascript:void(0)" class="btn_red bg8 mg_t10 auto w120 h26" :class="{ 'disable':!price }" @click="commit">确&nbsp;定</a>
+            <a href="javascript:void(0)" class="btn_red bg8 mg_t10 auto w120 h26" :class="{ 'disable':!price || price<inprice }" @click="commit">确&nbsp;定</a>
         </div>
     </div>
 </modal>
@@ -75,7 +75,8 @@ export default {
             require: true
         },
         inprice: {
-            type: Number
+            type: Number,
+            default: 0
         },
         suitcars: {
             type: Array

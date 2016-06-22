@@ -15,7 +15,7 @@
         <tr v-for="item in products">
             <td>{{item.ProdName}}</td>
             <td>{{item.DealerProdNo}}</td>
-            <td>奇瑞瑞虎5 1，6L 2006-2012</td>
+            <td>{{item.Memo}}</td>
             <td>{{item.StockCount}}</td>
             <td>
                 <input placeholder="" v-model="item.SalePrice" class="add_input w100 form-control" type="text">
@@ -38,6 +38,7 @@ export default {
       products: [],
       pindex: -1,
       showModal: false,
+      param: []
     }
   },
   computed: {
@@ -52,6 +53,7 @@ export default {
   attached: function () {},
   methods: {
     query(param){
+      this.param=param;
       let parameter = {
           sid: param[0],
           cid: param[2],
@@ -61,9 +63,12 @@ export default {
       Vue.http.get('/stock/GetProd', parameter).then(function(res) {
         _this.$refs.head.isquery=false;
           if (res.data.length) {
+            res.data.forEach(function(item){
+              item.Memo=param[5]+" "+param[6];
+            })
               _this.products = res.data;
           } else {
-              _this.product = [];
+              _this.products = [];
           }
       })
     },

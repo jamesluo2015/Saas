@@ -21,7 +21,7 @@
     </div>
 </div>
 <div class="col-md-12 pull-right" v-if="model.StockId">
-    <div class="row pd_l0 pd_r0 mg_l0 mg_r0 mg_b20">
+    <div class="row pd_l0 pd_r0 mg_l0 mg_r0 mg_b20 pd_b200">
         <div class="col-md-12 pd_l0 mg_t10 clearfix select_dropdown">
             <label class="control-label pull-left">名称：</label>
             <p class="pull-left pd_l0 mg_t2">{{model.ProdName}}</p>

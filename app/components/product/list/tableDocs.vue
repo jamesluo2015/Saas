@@ -3,7 +3,7 @@
 <template>
 
 <div class="col-md-12 pd_l0 pd_r0 mg_r0" v-show="!isupdate">
-    <tab :data="tablist" :value="0" ></tab>
+    <tab :data="tablist" :value="-1" ></tab>
     <table class="table table2 table_bg mg_t2" v-if="list.length">
         <thead>
                 <tr>
@@ -44,17 +44,17 @@
                 <td v-if="stype==1"><span class="col_ed5521">￥</span><em class="fB fS col_ed5521 f18">{{item.SalePrice}}</em> </td>
                 <td><a href="#" class="saas_add mYH14 mg_l0" @click="showModal(index,5)">查看</a></td>
                 <td>
-                  <span v-if="item.ProdStatus<=1" class="col_000">待审核</span>
-                  <span v-if="item.ProdStatus==2" class="col_ed5521">未通过</span>
-                  <span class="col_5ca50a" v-if="item.ProdStatus==3">已通过</span>
-                  <span class="col_5ca50a" v-if="item.ProdStatus==4">销售中</span>
+                  <span v-if="item.ProdStatus==0" class="col_000">待审核</span>
+                  <span v-if="item.ProdStatus==1" class="col_ed5521">未通过</span>
+                  <span class="col_5ca50a" v-if="item.ProdStatus==2">已通过</span>
+                  <span class="col_5ca50a" v-if="item.ProdStatus==3">销售中</span>
                 </td>
                 <td><span class="f12 col_010101">{{item.AddTime}}</span></td>
                 <td>
                     <a href="#" class="saas_edi mg_t10" @click='update(index)'>编辑</a>
                     <a href="#" class="saas_del mg_t10" @click='remove(index)'>删除</a>
-                    <a href="#" class="saas_cho mg_t10" v-if="item.ProdStatus==3" @click="showModal(index,2)">选择销售平台</a>
-                    <a href="#" class="saas_res mg_t10" v-if="item.ProdStatus==2" @click="showModal(index,7)">查看原因</a>
+                    <a href="#" class="saas_cho mg_t10" v-if="item.ProdStatus==2" @click="showModal(index,2)">选择销售平台</a>
+                    <a href="#" class="saas_res mg_t10" v-if="item.ProdStatus==1" @click="showModal(index,7)">查看原因</a>
                 </td>
             </tr>
         </tbody>
@@ -95,7 +95,7 @@ export default {
     },
     data() {
         return {
-            tablist:[{val: 0,text:"全部"},{val: 1,text:"待审核"},{val: 2,text:"未通过"},{val: 3,text:"已通过"}],
+            tablist:[{val: -1,text:"全部"},{val: 0,text:"待审核"},{val: 1,text:"未通过"},{val: 2,text:"已通过"}],
             first: true,
             stype: document.getElementById('user').getAttribute('stype'),
             showsku: false,

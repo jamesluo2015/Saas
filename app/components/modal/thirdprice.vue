@@ -40,7 +40,7 @@
             <p class="f12">该商品还没有上架到任何平台</p>
         </div>
         <div v-if="tabs.length" class="col-md-12 pd_b10 clearfix bdT_d0d0d0" style="*position:absolute;*bottom:0;*left:0;*background:#fff;">
-            <a href="javascript:void(0)" class="btn_red bg8 mg_t10 auto w120 h26" :class="{ 'disable':!valid }" @click="commit">确&nbsp;定</a>
+            <a href="javascript:void(0)" class="btn_red bg8 mg_t10 auto w120 h26" :class="{ 'disable':!valid || price< inprice }" @click="commit">确&nbsp;定</a>
         </div>
     </div>
 </modal>
@@ -128,7 +128,7 @@ export default {
                 this.list.forEach(function(item) {
                     item.carlist.forEach(function(car) {
                       let temp=_this.suitcars.filter(function(suit){
-                        return suit.Id=car.id;
+                        return suit.Id==car.id;
                       })
                       temp[0].SalePrice=car.Price || _this.price;
 
@@ -143,6 +143,7 @@ export default {
                             icon: 1,
                             time: 800
                         });
+                        _this.show = false;
                         // _this.tabs.splice(_this.index, 1);
                         // _this.thirds.splice(_this.index, 1);
                         // if (_this.tabs.length) {
@@ -282,6 +283,7 @@ export default {
             },
             index(val) {
                 this.price = this.thirds[val].price;
+                this.getthirds();
             },
             // stockid(val) {
             //     if (val && this.show) {
