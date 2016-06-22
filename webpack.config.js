@@ -32,7 +32,8 @@ module.exports = {
     root: path.resolve('./'),
     extensions: ['', '.js', '.vue'],
     alias: {
-       'vue-strap': path.resolve(__dirname, './node_modules/vue-strap/dist/vue-strap')
+      //  'vue-strap': path.resolve(__dirname, './node_modules/vue-strap/dist/vue-strap'),
+      //  'vuex': path.resolve(__dirname, './app/vuex'),
     }
   },
   devServer: {
@@ -45,9 +46,8 @@ module.exports = {
       { test: /\.vue$/, loader: 'vue' },
       {
         test: /\.js$/,
-        exclude: /node_modules|vue-strap|vue|vue-loader/,
+        exclude: /node_modules/,//|vue|vue-loader
         loader: 'babel-loader',
-        query: { presets: ['es2015'] }
       },
       { test: /\.css$/, loader: "style-loader!css-loader?root=./docs/" },
       { test: /\.eot/, loader: 'file?prefix=font/' },
