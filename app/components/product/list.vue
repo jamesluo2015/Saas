@@ -20,11 +20,13 @@ import tableDocs from './list/tableDocs.vue'
 import updateDocs from './list/updateDocs.vue'
 import pageDocs from '../general/pageDocs.vue'
 import DateFormat from '../utils/DateFormat.js'
+import store from '../../../app/vuex/product/list/store.js'
 
 export default {
     components: {
         headDocs, tableDocs, updateDocs, pageDocs
     },
+    store: store,
     data() {
         return {
             list: [],
