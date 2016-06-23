@@ -50,17 +50,9 @@
 <script>
 
 import {
-    modal
+    modal, accordion, panel
 }
 from 'vue-strap'
-import {
-    accordion
-}
-from 'vue-strap';
-import {
-    panel
-}
-from 'vue-strap';
 import buttonTab from '../general/buttonTab.vue'
 export default {
     components: {
@@ -135,7 +127,7 @@ export default {
                             CarModelId: car.CarmodelId,
                             CarModelName: car.Carmodel,
                             SalePrice: car.Price || _this.price,
-                            InPrice: _this.inprice,
+                            // InPrice: _this.inprice,
                             StockId: _this.stockid
                         }
                         pricelist.push(obj);

@@ -79,7 +79,7 @@
                 <label v-if="item.isupdate" class="pull-left fN mg_t2 mg_l5">元</label>
                 <label v-else class="pull-left fN mg_t2 mg_l5">{{item.SalePrice}}元</label>
             </div>
-            <div class="pd_l0 mg_t10 clearfix select_dropdown pull-left w300" v-else>
+            <div class="pd_l0 mg_t20 clearfix select_dropdown pull-left w300" v-else>
                 <label class="control-label pull-left"><em v-if="item.isupdate" class="col_fb2727 mg_r5">*</em>供货价：</label>
                 <input vlength=7 v-if="item.isupdate" placeholder="" @focus="showtips(index,0)" type="text" v-model="item.InPrice"  :class="'inprice'+index"  class="add_input w160 pull-left form-control">
                 <label v-if="item.isupdate" class="pull-left fN mg_t2 mg_l5">元</label>
@@ -357,6 +357,9 @@ export default {
                 });
             },
             valid(item){
+              if(item.Id==0 && !item.slotcode.length){
+                return true;
+              }
               return  !item.DealerNo || !item.SuitCarList.length ||(this.stype==1?!item.SalePrice:!item.InPrice)||!item.StockCount
               || isNaN(parseInt(item.StockCount)) ||(this.stype==1&&isNaN(parseInt(item.SalePrice))) || isNaN(parseInt(item.InPrice)) ||!item.Sku
               || item.SalePrice.length>7 || item.InPrice.length>7 || item.StockCount.length>7;
@@ -394,7 +397,7 @@ export default {
                 }
 
                 Vue.http.post('/product/SaveProduct', {model: model}).then(function(response) {
-                    this.saveing=false;
+                    _this.saveing=false;
                     if (response.data.ok) {
                       let data=response.data.data;
 

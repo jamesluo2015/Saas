@@ -154,9 +154,12 @@ export default {
             if (!this.model.SalePrice || isNaN(this.model.SalePrice)) {
                 result = false;
             }
-            if (!this.model.StockCount || isNaN(this.model.StockCount)) {
+            if (!this.model.InPrice || isNaN(this.model.InPrice)) {
                 result = false;
             }
+            // if (!this.model.StockCount || isNaN(this.model.StockCount)) {
+            //     result = false;
+            // }
             return result;
         }
     },
