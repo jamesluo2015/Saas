@@ -70,6 +70,7 @@ export default {
 
                 result.data.forEach(function(item) {
                     item.AddTime = DateFormat(item.AddTime)
+                    
                     //改为通过数据库查询
                      Vue.http.get('/product/GetSuitCar?bmno=' + item.BmNo).then(function(response) {
                        item.SuitCarList = response.data;

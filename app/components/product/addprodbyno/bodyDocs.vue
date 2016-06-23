@@ -37,14 +37,14 @@
         </div>
         <div class="col-md-12 pd_l0 clearfix pd_b20 select_dropdown" >
             <div class="pull-left">
-                <label class="control-label pull-left"><em class="col_fb2727 mg_r5">*</em>进货价</label>
+                <label class="control-label pull-left"><em class="col_fb2727 mg_r5">*</em>供货价：</label>
                 <input vlength=7 placeholder="" type="text" v-model='model.InPrice' class="add_input w160 pull-left form-control">
                 <label class="pull-left fN mg_t2 mg_l5">元</label>
             </div>
         </div>
         <div class="col-md-12 pd_l0 clearfix pd_b20 select_dropdown" v-if="stype==1">
             <div class="pull-left">
-                <label class="control-label pull-left"><em class="col_fb2727 mg_r5">*</em>销售价</label>
+                <label class="control-label pull-left"><em class="col_fb2727 mg_r5">*</em>建议销售价</label>
                 <input vlength=7 placeholder="" type="text" v-model='model.SalePrice' class="add_input w160 pull-left form-control">
                 <label class="pull-left fN mg_t2 mg_l5">元</label>
             </div>
@@ -53,6 +53,13 @@
             <div class="pull-left">
                 <label class="control-label pull-left" for="input01"><em class="col_fb2727 mg_r5">*</em>库存数：</label>
                 <input vlength=7 placeholder="" type="text" v-model='model.StockCount' class="add_input w160 pull-left form-control">
+            </div>
+        </div>
+
+        <div class="col-md-12 pd_l0 clearfix pd_b20 select_dropdown">
+            <div class="pull-left">
+                <label class="control-label pull-left" for="input01"><em class="col_fb2727 mg_r5">*</em>货位：</label>
+                <v-select :value.sync="model.slotcode" :search="true" :options="slotcodelist" :close-on-select="true" placeholder="选择货位"></select>
             </div>
         </div>
 
@@ -95,11 +102,7 @@
 <script>
 
 import {
-    select as vSelect
-}
-from 'vue-strap';
-import {
-    option as vOption
+    select as vSelect, option as vOption
 }
 from 'vue-strap';
 import upload from '../../general/upload.vue';
@@ -108,6 +111,7 @@ import supplementDemo from '../../modal/supplementDemo.vue';
 import supplementYear from '../../modal/supplementYear.vue';
 import partsyearlist from '../../modal/partsyearlist.vue';
 import validate from '../../general/validate.vue'
+import getslot from '../../utils/getslot.js'
 export default {
     components: {
         vSelect, vOption, upload, supplementSku, supplementDemo, partsyearlist, supplementYear,validate
@@ -128,6 +132,8 @@ export default {
             showdemo: false,
             showyear: false,
             showyears: false,
+            selectlist: [],
+            slotcode: []
         }
     },
     events: {
@@ -157,6 +163,10 @@ export default {
             _this.brands = arr;
             _this.Brandlist = [arr[0].value]
         });
+        //获取货位编码
+        Vue.http.get('/stock/GetSelect').then(function(res) {
+            _this.selectlist = res.data;
+        })
     },
     methods: {
         commit() {
@@ -174,9 +184,15 @@ export default {
                     return item.value == model.ProdBrandId;
                 })[0].label;
             }
+            //库存处理
+            let slot=model.slotcode[0];
+            let stock=getslot(this.selectlist,slot);
+            model.StockMain=stock;
+
             _this.iscommit = true;
-            Vue.http.post('/product/SaveProduct', JSON.stringify(model)).then(function(response) {
+            Vue.http.post('/product/SaveProduct', {model: model}).then(function(response) {
                 if (response.data.ok) {
+                  layer.msg('添加成功',{icon:1});
                     window.location.reload();
                 } else {
                     _this.iscommit = false;
@@ -217,11 +233,24 @@ export default {
             } else {
                 return false;
             }
-            if (!this.model.DealerNo) {
+            if (!this.model.DealerNo || !this.model.slotcode.length) {
                 return false;
             }
             return result;
-        }
+        },
+        slotcodelist(){
+          let arr = [];
+          let _this = this;
+          this.selectlist.forEach(function(item) {
+              if (item.level == 3 && item.code!=_this.model.AreaCode+"-"+_this.model.StoreCode+"-"+_this.model.SlotCode) {
+                  arr.push({
+                      label: item.code,
+                      value: item.value,
+                  })
+              }
+          })
+          return arr;
+        },
     }
 }
 

@@ -52,13 +52,19 @@
                 <v-select v-if="item.isupdate" :value.sync="item.Brandlist" class="pull-left" :options="brands" :close-on-select="true" placeholder="选择品牌"></v-select>
                 <span v-else class="pull-left fN mg_t2 mg_l5">{{item.ProdBrandName||"其它"}}</span>
             </div>
-            <div class=" pd_l0 mg_t20 clearfix pd_b20 select_dropdown pull-left w300">
+
+            <div class="pd_l0 mg_t20 clearfix select_dropdown pull-left w300 poR" v-if='!item.Id'>
+                <label class="control-label pull-left"><em class="col_fb2727 mg_r5">*</em>货位：</label>
+                <v-select :value.sync="item.slotcode" class="pull-left" :search="true" :options="slotcodelist" :close-on-select="true" placeholder="选择货位" ></select>
+            </div>
+
+            <div class="pd_l0 mg_t20 clearfix select_dropdown pull-left w300 poR">
                 <label class="control-label pull-left" for="input01"><em v-if="item.isupdate" class="col_fb2727 mg_r5">*</em>供应商编码：</label>
                 <input v-if="item.isupdate" placeholder="" v-model="item.DealerNo" type="text" class="add_input w160 form-control pull-left">
                 <span v-else class="pull-left fN mg_t2 mg_l5">{{item.DealerNo}}</span>
             </div>
-            <div class="pd_l0 mg_t20 clearfix select_dropdown pull-left w300 poR" v-if='stype==1'>
-                <label class="control-label pull-left"><em v-if="item.isupdate" class="col_fb2727 mg_r5">*</em>进货价：</label>
+            <div class=" pd_l0 mg_t20 clearfix  select_dropdown pull-left w300" v-if='stype==1'>
+                <label class="control-label pull-left"><em v-if="item.isupdate" class="col_fb2727 mg_r5">*</em>供货价：</label>
                 <input vlength=7 v-if="item.isupdate" placeholder="" @focus="showtips(index,0)" type="text" v-model="item.InPrice" :class="'inprice'+index" class="add_input w160 pull-left form-control">
                 <label v-if="item.isupdate" class="pull-left fN mg_t2 mg_l5">元</label>
                 <label v-else class="pull-left fN mg_t2 mg_l5">{{item.InPrice}}元</label>
@@ -66,25 +72,25 @@
                     此价格是给北迈网批量采购的价格
                 </div> -->
             </div>
-            <div class="cl"></div>
             <!--1、返利  2、差价-->
-            <div class="pd_l0 mg_t10 clearfix select_dropdown pull-left w300" v-if='stype==1'>
-                <label class="control-label pull-left"><em v-if="item.isupdate" class="col_fb2727 mg_r5">*</em>销售价：</label>
+            <div class=" pd_l0 mg_t20 clearfix  select_dropdown pull-left w300" v-if='stype==1'>
+                <label class="control-label pull-left"><em v-if="item.isupdate" class="col_fb2727 mg_r5">*</em>建议销售价：</label>
                 <input vlength=7 v-if="item.isupdate" @focus="showtips(index,1)" :class="'saleprice'+index" placeholder="" type="text" v-model="item.SalePrice" class="add_input w160 pull-left form-control">
                 <label v-if="item.isupdate" class="pull-left fN mg_t2 mg_l5">元</label>
                 <label v-else class="pull-left fN mg_t2 mg_l5">{{item.SalePrice}}元</label>
             </div>
             <div class="pd_l0 mg_t10 clearfix select_dropdown pull-left w300" v-else>
-                <label class="control-label pull-left"><em v-if="item.isupdate" class="col_fb2727 mg_r5">*</em>进货价：</label>
+                <label class="control-label pull-left"><em v-if="item.isupdate" class="col_fb2727 mg_r5">*</em>供货价：</label>
                 <input vlength=7 v-if="item.isupdate" placeholder="" @focus="showtips(index,0)" type="text" v-model="item.InPrice"  :class="'inprice'+index"  class="add_input w160 pull-left form-control">
                 <label v-if="item.isupdate" class="pull-left fN mg_t2 mg_l5">元</label>
                 <label v-else class="pull-left fN mg_t2 mg_l5">{{item.InPrice}}元</label>
             </div>
-            <div class="pd_l0 mg_t10 clearfix select_dropdown pull-left w300">
+            <div class="pd_l0 mg_t20 clearfix select_dropdown pull-left w300">
                 <label class="control-label pull-left" for="input01"><em v-if="item.isupdate" class="col_fb2727 mg_r5">*</em>库存数：</label>
                 <input vlength=7 v-if="item.isupdate" placeholder="" type="text" v-model='item.StockCount' class="add_input w160 pull-left form-control pull-left">
                 <span v-else class="pull-left fN mg_t2 mg_l5">{{item.StockCount}}</span>
             </div>
+
         </div>
         <div class="col-md-12 mg_t30">
             <a href="#" v-if="item.isupdate" class="btn_red bg8 auto f16 w200 h40"
@@ -138,6 +144,7 @@ import supplementYear from '../../modal/supplementYear.vue';
 import partsyearlist from '../../modal/partsyearlist.vue';
 import validate from '../../general/validate.vue'
 import DateFormat from '../../utils/DateFormat.js'
+import getslot from '../../utils/getslot.js'
 export default {
     components: {
         vSelect, vOption, upload, nothing, supplementSku, supplementDemo, supplementYear, partsyearlist,validate
@@ -157,7 +164,8 @@ export default {
             showyears: false,
             showyear: false,
             pindex: 0,
-
+            selectlist: [],
+            saveing: false,//防止多次点击
         }
     },
     ready() {
@@ -176,6 +184,10 @@ export default {
             });
             _this.brands = arr;
         });
+        //获取货位编码
+        Vue.http.get('/stock/GetSelect').then(function(res) {
+            _this.selectlist = res.data;
+        })
     },
     computed: {
         model() {
@@ -216,7 +228,20 @@ export default {
                     })
                 }
                 return count;
-            }
+            },
+            slotcodelist(){
+              let arr = [];
+              let _this = this;
+              this.selectlist.forEach(function(item) {
+                  if (item.level == 3 && item.code!=_this.model.AreaCode+"-"+_this.model.StoreCode+"-"+_this.model.SlotCode) {
+                      arr.push({
+                          label: item.code,
+                          value: item.value,
+                      })
+                  }
+              })
+              return arr;
+            },
     },
     events: {
         'upload': function(data) {
@@ -276,6 +301,7 @@ export default {
                                     })
                                     temp.Imglist = res.data;
                                     temp.showimg = res.data[0].ImgUrl;
+
                                 }
                             })
                         }
@@ -309,6 +335,7 @@ export default {
                         item.Brandlist = [_this.brands[0].value];
                         item.Imglist = [];
                         item.showimg = "";
+                        item.slotcode=[];
                         if (item.ProdBrandId > 0) {
                             item.Brandlist.push(item.ProdBrandId.toString());
                         }
@@ -338,9 +365,10 @@ export default {
                 let _this = this;
                 let model = this.products[index];
                 //valid
-                if (this.valid(model)) {
+                if (this.valid(model) || this.saveing) {
                     return false;
                 }
+                this.saveing=true;
                 if(!model.Id && !model.SuitCarList){
                   layer.alert('请添加年款');
                   return false;
@@ -355,20 +383,28 @@ export default {
                         return item.value == model.ProdBrandId;
                     })[0].label;
                 }
+                //库存处理
+                let slot=model.slotcode[0];
+                let stock=getslot(this.selectlist,slot);
+                model.StockMain=stock;
+
                 //保存
-                model.isupdate = 0;
                 if(!model.Id){
                   model.SkuList=model.Sku.split(',');
                 }
 
                 Vue.http.post('/product/SaveProduct', {model: model}).then(function(response) {
+                    this.saveing=false;
                     if (response.data.ok) {
                       let data=response.data.data;
+
+                      model.isupdate = 0;
                       model.Id = data.Id;
                       model.BmNo = data.BmNo;
                       model.Imglist.forEach(function(item,index){
                         item.Id=data.Imglist[index].Id;
                       })
+                        layer.msg('保存成功',{icon:1,time:1200});
                         //_this.products[index]=response.data.data;
                     }else{
                       model.isupdate = 1;
@@ -392,6 +428,7 @@ export default {
                     Imglist: [],
                     showimg: "",
                     SuitCarList: [],
+                    slotcode: []
                 };
                 this.products.push(addmodel);
                 Vue.nextTick(function() {

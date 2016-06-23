@@ -12,7 +12,7 @@
             <div class="clearfix mg_t15">
                  <span class="pull-left lineH30 mg_l20 mg_b10 f12 mg_t4">快速设置价格</span>
                 <div class="pull-left clearfix mg_t5 mg_l30">
-                    <label class="control-label pull-left f12 lineH26 fN col_767676">销售价：</label>
+                    <label class="control-label pull-left f12 lineH26 fN col_767676">建议销售价：</label>
                     <input placeholder="" v-model="price" class="add_input w70 pull-left form-control" type="text">
                 </div>
                 <div class="pull-left">
@@ -29,7 +29,7 @@
                                 <span class="pull-left lineH26 f12 mg_l10 mg_b10 w40">{{car.Carmodel}}</span>
                                 <label class="control-label pull-left lineH20 f10">建议销售价：</label>
                                 <input placeholder="" v-model="car.Price" class="add_input w70 pull-left form-control" type="text">
-                                <span class="pull-right lineH26 col_b5 mg_r10 f10">（整车市场参考价：9.8万-15.6万）</span>
+                                <span class="pull-right lineH26 col_b5 mg_r10 f10">{{carlevelprice[car.Level]}}</span>
                             </li>
                         </ul>
                     </panel>
@@ -85,12 +85,15 @@ export default {
     ready() {
         let _this = this;
         let obj = {};
+        let carlevelprice= {};
         Vue.http.get('/product/GetCarLevelRatio').then(function(res) {
             if (res.data) {
                 res.data.forEach(function(item) {
-                    obj[item.CarLevel] = item.Ratio
+                    obj[item.CarLevel] = item.Ratio;
+                    carlevelprice[item.CarLevel] = item.Remark;
                 })
                 _this.carlevel = obj;
+                _this.carlevelprice = carlevelprice;
             }
         })
     },
@@ -102,7 +105,8 @@ export default {
             price: "",
             index: 0,
             list: [],
-            carlevel: {}
+            carlevel: {},
+            carlevelprice: {}
         }
     },
     computed: {
@@ -131,7 +135,7 @@ export default {
                             CarModelId: car.CarmodelId,
                             CarModelName: car.Carmodel,
                             SalePrice: car.Price || _this.price,
-                            //InPrice: _this.inprice,
+                            InPrice: _this.inprice,
                             StockId: _this.stockid
                         }
                         pricelist.push(obj);

@@ -31,7 +31,7 @@
                     <tr>
                         <td>{{item.SlotCode}}</td>
                         <td>{{countlist[index]}}</td>
-                        <td>{{item.AreaCode}}-{{item.StoreCode}}-{{item.SlotCode}}号货位</td>
+                        <td>{{item.AreaCode}}-{{item.StoreCode}}-{{item.SlotCode}}</td>
                         <td>
                             <a href="javascript:void(0)" class="bianji mg_r30" @click="edit(index)">编辑</a>
                             <a href="javascript:void(0)" class="shanchu" @click="del(index)">删除</a>

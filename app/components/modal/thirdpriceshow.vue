@@ -11,9 +11,9 @@
                     <ul class="mg_b0" style="*width: 408px;">
                         <li class="clearfix mg_t5 mg_b5" v-for="car in item.carlist" class="clearfix mg_t5 mg_b5">
                             <span class="pull-left lineH26 f12 mg_l10 mg_b10 w120">{{car.Carmodel}}</span>
-                            <label class="control-label pull-left lineH20 f10">销售价：<span class="col_ed5521 ">{{car.Price}}</span></label>
+                            <label class="control-label pull-left lineH20 f10">建议销售价：<span class="col_ed5521 ">{{car.Price}}</span></label>
                             <!-- <input placeholder="" v-model="car.Price" class="add_input w70 pull-left form-control" type="text"> -->
-                            <span class="pull-right lineH26 col_b5 mg_r10 f10">（整车市场参考价：9.8万-15.6万）</span>
+                            <span class="pull-right lineH26 col_b5 mg_r10 f10">{{carlevelprice[car.Level]}}</span>
                         </li>
                     </ul>
                 </panel>
@@ -56,8 +56,21 @@ export default {
     },
     data() {
         return {
-            list: []
+            list: [],
+            carlevelprice: {}
         }
+    },
+    ready(){
+      let _this = this;
+      let carlevelprice= {};
+      Vue.http.get('/product/GetCarLevelRatio').then(function(res) {
+          if (res.data) {
+              res.data.forEach(function(item) {
+                  carlevelprice[item.CarLevel] = item.Remark;
+              })
+              _this.carlevelprice = carlevelprice;
+          }
+      })
     },
     watch: {
         stockid(val) {

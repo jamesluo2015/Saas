@@ -7,6 +7,7 @@
         <tab :data="tablist" :value="1"></tab>
         <category v-if="state==1"></category>
         <carmodel v-if="state==2"></carmodel>
+        <brand v-if="state==3"></brand>
     </div>
 </div>
 
@@ -16,10 +17,11 @@
 
 import category from './category.vue'
 import carmodel from './carmodel.vue'
+import brand from './brand.vue'
 import tab from '../general/tabDocs.vue'
 export default {
     components: {
-        tab, category, carmodel
+        tab, category, carmodel, brand
     },
     data() {
         return {
@@ -29,6 +31,9 @@ export default {
             }, {
                 val: 2,
                 text: "允许经营车型"
+            }, {
+                val: 3,
+                text: "允许经营品牌"
             }],
             state: 1
         }

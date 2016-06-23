@@ -30,6 +30,7 @@ export default {
           model.StockCount="";
           model.SalePrice="";
           model.InPrice="";
+          model.slotcode=[];
           this.model = model;
         }
     },

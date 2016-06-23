@@ -8,8 +8,8 @@
         <thead>
                 <tr>
                     <th width="37%">产品信息</th>
-                    <th width="10%">进货价</th>
-                    <th width="10%" v-if="stype==1">销售价</th>
+                    <th width="10%">供货价</th>
+                    <th width="10%" v-if="stype==1">建议销售价</th>
                     <th width="10%">电商销售价格</th>
                     <th width="10%">状态</th>
                     <th width="10%">添加时间</th>
