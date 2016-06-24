@@ -75,11 +75,7 @@
 </template>
 
 <script>
-
-import {
-    modal
-}
-from 'vue-strap'
+import modal from 'vue-strap/src/modal'
 import addArea from '../modal/addArea.vue'
 export default {
     components: {

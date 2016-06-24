@@ -39,7 +39,7 @@
 
 <script>
 
-import  {modal} from 'vue-strap'
+import modal from 'vue-strap/src/modal'
 import pageDocs from '../general/pageDocs.vue'
 import DateFormat from '../utils/DateFormat.js'
 export default {

@@ -81,18 +81,8 @@
 
 <script>
 
-import {
-    select as vSelect
-}
-from 'vue-strap'
-import {
-    option as vOption
-}
-from 'vue-strap'
-import {
-    datepicker
-}
-from 'vue-strap'
+import vSelect from 'vue-strap/src/select'
+import datepicker from 'vue-strap/src/datepicker'
 import buttonDocs from '../general/buttonDocs.vue'
 import {
     GetFormatDate
@@ -101,10 +91,7 @@ from '../utils/date'
 import DateFormat from '../utils/DateFormat.js'
 import pageDocs from '../general/pageDocs.vue'
 import nothing from '../general/nothing.vue'
-import {
-    modal
-}
-from 'vue-strap'
+import modal from 'vue-strap/src/modal'
 import content from '../modal/content.vue'
 import tabDocs from '../general/tabDocs.vue'
 import outstockbyno from './outstockbyno.vue'
@@ -112,7 +99,7 @@ import outstockbysuit from './outstockbysuit.vue'
 import outstocklist from './outstocklist.vue'
 export default {
     components: {
-        vSelect, vOption, datepicker, buttonDocs, pageDocs, modal, nothing, content, tabDocs, outstockbyno, outstockbysuit, outstocklist
+        vSelect, datepicker, buttonDocs, pageDocs, modal, nothing, content, tabDocs, outstockbyno, outstockbysuit, outstocklist
     },
     data() {
         return {

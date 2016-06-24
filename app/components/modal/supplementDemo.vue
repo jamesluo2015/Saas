@@ -17,11 +17,7 @@
 </template>
 
 <script>
-
-import {
-    modal
-}
-from 'vue-strap'
+import modal from 'vue-strap/src/modal'
 export default {
     components: {
         modal

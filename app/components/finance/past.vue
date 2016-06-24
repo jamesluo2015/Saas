@@ -70,14 +70,8 @@
 
 <script>
 
-import {
-	select as vSelect
-}
-from 'vue-strap'
-import {
-	datepicker
-}
-from 'vue-strap'
+import vSelect from 'vue-strap/src/select'
+import datepicker from 'vue-strap/src/datepicker'
 import buttonDocs from '../general/buttonDocs.vue'
 import pageDocs from '../general/pageDocs.vue'
 import nothing from '../general/nothing.vue'

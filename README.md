@@ -30,12 +30,12 @@ export default {
 
 ```js
 //下拉框
-import { select as vSelect } from 'vue-strap'
+import vSelect from 'vue-strap/src/select'
 
 <v-select :value.sync="standardname" :search="true" :options="standardlist" :close-on-select="true" placeholder="选择标准名称">
 </v-select>
 //选择时间
-import { datepicker } from 'vue-strap'
+import datepicker from 'vue-strap/src/datepicker'
 <datepicker :value.sync="sdate" :disabled-days-of-Week="disabled" format="yyyy-MM-dd" Width="120px" class="pull-left ">
 </datepicker>
 
@@ -60,7 +60,7 @@ import upload from '../general/upload.vue'
 <upload upid=".filter-btn"></upload>
 
 //模态框
-import { modal } from 'vue-strap'
+import modal from 'vue-strap/src/modal'
 <modal :show.sync="showModel" effect="fade" width="360px" :title="title">
   <div slot="modal-body" class="modal-body ">
 

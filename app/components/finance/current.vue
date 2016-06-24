@@ -57,7 +57,6 @@
 </template>
 
 <script>
-
 import tab from '../general/tabDocs.vue'
 import order from './order.vue'
 import pastorder from './pastorder.vue'

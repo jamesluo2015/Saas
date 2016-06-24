@@ -27,10 +27,7 @@
 
 <script>
 
-import {
-    select as vSelect
-}
-from 'vue-strap'
+import vSelect from 'vue-strap/src/select'
 import store from 'store'
 import buttonDocs from '../../general/buttonDocs.vue'
 
@@ -121,7 +118,8 @@ export default {
             let arr = [];
             result.map(x => arr.push({
                 value: x.StandardId.toString(),
-                label: x.StandardName
+                label: x.StandardName,
+                IsSelfSupport: x.IsSelfSupport
             }))
             _this.standardlist = arr;
             if(_this.$parent.$refs.table){

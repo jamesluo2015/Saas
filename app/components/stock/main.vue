@@ -116,14 +116,8 @@
 
 <script>
 
-import {
-    select as vSelect
-}
-from 'vue-strap'
-import {
-    modal
-}
-from 'vue-strap'
+import vSelect from 'vue-strap/src/select'
+import modal from 'vue-strap/src/modal'
 import pageDocs from '../general/pageDocs.vue'
 import buttonDocs from '../general/buttonDocs.vue'
 import instore from '../modal/instore.vue'

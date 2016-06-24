@@ -18,10 +18,7 @@
 
 <script>
 
-import {
-    modal
-}
-from 'vue-strap'
+import modal from 'vue-strap/src/modal'
 import buttonTab from '../general/buttonTab.vue'
 import accordionDocs from '../general/accordionDocs.vue'
 import convert from '../utils/convert.js'

@@ -78,16 +78,10 @@
 
 <script>
 
-import {
-    select as vSelect
-}
-from 'vue-strap'
+import vSelect from 'vue-strap/src/select'
 import buttonDocs from '../general/buttonDocs.vue'
 import pageDocs from '../general/pageDocs.vue'
-import {
-    modal
-}
-from 'vue-strap'
+import modal from 'vue-strap/src/modal'
 import nothing from '../general/nothing.vue'
 export default {
     components: {

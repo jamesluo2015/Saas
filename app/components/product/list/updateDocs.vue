@@ -92,10 +92,7 @@
 
 <script>
 
-import {
-    select as vSelect
-}
-from 'vue-strap';
+import vSelect from 'vue-strap/src/select'
 import upload from '../../general/upload.vue';
 import supplementSku from '../../modal/supplementSku.vue';
 import supplementDemo from '../../modal/supplementDemo.vue';

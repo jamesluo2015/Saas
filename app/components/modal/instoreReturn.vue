@@ -49,14 +49,8 @@
 
 <script>
 
-import {
-    modal
-}
-from 'vue-strap'
-import {
-    select as vSelect
-}
-from 'vue-strap'
+import modal from 'vue-strap/src/modal'
+import vSelect from 'vue-strap/src/select'
 import radio from '../general/radioDocs.vue'
 export default {
     components: {

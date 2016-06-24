@@ -77,18 +77,8 @@
 
 <script>
 
-import {
-    select as vSelect
-}
-from 'vue-strap'
-import {
-    option as vOption
-}
-from 'vue-strap'
-import {
-    datepicker
-}
-from 'vue-strap'
+import vSelect from 'vue-strap/src/select'
+import datepicker from 'vue-strap/src/datepicker'
 import buttonDocs from '../general/buttonDocs.vue'
 import tab from '../general/tabDocs.vue'
 import pageDocs from '../general/pageDocs.vue'
@@ -102,7 +92,7 @@ import QueryString from '../utils/QueryString.js'
 import instoreReturn from '../modal/instoreReturn.vue'
 export default {
     components: {
-        vSelect, vOption, datepicker, buttonDocs, tab, pageDocs, nothing,instoreReturn
+        vSelect, datepicker, buttonDocs, tab, pageDocs, nothing,instoreReturn
     },
     data() {
         return {

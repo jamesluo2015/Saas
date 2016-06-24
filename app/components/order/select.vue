@@ -13,10 +13,7 @@
   </div>
 </template>
 <script>
-import {
-    select as vSelect
-}
-from 'vue-strap'
+import vSelect from 'vue-strap/src/select'
   export default{
     components: {
         vSelect

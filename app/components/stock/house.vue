@@ -87,21 +87,14 @@
 
 <script>
 
-import {
-    select as vSelect
-}
-from 'vue-strap'
-import {
-    option as vOption
-}
-from 'vue-strap'
+import vSelect from 'vue-strap/src/select'
 import buttonDocs from '../general/buttonDocs.vue'
 import pageDocs from '../general/pageDocs.vue'
 import addArea from '../modal/addArea.vue'
 import addHouse from '../modal/addHouse.vue'
 import nothing from '../general/nothing.vue'
 export default {
-    components: {vSelect,buttonDocs,pageDocs,addArea,addHouse,vOption,nothing},
+    components: {vSelect,buttonDocs,pageDocs,addArea,addHouse,nothing},
     data() {
         return {
           areas: [],

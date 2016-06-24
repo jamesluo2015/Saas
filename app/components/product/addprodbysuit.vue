@@ -13,10 +13,7 @@
 </template>
 
 <script>
-import {
-    select as vSelect
-}
-from 'vue-strap';
+import vSelect from 'vue-strap/src/select'
 
 import tableDocs from './addprodbysuit/tableDocs.vue'
 import headDocs from './addprodbysuit/headDocs.vue'

@@ -7,11 +7,10 @@
 </div>
 </template>
 <script>
-import {select as vSelect} from 'vue-strap';
-import {option as vOption} from 'vue-strap';
+import vSelect from 'vue-strap/src/select'
 import buttonDocs from '../general/buttonDocs.vue';
 export default {
-  components: { vSelect,vOption,buttonDocs },
+  components: { vSelect, buttonDocs },
   props: {
       list: {
           type: Array,

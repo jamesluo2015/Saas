@@ -12,8 +12,8 @@
     </accordion>
 </template>
 <script>
-import {accordion} from 'vue-strap';
-import {panel} from 'vue-strap';
+import accordion from 'vue-strap/src/accordion';
+import panel from 'vue-strap/src/panel';
 
 export default {
   components: { accordion,panel },

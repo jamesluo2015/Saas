@@ -93,11 +93,7 @@
 </template>
 
 <script>
-
-import {
-    modal
-}
-from 'vue-strap'
+import modal from 'vue-strap/src/modal'
 import radio from '../general/radioDocs.vue'
 import upload from '../general/upload.vue'
 export default {

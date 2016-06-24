@@ -126,14 +126,7 @@
 
 <script>
 
-import {
-    select as vSelect
-}
-from 'vue-strap'
-import {
-    option as vOption
-}
-from 'vue-strap'
+import vSelect from 'vue-strap/src/select'
 import upload from '../../general/upload.vue'
 import nothing from '../../general/upload.vue'
 import convert from '../../utils/convert.js'
@@ -147,7 +140,7 @@ import DateFormat from '../../utils/DateFormat.js'
 import getslot from '../../utils/getslot.js'
 export default {
     components: {
-        vSelect, vOption, upload, nothing, supplementSku, supplementDemo, supplementYear, partsyearlist,validate
+        vSelect, upload, nothing, supplementSku, supplementDemo, supplementYear, partsyearlist,validate
     },
     data() {
         return {

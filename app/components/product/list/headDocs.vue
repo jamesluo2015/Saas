@@ -21,24 +21,14 @@
 
 <script>
 
-import {
-    select as vSelect
-}
-from 'vue-strap'
-import {
-    option as vOption
-}
-from 'vue-strap'
-import {
-    datepicker
-}
-from 'vue-strap'
+import vSelect from 'vue-strap/src/select'
+import datepicker from 'vue-strap/src/datepicker'
 import PulseLoader from 'vue-spinner/src/PulseLoader.vue'
 import buttonDocs from '../../general/buttonDocs.vue'
 import { GetFormatDate } from '../../utils/date'
 export default {
     components: {
-        vSelect, vOption, datepicker, PulseLoader, buttonDocs
+        vSelect, datepicker, PulseLoader, buttonDocs
     },
     props: {
         pagesize: {

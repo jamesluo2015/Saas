@@ -27,18 +27,9 @@
 
 <script>
 
-import {
-    modal
-}
-from 'vue-strap'
-import {
-    accordion
-}
-from 'vue-strap';
-import {
-    panel
-}
-from 'vue-strap';
+import modal from 'vue-strap/src/modal'
+import accordion from 'vue-strap/src/accordion'
+import panel from 'vue-strap/src/panel'
 import buttonTab from '../general/buttonTab.vue'
 export default {
     components: {
