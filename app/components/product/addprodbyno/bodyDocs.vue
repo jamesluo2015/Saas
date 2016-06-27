@@ -35,7 +35,7 @@
             <label class="control-label pull-left" for="input01"><em class="col_fb2727 mg_r5">*</em>供应商编码：</label>
             <input placeholder="" v-model='model.DealerNo' type="text" class="add_input w160 form-control">
         </div>
-        <div class="col-md-12 pd_l0 clearfix pd_b20 select_dropdown" >
+        <div class="col-md-12 pd_l0 clearfix pd_b20 select_dropdown" v-if="stype==2 || model.IsSelfSupport">
             <div class="pull-left">
                 <label class="control-label pull-left"><em class="col_fb2727 mg_r5">*</em>供货价：</label>
                 <input vlength=7 type="text" placeholder="给北迈网采购的价格" v-model='model.InPrice' class="add_input w160 pull-left form-control">
@@ -222,6 +222,12 @@ export default {
             } else {
                 return false;
             }
+            if(this.model.IsSelfSupport){
+              if(!this.model.InPrice || isNaN(parseInt(this.model.InPrice)) ){
+                return false;
+              }
+            }
+
             if (!isNaN(this.model.StockCount)) {
                 let temp = parseInt(this.model.StockCount);
                 if (!temp) {

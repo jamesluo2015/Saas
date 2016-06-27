@@ -67,6 +67,7 @@ module.exports = {
 
 };
 
+
 delete module.exports.devtool;
 module.exports.plugins = [
   new webpack.DefinePlugin({
@@ -76,7 +77,8 @@ module.exports.plugins = [
   }),
   new webpack.optimize.UglifyJsPlugin({
     compress: {
-      warnings: false
+      warnings: false,
+      drop_console: true
     }
   }),
   //new webpack.optimize.CommonsChunkPlugin("init.js")

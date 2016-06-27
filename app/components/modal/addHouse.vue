@@ -142,11 +142,18 @@ export default {
                 });
                 this.model.HouseStatus=temp[0].HouseStatus
                 Vue.http.post('/stock/SaveHouse',  this.model).then(function(res){
-                  if(!_this.model.Id){
-                    _this.model.Id=res.data;
-                    _this.$dispatch('addhouse', _this.model)
+                  if(res.data){
+                    if(!_this.model.Id){
+                      _this.model.Id=res.data;
+                      _this.$dispatch('addhouse', _this.model)
+                    }
+                    _this.show=false;
+                  }else{
+                    if(!_this.model.Id){
+                      layer.msg('该库房已存在',{icon:7,time:1500});
+                    }
                   }
-                  _this.show=false;
+
                 })
             }
     },

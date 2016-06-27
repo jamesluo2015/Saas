@@ -118,13 +118,19 @@ export default {
 
             let _this=this;
             Vue.http.post('/stock/SaveHouse',  this.model).then(function(res){
-              if(!_this.model.Id){
-                _this.model.Id=res.data;
-                _this.$dispatch('addarea', _this.model)
+              if(res.data){
+                if(!_this.model.Id){
+                  _this.model.Id=res.data;
+                  _this.$dispatch('addarea', _this.model)
+                }
+                //_this.model.Id=res.data;
+                _this.model.HouseStatus=0;
+                _this.show=false;
+              }else{
+                if(!_this.model.Id){
+                  layer.msg('该库区已存在',{icon:7,time:1500});
+                }
               }
-              _this.model.Id=res.data;
-              _this.model.HouseStatus=0;
-              _this.show=false;
             })
           }
     },

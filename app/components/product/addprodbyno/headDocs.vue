@@ -57,8 +57,10 @@ export default {
                 _this.isnosku = false;
                 // store.set('sku', _this.txtsku);
                 Vue.http.get('/product/GetProdBySku?sku=' + _this.txtsku).then(function(res) {
-                    if(res.data.data2){
-                      layer.alert('没有该商品的添加权限',{icon:5});
+                    if(!res.data.ok){
+                      layer.alert(res.data.mes,{icon:5});
+                      _this.isnosku = true;
+                      _this.$dispatch('skumodel', {})
                       return false;
                     }
                     if (res.data.data && res.data.data.BmNo > 0) {

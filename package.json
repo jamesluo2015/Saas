@@ -39,7 +39,8 @@
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "webpack-dev-server --port 1024",
+    "server": "webpack-dev-server --port 1024",
+    "dev": "webpack -w",
     "build": "webpack --progress --config webpack.config.prod.js",
     "custom": "webpack --progress --config webpack.config.custom.js"
   },

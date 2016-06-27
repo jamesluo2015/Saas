@@ -101,6 +101,9 @@ export default {
                 }
             }
             return arr;
+        },
+        IsSelfSupport: function(){
+
         }
     },
     ready: function() {

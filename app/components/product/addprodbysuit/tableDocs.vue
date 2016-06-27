@@ -63,7 +63,7 @@
                 <input v-if="item.isupdate" placeholder="" v-model="item.DealerNo" type="text" class="add_input w160 form-control pull-left">
                 <span v-else class="pull-left fN mg_t2 mg_l5">{{item.DealerNo}}</span>
             </div>
-            <div class=" pd_l0 mg_t20 clearfix  select_dropdown pull-left w300" v-if='stype==1'>
+            <div class=" pd_l0 mg_t20 clearfix  select_dropdown pull-left w300" v-if='stype==1 && IsSelfSupport'>
                 <label class="control-label pull-left"><em v-if="item.isupdate" class="col_fb2727 mg_r5">*</em>供货价：</label>
                 <input vlength=7 v-if="item.isupdate" placeholder="" @focus="showtips(index,0)" type="text" v-model="item.InPrice" :class="'inprice'+index" class="add_input w160 pull-left form-control">
                 <label v-if="item.isupdate" class="pull-left fN mg_t2 mg_l5">元</label>
@@ -138,6 +138,7 @@ import partsyearlist from '../../modal/partsyearlist.vue';
 import validate from '../../general/validate.vue'
 import DateFormat from '../../utils/DateFormat.js'
 import getslot from '../../utils/getslot.js'
+import getlabel from '../../utils/getlabel'
 export default {
     components: {
         vSelect, upload, nothing, supplementSku, supplementDemo, supplementYear, partsyearlist,validate
@@ -159,6 +160,7 @@ export default {
             pindex: 0,
             selectlist: [],
             saveing: false,//防止多次点击
+            IsSelfSupport: false //是否自营品类
         }
     },
     ready() {
@@ -344,6 +346,9 @@ export default {
                         item.isupdate = item.Id ? 0 : 1;
                     })
                     _this.products = data;
+                    //判断是否自营品类
+                    _this.IsSelfSupport=getlabel(param[0],_this.standardlist,1).IsSelfSupport;
+
                     callback();
                 }, function(response) {
                     console.log('查询无数据');
@@ -354,7 +359,7 @@ export default {
                 return true;
               }
               return  !item.DealerNo || !item.SuitCarList.length ||(this.stype==1?!item.SalePrice:!item.InPrice)||!item.StockCount
-              || isNaN(parseInt(item.StockCount)) ||(this.stype==1&&isNaN(parseInt(item.SalePrice))) || isNaN(parseInt(item.InPrice)) ||!item.Sku
+              || isNaN(parseInt(item.StockCount)) ||(this.stype==1&&isNaN(parseInt(item.SalePrice))) || ((this.stype==2 || this.IsSelfSupport) && isNaN(parseInt(item.InPrice))) ||!item.Sku
               || item.SalePrice.length>7 || item.InPrice.length>7 || item.StockCount.length>7;
             },
             save(index) {
