@@ -12,7 +12,6 @@ npm run dev
 ```bash
 npm run build
 ```
-
 ### 技术栈
 
 vuejs webpack es6
