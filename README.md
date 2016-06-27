@@ -1,6 +1,20 @@
+## Start
+
+安装依赖包
+```bash
+npm i
+```
+开发 /build/
+```bash
+npm run dev
+```
+部署 /dist/
+```bash
+npm run build
+```
 ### 技术栈
 
-vuejs webpack babel es6 vue-strap vue-resource vue-spinner
+vuejs webpack es6
 
 ### 模版
 
