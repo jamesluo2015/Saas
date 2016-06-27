@@ -12,6 +12,10 @@ npm run dev
 ```bash
 npm run build
 ```
+自定义组件 /build/components/
+```bash
+npm run custom
+```
 ### 技术栈
 
 vuejs webpack es6
