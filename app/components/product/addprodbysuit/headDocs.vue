@@ -187,7 +187,7 @@ export default {
     watch: {
         carmodel(val) {
             //查询年款
-            if (val.length) {
+            if (val.length && this.isstore) {
                 let _this = this;
                 _this.partsyear = [];
 
